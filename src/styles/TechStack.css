@@ -1,5 +1,51 @@
-/* Tech Stack Slider Animation */
-@keyframes scroll {
+/* Carousel Container */
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 400px;
+}
+
+.carousel-row {
+  position: absolute;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+}
+
+.carousel-row:nth-child(1) {
+  top: 0;
+}
+
+.carousel-row:nth-child(2) {
+  top: 140px;
+}
+
+.carousel-row:nth-child(3) {
+  top: 280px;
+}
+
+/* Carousel Tracks */
+.carousel-track {
+  display: flex;
+  position: absolute;
+  will-change: transform;
+}
+
+.carousel-track-right {
+  animation: moveRight 25s linear infinite;
+}
+
+.carousel-track-left {
+  animation: moveLeft 30s linear infinite;
+}
+
+.carousel-track-right-slow {
+  animation: moveRight 35s linear infinite;
+}
+
+/* Carousel Animations */
+@keyframes moveRight {
   0% {
     transform: translateX(0);
   }
@@ -9,19 +55,18 @@
   }
 }
 
-.animate-scroll {
-  animation: scroll 30s linear infinite;
-  display: flex;
-  width: max-content;
-  will-change: transform;
+@keyframes moveLeft {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
-.animate-scroll:hover {
-  animation-play-state: paused;
-}
-
-/* Force animation to restart */
-.animate-scroll.paused {
+/* Pause on hover */
+.carousel-row:hover .carousel-track {
   animation-play-state: paused;
 }
 
@@ -32,12 +77,17 @@
   flex-shrink: 0;
   min-width: 128px;
   margin: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .tech-logo:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.05);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  z-index: 10;
 }
 
 /* Tool Card Styles */
@@ -70,9 +120,42 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .carousel-container {
+    height: 350px;
+  }
+
+  .carousel-row {
+    height: 100px;
+  }
+
+  .carousel-row:nth-child(2) {
+    top: 120px;
+  }
+
+  .carousel-row:nth-child(3) {
+    top: 240px;
+  }
+
   .tech-logo img {
     width: 3rem;
     height: 3rem;
+  }
+
+  .tech-logo {
+    min-width: 120px;
+    margin: 0 12px;
+  }
+
+  .carousel-track-right {
+    animation-duration: 20s;
+  }
+
+  .carousel-track-left {
+    animation-duration: 25s;
+  }
+
+  .carousel-track-right-slow {
+    animation-duration: 30s;
   }
 
   .tool-card {
@@ -83,55 +166,26 @@
     width: 2rem;
     height: 2rem;
   }
-
-  .animate-scroll {
-    animation-duration: 25s;
-  }
-
-  .tech-logo {
-    min-width: 120px;
-    margin: 0 12px;
-  }
 }
 
-/* Ensure smooth scrolling with fade effect */
-.overflow-hidden {
-  mask-image: linear-gradient(to right,
-      transparent 0%,
-      black 3%,
-      black 97%,
-      transparent 100%);
-  -webkit-mask-image: linear-gradient(to right,
-      transparent 0%,
-      black 3%,
-      black 97%,
-      transparent 100%);
-}
-
-/* Container for infinite scroll */
-.slider-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-}
-
-.slider-container::before,
-.slider-container::after {
+/* Fade effect for carousel edges */
+.carousel-row::before,
+.carousel-row::after {
   content: '';
   position: absolute;
   top: 0;
-  width: 100px;
+  width: 50px;
   height: 100%;
-  z-index: 10;
+  z-index: 20;
   pointer-events: none;
 }
 
-.slider-container::before {
+.carousel-row::before {
   left: 0;
   background: linear-gradient(to right, white, transparent);
 }
 
-.slider-container::after {
+.carousel-row::after {
   right: 0;
   background: linear-gradient(to left, white, transparent);
 }

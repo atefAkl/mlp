@@ -35,26 +35,7 @@ const App = () => {
       once: true,
       offset: 100,
     });
-
-    // Ensure carousel animation continues
-    const slider = document.querySelector('.animate-scroll');
-    if (slider) {
-      // Force reflow to restart animation
-      slider.style.animation = 'none';
-      void slider.offsetHeight; // Trigger reflow
-      slider.style.animation = 'scroll 30s linear infinite';
-    }
   }, []);
-
-  useEffect(() => {
-    // Restart carousel when language changes
-    const slider = document.querySelector('.animate-scroll');
-    if (slider) {
-      slider.style.animation = 'none';
-      void slider.offsetHeight; // Trigger reflow
-      slider.style.animation = 'scroll 30s linear infinite';
-    }
-  }, [lang]);
 
   const content = {
     ar: {
@@ -127,7 +108,7 @@ const App = () => {
           { name: "Font Awesome", image: `${process.env.PUBLIC_URL}/assets/font_awesome.png` },
         ],
         tools: [
-          { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/code-review.png` },
+          { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/github.svg` },
           { name: "Jira", image: `${process.env.PUBLIC_URL}/assets/jira.png` },
           { name: "Azure DevOps", image: `${process.env.PUBLIC_URL}/assets/azure.png` },
           { name: "Agile", image: `${process.env.PUBLIC_URL}/assets/agile.svg` },
@@ -322,7 +303,7 @@ const App = () => {
           { name: "Font Awesome", image: `${process.env.PUBLIC_URL}/assets/font_awesome.png` },
         ],
         tools: [
-          { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/code-review.png` },
+          { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/github.svg` },
           { name: "Jira", image: `${process.env.PUBLIC_URL}/assets/jira.png` },
           { name: "Azure DevOps", image: `${process.env.PUBLIC_URL}/assets/azure.png` },
           { name: "Agile", image: `${process.env.PUBLIC_URL}/assets/agile.svg` },
@@ -747,24 +728,69 @@ const App = () => {
             <p className="text-lg text-gray-600">{t.techStack.subtitle}</p>
           </div>
 
-          {/* Technologies Slider */}
+          {/* Technologies Carousel */}
           <div className="mb-16">
-            <div className="slider-container overflow-hidden">
-              <div className="animate-scroll">
-                {[...t.techStack.technologies, ...t.techStack.technologies, ...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
-                  <div
-                    key={index}
-                    className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
-                    data-aos="fade-up"
-                  >
-                    <img
-                      src={tech.image}
-                      alt={tech.name}
-                      className="w-16 h-16 mx-auto mb-3 object-contain"
-                    />
-                    <div className="font-semibold text-sm">{tech.name}</div>
-                  </div>
-                ))}
+            <div className="carousel-container">
+              {/* Row 1 - Moving Right */}
+              <div className="carousel-row">
+                <div className="carousel-track carousel-track-right">
+                  {[...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
+                    <div
+                      key={`row1-${index}`}
+                      className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
+                      data-aos="fade-up"
+                    >
+                      <img
+                        src={tech.image}
+                        alt={tech.name}
+                        className="w-16 h-16 mx-auto mb-3 object-contain"
+                      />
+                      <div className="font-semibold text-sm">{tech.name}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Row 2 - Moving Left */}
+              <div className="carousel-row">
+                <div className="carousel-track carousel-track-left">
+                  {[...t.techStack.technologies.slice(0, 10), ...t.techStack.technologies.slice(0, 10)].map((tech, index) => (
+                    <div
+                      key={`row2-${index}`}
+                      className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
+                      data-aos="fade-up"
+                      data-aos-delay={100}
+                    >
+                      <img
+                        src={tech.image}
+                        alt={tech.name}
+                        className="w-16 h-16 mx-auto mb-3 object-contain"
+                      />
+                      <div className="font-semibold text-sm">{tech.name}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Row 3 - Moving Right Slower */}
+              <div className="carousel-row">
+                <div className="carousel-track carousel-track-right-slow">
+                  {[...t.techStack.technologies.slice(5, 15), ...t.techStack.technologies.slice(5, 15)].map((tech, index) => (
+                    <div
+                      key={`row3-${index}`}
+                      className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
+                      data-aos="fade-up"
+                      data-aos-delay={200}
+                    >
+                      <img
+                        src={tech.image}
+                        alt={tech.name}
+                        className="w-16 h-16 mx-auto mb-3 object-contain"
+                      />
+                      <div className="font-semibold text-sm">{tech.name}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
