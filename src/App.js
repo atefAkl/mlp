@@ -730,22 +730,20 @@ const App = () => {
 
           {/* Technologies Slider */}
           <div className="mb-16">
-            <div className="relative overflow-hidden">
-              <div className="flex animate-scroll" style={{ width: 'fit-content' }}>
-                {[...t.techStack.technologies, ...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
+            <div className="slider-container overflow-hidden">
+              <div className="animate-scroll">
+                {[...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
                   <div
                     key={index}
-                    className="flex-shrink-0 w-32 mx-4"
+                    className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
                     data-aos="fade-up"
                   >
-                    <div className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow">
-                      <img
-                        src={tech.image}
-                        alt={tech.name}
-                        className="w-16 h-16 mx-auto mb-3 object-contain"
-                      />
-                      <div className="font-semibold text-sm">{tech.name}</div>
-                    </div>
+                    <img
+                      src={tech.image}
+                      alt={tech.name}
+                      className="w-16 h-16 mx-auto mb-3 object-contain"
+                    />
+                    <div className="font-semibold text-sm">{tech.name}</div>
                   </div>
                 ))}
               </div>

@@ -11,7 +11,8 @@
 
 .animate-scroll {
   animation: scroll 20s linear infinite;
-  width: fit-content;
+  display: flex;
+  width: max-content;
 }
 
 .animate-scroll:hover {
@@ -23,6 +24,8 @@
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   flex-shrink: 0;
+  min-width: 128px;
+  margin: 0 16px;
 }
 
 .tech-logo:hover {
@@ -78,13 +81,51 @@
   .animate-scroll {
     animation-duration: 15s;
   }
+
+  .tech-logo {
+    min-width: 120px;
+    margin: 0 12px;
+  }
 }
 
-/* Ensure smooth scrolling */
+/* Ensure smooth scrolling with fade effect */
 .overflow-hidden {
   mask-image: linear-gradient(to right,
       transparent 0%,
-      black 5%,
-      black 95%,
+      black 3%,
+      black 97%,
       transparent 100%);
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0%,
+      black 3%,
+      black 97%,
+      transparent 100%);
+}
+
+/* Container for infinite scroll */
+.slider-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.slider-container::before,
+.slider-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.slider-container::before {
+  left: 0;
+  background: linear-gradient(to right, white, transparent);
+}
+
+.slider-container::after {
+  right: 0;
+  background: linear-gradient(to left, white, transparent);
 }
