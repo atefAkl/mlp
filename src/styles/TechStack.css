@@ -1,8 +1,9 @@
 /* Tech Carousel Container */
 .tech-carousel {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
+  padding: 1rem;
   position: relative;
   scrollbar-width: none;
   /* Firefox */
@@ -22,16 +23,31 @@
   will-change: transform;
 }
 
-.tech-carousel-track.paused {
-  animation-play-state: paused;
+/* Pulse (alternate) animation for seamless left-right motion.
+   Uses a CSS variable --scroll-distance (negative px) set by JS to avoid gaps. */
+.tech-carousel-track.tech-pulse {
+  animation-name: tech-pulse;
+  animation-duration: var(--duration, 18s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes tech-pulse {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--scroll-distance));
+  }
 }
 
 /* Tech Icon Styles */
 .tech-icon {
   flex-shrink: 0;
   filter: grayscale(100%);
-  width: 60px;
-  height: 60px;
+  width: 160px;
+  height: 160px;
   margin: 0 8px;
   display: flex;
   align-items: center;
@@ -52,8 +68,8 @@
 }
 
 .tech-icon img {
-  width: 40px;
-  height: 40px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
 }
 
@@ -85,8 +101,8 @@
 }
 
 /* Fade effect for carousel edges */
-.carousel-row::before,
-.carousel-row::after {
+.tech-carousel::before,
+.tech-carousel::after {
   content: '';
   position: absolute;
   top: 0;
@@ -96,12 +112,12 @@
   pointer-events: none;
 }
 
-.carousel-row::before {
+.tech-carousel::before {
   left: 0;
   background: linear-gradient(to right, white, transparent);
 }
 
-.carousel-row::after {
+.tech-carousel::after {
   right: 0;
   background: linear-gradient(to left, white, transparent);
 }
