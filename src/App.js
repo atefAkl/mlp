@@ -728,10 +728,10 @@ const App = () => {
             <p className="text-lg text-gray-600">{t.techStack.subtitle}</p>
           </div>
 
-          {/* Technologies Continuous Display */}
+          {/* Technologies Infinite Carousel */}
           <div className="mb-16">
-            <div className="continuous-tech-container">
-              <div className="continuous-tech-track">
+            <div className="infinite-carousel">
+              <div className="infinite-carousel-track">
                 {[...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
                   <div
                     key={index}

@@ -1,27 +1,22 @@
-/* Continuous Tech Container */
-.continuous-tech-container {
+/* Infinite Carousel Container */
+.infinite-carousel {
   overflow: hidden;
   width: 100%;
   padding: 20px 0;
   position: relative;
 }
 
-.continuous-tech-track {
+.infinite-carousel-track {
   display: flex;
-  animation: continuousSlide 20s linear infinite;
+  animation: slide 15s linear infinite;
   width: max-content;
-  gap: 16px;
-  padding: 0 20px;
-  justify-content: center;
-  align-items: center;
-  min-height: 120px;
 }
 
-.continuous-tech-track:hover {
+.infinite-carousel-track:hover {
   animation-play-state: paused;
 }
 
-@keyframes continuousSlide {
+@keyframes slide {
   0% {
     transform: translateX(0);
   }
@@ -34,7 +29,6 @@
 /* Tech Logo Styles */
 .tech-logo {
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
   flex-shrink: 0;
   min-width: 128px;
   margin: 0 16px;
@@ -42,39 +36,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  animation: fadeInOut 4s ease-in-out infinite;
-}
-
-.tech-logo:nth-child(odd) {
-  animation-delay: 0s;
-}
-
-.tech-logo:nth-child(even) {
-  animation-delay: 2s;
-}
-
-@keyframes fadeInOut {
-
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: translateX(50px) scale(0.9);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
+  opacity: 1;
 }
 
 .tech-logo:hover {
-  transform: translateY(-5px) scale(1.1);
+  transform: translateY(-5px) scale(1.05);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   z-index: 10;
-  animation-play-state: paused;
-  opacity: 1;
 }
 
 /* Tool Card Styles */
@@ -82,21 +51,6 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-}
-
-.tool-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.tool-card:hover::before {
-  left: 100%;
 }
 
 .tool-card:hover {
@@ -117,11 +71,8 @@
     margin: 0 12px;
   }
 
-  .continuous-tech-track {
-    gap: 12px;
-    padding: 0 16px;
-    min-height: 100px;
-    animation-duration: 15s;
+  .infinite-carousel-track {
+    animation-duration: 12s;
   }
 
   .tool-card {
