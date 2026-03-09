@@ -8,12 +8,13 @@
 
 .infinite-carousel-track {
   display: flex;
-  animation: slide 15s linear infinite;
+  animation: slide 15s linear infinite !important;
   width: max-content;
+  will-change: transform;
 }
 
 .infinite-carousel-track:hover {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 
 @keyframes slide {
@@ -24,6 +25,11 @@
   100% {
     transform: translateX(-50%);
   }
+}
+
+/* Force animation to keep running */
+.infinite-carousel-track.paused {
+  animation-play-state: running !important;
 }
 
 /* Tech Logo Styles */

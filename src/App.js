@@ -35,6 +35,36 @@ const App = () => {
       once: true,
       offset: 100,
     });
+
+    // Force infinite carousel animation
+    const ensureCarouselAnimation = () => {
+      const track = document.querySelector('.infinite-carousel-track');
+      if (track) {
+        // Remove and re-add animation to force restart
+        const currentAnimation = track.style.animation;
+        track.style.animation = 'none';
+
+        // Force reflow
+        void track.offsetHeight;
+
+        // Re-add animation with same properties
+        track.style.animation = currentAnimation || 'slide 15s linear infinite';
+
+        // Ensure animation is running
+        track.style.animationPlayState = 'running';
+      }
+    };
+
+    // Run immediately and then periodically
+    ensureCarouselAnimation();
+
+    // Set up interval to ensure animation keeps running
+    const animationCheck = setInterval(() => {
+      ensureCarouselAnimation();
+    }, 5000); // Check every 5 seconds
+
+    // Clean up on unmount
+    return () => clearInterval(animationCheck);
   }, []);
 
   const content = {
