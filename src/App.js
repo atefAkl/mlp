@@ -732,7 +732,7 @@ const App = () => {
           <div className="mb-16">
             <div className="slider-container overflow-hidden">
               <div className="animate-scroll">
-                {[...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
+                {[...t.techStack.technologies, ...t.techStack.technologies, ...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
                   <div
                     key={index}
                     className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
