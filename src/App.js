@@ -35,6 +35,90 @@ const App = () => {
       once: true,
       offset: 100,
     });
+
+    // Smooth Infinite Carousel with scrollLeft
+    const initSmoothCarousel = () => {
+      const carousel = document.querySelector('.tech-carousel');
+      const track = document.querySelector('.tech-carousel-track');
+
+      if (!carousel || !track) return;
+
+      let animationId = null;
+      let isPaused = false;
+
+      // Configurable scroll speed (pixels per frame)
+      const scrollSpeed = 0.5; // Adjust for faster/slower scrolling
+
+      // Cache first icon width to avoid layout thrashing
+      let firstIconWidth = null;
+
+      const getFirstIconWidth = () => {
+        if (firstIconWidth !== null) return firstIconWidth;
+
+        const firstIcon = track.firstElementChild;
+        if (!firstIcon) return 0;
+
+        const iconWidth = firstIcon.offsetWidth;
+        const gap = 16; // Same as CSS gap
+        firstIconWidth = iconWidth + gap;
+        return firstIconWidth;
+      };
+
+      const animate = () => {
+        if (isPaused) {
+          animationId = requestAnimationFrame(animate);
+          return;
+        }
+
+        // Use scrollLeft for smooth scrolling without transform
+        carousel.scrollLeft += scrollSpeed;
+
+        // Check if first icon has fully exited the viewport
+        const iconWidth = getFirstIconWidth();
+        if (carousel.scrollLeft >= iconWidth) {
+          // Move first icon to the end
+          const firstIcon = track.firstElementChild;
+          if (firstIcon) {
+            track.appendChild(firstIcon);
+            // Adjust scroll position to maintain seamless movement
+            carousel.scrollLeft -= iconWidth;
+          }
+        }
+
+        animationId = requestAnimationFrame(animate);
+      };
+
+      // Start animation
+      animate();
+
+      // Pause on hover
+      const handleMouseEnter = () => {
+        isPaused = true;
+      };
+
+      const handleMouseLeave = () => {
+        isPaused = false;
+      };
+
+      carousel.addEventListener('mouseenter', handleMouseEnter);
+      carousel.addEventListener('mouseleave', handleMouseLeave);
+
+      // Cleanup
+      return () => {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+        carousel.removeEventListener('mouseenter', handleMouseEnter);
+        carousel.removeEventListener('mouseleave', handleMouseLeave);
+      };
+    };
+
+    // Initialize carousel after a short delay to ensure DOM is ready
+    const timeoutId = setTimeout(initSmoothCarousel, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const content = {
@@ -731,9 +815,9 @@ const App = () => {
           {/* Technologies Carousel */}
           <div className="mb-16">
             <div className="tech-carousel">
-              <div className="tech-carousel-track medium">
-                {/* Duplicate the technologies array for infinite scroll */}
-                {[...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
+              <div className="tech-carousel-track">
+                {/* Render technologies once - no duplication needed */}
+                {t.techStack.technologies.map((tech, index) => (
                   <div
                     key={index}
                     className="tech-icon"

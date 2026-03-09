@@ -1,34 +1,35 @@
 /* Tech Carousel Container */
 .tech-carousel {
   width: 100%;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   position: relative;
-  background: transparent;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+.tech-carousel::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
 }
 
 .tech-carousel-track {
   display: flex;
-  animation: scrollCarousel 20s linear infinite;
+  gap: 16px;
+  width: max-content;
   will-change: transform;
 }
 
-.tech-carousel-track:hover {
+.tech-carousel-track.paused {
   animation-play-state: paused;
-}
-
-@keyframes scrollCarousel {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
 }
 
 /* Tech Icon Styles */
 .tech-icon {
   flex-shrink: 0;
+  filter: grayscale(100%);
   width: 60px;
   height: 60px;
   margin: 0 8px;
@@ -43,6 +44,7 @@
 }
 
 .tech-icon:hover {
+  filter: grayscale(0%);
   transform: scale(1.1);
   background: #f3f4f6;
   border-color: #d1d5db;
@@ -53,19 +55,6 @@
   width: 40px;
   height: 40px;
   object-fit: contain;
-}
-
-/* Animation Speed Variations */
-.tech-carousel-track.slow {
-  animation-duration: 30s;
-}
-
-.tech-carousel-track.fast {
-  animation-duration: 10s;
-}
-
-.tech-carousel-track.medium {
-  animation-duration: 20s;
 }
 
 /* Responsive Design */
@@ -80,10 +69,6 @@
     width: 32px;
     height: 32px;
   }
-
-  .tech-carousel-track {
-    animation-duration: 15s;
-  }
 }
 
 @media (max-width: 480px) {
@@ -96,10 +81,6 @@
   .tech-icon img {
     width: 24px;
     height: 24px;
-  }
-
-  .tech-carousel-track {
-    animation-duration: 12s;
   }
 }
 
