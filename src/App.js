@@ -15,7 +15,6 @@ import {
   Shield,
   Zap,
   BookOpen,
-  Rocket,
   ChevronRight,
   Menu,
   X,
@@ -549,7 +548,7 @@ const App = () => {
 
                   <div className="bg-gray-900 rounded-lg p-4 font-mono text-sm">
                     <div className="text-green-400 mb-2">
-                      // Welcome to Mawthiq
+                      {'// Welcome to Mawthiq'}
                     </div>
                     <div className="text-blue-400 mb-2">
                       class CareerBridge {"{"}
