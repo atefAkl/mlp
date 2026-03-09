@@ -12,6 +12,7 @@ import {
   Globe,
   Star,
   Target,
+  Shield,
   Zap,
   BookOpen,
   Rocket,
