@@ -35,7 +35,26 @@ const App = () => {
       once: true,
       offset: 100,
     });
+
+    // Ensure carousel animation continues
+    const slider = document.querySelector('.animate-scroll');
+    if (slider) {
+      // Force reflow to restart animation
+      slider.style.animation = 'none';
+      void slider.offsetHeight; // Trigger reflow
+      slider.style.animation = 'scroll 30s linear infinite';
+    }
   }, []);
+
+  useEffect(() => {
+    // Restart carousel when language changes
+    const slider = document.querySelector('.animate-scroll');
+    if (slider) {
+      slider.style.animation = 'none';
+      void slider.offsetHeight; // Trigger reflow
+      slider.style.animation = 'scroll 30s linear infinite';
+    }
+  }, [lang]);
 
   const content = {
     ar: {

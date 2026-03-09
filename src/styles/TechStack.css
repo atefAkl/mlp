@@ -13,9 +13,15 @@
   animation: scroll 30s linear infinite;
   display: flex;
   width: max-content;
+  will-change: transform;
 }
 
 .animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Force animation to restart */
+.animate-scroll.paused {
   animation-play-state: paused;
 }
 
