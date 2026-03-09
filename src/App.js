@@ -734,7 +734,7 @@ const App = () => {
               {/* Row 1 - Moving Right */}
               <div className="carousel-row">
                 <div className="carousel-track carousel-track-right">
-                  {[...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
+                  {[...t.techStack.technologies, ...t.techStack.technologies, ...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
                     <div
                       key={`row1-${index}`}
                       className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
@@ -754,7 +754,7 @@ const App = () => {
               {/* Row 2 - Moving Left */}
               <div className="carousel-row">
                 <div className="carousel-track carousel-track-left">
-                  {[...t.techStack.technologies.slice(0, 10), ...t.techStack.technologies.slice(0, 10)].map((tech, index) => (
+                  {[...t.techStack.technologies.slice(0, 10), ...t.techStack.technologies.slice(0, 10), ...t.techStack.technologies.slice(0, 10), ...t.techStack.technologies.slice(0, 10)].map((tech, index) => (
                     <div
                       key={`row2-${index}`}
                       className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
@@ -775,7 +775,7 @@ const App = () => {
               {/* Row 3 - Moving Right Slower */}
               <div className="carousel-row">
                 <div className="carousel-track carousel-track-right-slow">
-                  {[...t.techStack.technologies.slice(5, 15), ...t.techStack.technologies.slice(5, 15)].map((tech, index) => (
+                  {[...t.techStack.technologies.slice(5, 15), ...t.techStack.technologies.slice(5, 15), ...t.techStack.technologies.slice(5, 15), ...t.techStack.technologies.slice(5, 15)].map((tech, index) => (
                     <div
                       key={`row3-${index}`}
                       className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
