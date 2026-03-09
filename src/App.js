@@ -35,36 +35,6 @@ const App = () => {
       once: true,
       offset: 100,
     });
-
-    // Force infinite carousel animation
-    const ensureCarouselAnimation = () => {
-      const track = document.querySelector('.infinite-carousel-track');
-      if (track) {
-        // Remove and re-add animation to force restart
-        const currentAnimation = track.style.animation;
-        track.style.animation = 'none';
-
-        // Force reflow
-        void track.offsetHeight;
-
-        // Re-add animation with same properties
-        track.style.animation = currentAnimation || 'slide 15s linear infinite';
-
-        // Ensure animation is running
-        track.style.animationPlayState = 'running';
-      }
-    };
-
-    // Run immediately and then periodically
-    ensureCarouselAnimation();
-
-    // Set up interval to ensure animation keeps running
-    const animationCheck = setInterval(() => {
-      ensureCarouselAnimation();
-    }, 5000); // Check every 5 seconds
-
-    // Clean up on unmount
-    return () => clearInterval(animationCheck);
   }, []);
 
   const content = {
@@ -758,22 +728,22 @@ const App = () => {
             <p className="text-lg text-gray-600">{t.techStack.subtitle}</p>
           </div>
 
-          {/* Technologies Infinite Carousel */}
+          {/* Technologies Carousel */}
           <div className="mb-16">
-            <div className="infinite-carousel">
-              <div className="infinite-carousel-track">
+            <div className="tech-carousel">
+              <div className="tech-carousel-track medium">
+                {/* Duplicate the technologies array for infinite scroll */}
                 {[...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
                   <div
                     key={index}
-                    className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow"
-                    data-aos="fade-up"
+                    className="tech-icon"
+                    title={tech.name}
                   >
                     <img
                       src={tech.image}
                       alt={tech.name}
-                      className="w-16 h-16 mx-auto mb-3 object-contain"
+                      className="object-contain"
                     />
-                    <div className="font-semibold text-sm">{tech.name}</div>
                   </div>
                 ))}
               </div>

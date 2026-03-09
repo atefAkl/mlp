@@ -1,23 +1,22 @@
-/* Infinite Carousel Container */
-.infinite-carousel {
-  overflow: hidden;
+/* Tech Carousel Container */
+.tech-carousel {
   width: 100%;
-  padding: 20px 0;
+  overflow: hidden;
   position: relative;
+  background: transparent;
 }
 
-.infinite-carousel-track {
+.tech-carousel-track {
   display: flex;
-  animation: slide 15s linear infinite !important;
-  width: max-content;
+  animation: scrollCarousel 20s linear infinite;
   will-change: transform;
 }
 
-.infinite-carousel-track:hover {
-  animation-play-state: paused !important;
+.tech-carousel-track:hover {
+  animation-play-state: paused;
 }
 
-@keyframes slide {
+@keyframes scrollCarousel {
   0% {
     transform: translateX(0);
   }
@@ -27,67 +26,80 @@
   }
 }
 
-/* Force animation to keep running */
-.infinite-carousel-track.paused {
-  animation-play-state: running !important;
-}
-
-/* Tech Logo Styles */
-.tech-logo {
-  transition: all 0.3s ease;
+/* Tech Icon Styles */
+.tech-icon {
   flex-shrink: 0;
-  min-width: 128px;
-  margin: 0 16px;
+  width: 60px;
+  height: 60px;
+  margin: 0 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  opacity: 1;
-}
-
-.tech-logo:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  z-index: 10;
-}
-
-/* Tool Card Styles */
-.tool-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+  cursor: pointer;
 }
 
-.tool-card:hover {
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+.tech-icon:hover {
+  transform: scale(1.1);
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tech-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Animation Speed Variations */
+.tech-carousel-track.slow {
+  animation-duration: 30s;
+}
+
+.tech-carousel-track.fast {
+  animation-duration: 10s;
+}
+
+.tech-carousel-track.medium {
+  animation-duration: 20s;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .tech-logo img {
-    width: 3rem;
-    height: 3rem;
+  .tech-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 6px;
   }
 
-  .tech-logo {
-    min-width: 120px;
-    margin: 0 12px;
+  .tech-icon img {
+    width: 32px;
+    height: 32px;
   }
 
-  .infinite-carousel-track {
+  .tech-carousel-track {
+    animation-duration: 15s;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px;
+  }
+
+  .tech-icon img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .tech-carousel-track {
     animation-duration: 12s;
-  }
-
-  .tool-card {
-    padding: 1rem;
-  }
-
-  .tool-card img {
-    width: 2rem;
-    height: 2rem;
   }
 }
 
