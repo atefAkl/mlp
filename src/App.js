@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import "./styles/TechStack.css";
 import {
   Terminal,
   Users,
@@ -84,15 +85,38 @@ const App = () => {
       },
       techStack: {
         title: "التقنيات والأدوات",
-        subtitle: "تعلم الأدوات المستخدمة في الشركات الكبرى",
-        techs: [
-          { name: "Laravel", icon: "🐘" },
-          { name: "PHP", icon: "🐘" },
-          { name: "Tailwind CSS", icon: "🎨" },
-          { name: "Jira", icon: "📋" },
-          { name: "Azure DevOps", icon: "☁️" },
+        subtitle: "تعلم التقنيات والأدوات المستخدمة في الشركات الكبرى",
+        technologies: [
+          { name: "React", image: "/assets/react.png" },
+          { name: "Laravel", image: "/assets/Laravel.svg" },
+          { name: "PHP", image: "/assets/php.png" },
+          { name: "Node.js", image: "/assets/nodejs.webp" },
+          { name: "Flutter", image: "/assets/Flutter.webp" },
+          { name: "Angular", image: "/assets/angularjs.png" },
+          { name: "Vue.js", image: "/assets/vue.webp" },
+          { name: "Next.js", image: "/assets/nextjs.svg" },
+          { name: "Express.js", image: "/assets/expressjs.png" },
+          { name: "MySQL", image: "/assets/mysql.png" },
+          { name: "MongoDB", image: "/assets/mongodb.png" },
+          { name: "PostgreSQL", image: "/assets/postgresql.svg" },
+          { name: "Tailwind CSS", image: "/assets/tailwind-css.png" },
+          { name: "Bootstrap", image: "/assets/bootstrap.png" },
+          { name: "HTML", image: "/assets/html.png" },
+          { name: "CSS", image: "/assets/css.png" },
+          { name: "JavaScript", image: "/assets/javascrit.png" },
+          { name: "MUI", image: "/assets/mui.png" },
+          { name: "Font Awesome", image: "/assets/font_awesome.png" },
         ],
-        methodologies: ["Agile", "Scrum", "Sprints", "Code Reviews", "CI/CD"],
+        tools: [
+          { name: "GitHub", image: "/assets/code-review.png" },
+          { name: "Jira", image: "/assets/jira.png" },
+          { name: "Azure DevOps", image: "/assets/azure.png" },
+          { name: "Agile", image: "/assets/agile.svg" },
+          { name: "Scrum", image: "/assets/scrum.png" },
+          { name: "Sprints", image: "/assets/sprints.png" },
+          { name: "Code Review", image: "/assets/code-review.png" },
+          { name: "CI/CD", image: "/assets/ci-cd.webp" },
+        ],
       },
       requirements: {
         title: "شروط الالتحاق",
@@ -256,15 +280,38 @@ const App = () => {
       },
       techStack: {
         title: "Technologies & Tools",
-        subtitle: "Learn tools used in major companies",
-        techs: [
-          { name: "Laravel", icon: "🐘" },
-          { name: "PHP", icon: "🐘" },
-          { name: "Tailwind CSS", icon: "🎨" },
-          { name: "Jira", icon: "📋" },
-          { name: "Azure DevOps", icon: "☁️" },
+        subtitle: "Learn technologies and tools used in major companies",
+        technologies: [
+          { name: "React", image: "/assets/react.png" },
+          { name: "Laravel", image: "/assets/Laravel.svg" },
+          { name: "PHP", image: "/assets/php.png" },
+          { name: "Node.js", image: "/assets/nodejs.webp" },
+          { name: "Flutter", image: "/assets/Flutter.webp" },
+          { name: "Angular", image: "/assets/angularjs.png" },
+          { name: "Vue.js", image: "/assets/vue.webp" },
+          { name: "Next.js", image: "/assets/nextjs.svg" },
+          { name: "Express.js", image: "/assets/expressjs.png" },
+          { name: "MySQL", image: "/assets/mysql.png" },
+          { name: "MongoDB", image: "/assets/mongodb.png" },
+          { name: "PostgreSQL", image: "/assets/postgresql.svg" },
+          { name: "Tailwind CSS", image: "/assets/tailwind-css.png" },
+          { name: "Bootstrap", image: "/assets/bootstrap.png" },
+          { name: "HTML", image: "/assets/html.png" },
+          { name: "CSS", image: "/assets/css.png" },
+          { name: "JavaScript", image: "/assets/javascrit.png" },
+          { name: "MUI", image: "/assets/mui.png" },
+          { name: "Font Awesome", image: "/assets/font_awesome.png" },
         ],
-        methodologies: ["Agile", "Scrum", "Sprints", "Code Reviews", "CI/CD"],
+        tools: [
+          { name: "GitHub", image: "/assets/code-review.png" },
+          { name: "Jira", image: "/assets/jira.png" },
+          { name: "Azure DevOps", image: "/assets/azure.png" },
+          { name: "Agile", image: "/assets/agile.svg" },
+          { name: "Scrum", image: "/assets/scrum.png" },
+          { name: "Sprints", image: "/assets/sprints.png" },
+          { name: "Code Review", image: "/assets/code-review.png" },
+          { name: "CI/CD", image: "/assets/ci-cd.webp" },
+        ],
       },
       requirements: {
         title: "Eligibility Requirements",
@@ -681,37 +728,53 @@ const App = () => {
             <p className="text-lg text-gray-600">{t.techStack.subtitle}</p>
           </div>
 
-          <div className="mb-12">
-            <div
-              className="flex flex-wrap justify-center gap-8"
-              data-aos="fade-up"
-            >
-              {t.techStack.techs.map((tech, index) => (
-                <div
-                  key={index}
-                  className="tech-logo bg-gray-50 p-6 rounded-xl border border-gray-200 text-center"
-                >
-                  <div className="text-4xl mb-2">{tech.icon}</div>
-                  <div className="font-semibold">{tech.name}</div>
-                </div>
-              ))}
+          {/* Technologies Slider */}
+          <div className="mb-16">
+            <div className="relative overflow-hidden">
+              <div className="flex animate-scroll" style={{ width: 'fit-content' }}>
+                {[...t.techStack.technologies, ...t.techStack.technologies, ...t.techStack.technologies].map((tech, index) => (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-32 mx-4"
+                    data-aos="fade-up"
+                  >
+                    <div className="tech-logo bg-gray-50 p-4 rounded-xl border border-gray-200 text-center hover:shadow-lg transition-shadow">
+                      <img
+                        src={tech.image}
+                        alt={tech.name}
+                        className="w-16 h-16 mx-auto mb-3 object-contain"
+                      />
+                      <div className="font-semibold text-sm">{tech.name}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="text-center">
-            <div className="inline-flex flex-wrap gap-3" data-aos="fade-up">
-              {t.techStack.methodologies.map((method, index) => (
-                <span
+          {/* Tools Section */}
+          <div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {t.techStack.tools.map((tool, index) => (
+                <div
                   key={index}
-                  className="px-4 py-2 bg-deep-blue/10 text-deep-blue rounded-full font-semibold"
+                  className="tool-card bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100 text-center hover:shadow-lg transition-all hover:scale-105"
+                  data-aos="fade-up"
+                  data-aos-delay={index * 50}
                 >
-                  {method}
-                </span>
+                  <img
+                    src={tool.image}
+                    alt={tool.name}
+                    className="w-12 h-12 mx-auto mb-3 object-contain"
+                  />
+                  <div className="font-semibold text-sm text-gray-800">{tool.name}</div>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Requirements Section */}
       <section
