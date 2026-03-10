@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./styles/TechStack.css";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import {
   Terminal,
@@ -60,10 +60,52 @@ const App = () => {
       },
       hero: {
         badge: "التسجيل مفتوح لدفعة مارس 2026",
-        title: 'انتقل من "متعلم" إلى "موظف خبير"',
-        subtitle:
-          "موثق ليس مجرد دورة تدريبية، إنه محاكاة حقيقية لبيئة العمل. اكتسب الخبرة العملية التي تحتاجها للنجاح في سوق العمل.",
-        cta: "انضم إلى قائمة الانتظار",
+        carousel: [
+          {
+            title: "انطلق في رحلتك المهنية مع موثق",
+            subtitle:
+              "من التعلم إلى الاحتراف، نوفر لك الجسر الحقيقي لسوق العمل",
+            cta: "ابدأ رحلتك الآن",
+            icon: <Rocket className="w-12 h-12" />,
+            bg: "from-deep-blue to-emerald",
+          },
+          {
+            title: "كن جزءاً من نخبة المطورين",
+            subtitle: "نختار الأفضل لنضمن بيئة تعليمية متميزة ومحفزة",
+            cta: "تقديم للانتقاء",
+            icon: <Star className="w-12 h-12" />,
+            bg: "from-purple-600 to-pink-600",
+          },
+          {
+            title: "اعمل كأنك في شركة حقيقية",
+            subtitle: "فرق Agile، اجتماعات يومية، ومدير مشاريع حقيقي",
+            cta: "استكشف البيئة",
+            icon: <Users className="w-12 h-12" />,
+            bg: "from-blue-600 to-cyan-600",
+          },
+          {
+            title: "بناء مشاريع تضيف لمعرض أعمالك",
+            subtitle: "مشاريع تجارية حقيقية مع Code Reviews وتحديات واقعية",
+            cta: "شاهد المشاريع",
+            icon: <Terminal className="w-12 h-12" />,
+            bg: "from-orange-600 to-red-600",
+          },
+          {
+            title: "إتقان دورة حياة البرمجيات بالكامل",
+            subtitle: "من Planning إلى Deployment، تعلم كل خطوة عملية",
+            cta: "تعرف على المنهج",
+            icon: <Target className="w-12 h-12" />,
+            bg: "from-green-600 to-teal-600",
+          },
+          {
+            title: "اجمع بين الخبرة والشهادة المعتمدة",
+            subtitle:
+              "منهجية Agile مع شهادة معتمدة في المشاريع البرمجية الحديثة",
+            cta: "احصل على شهادتك",
+            icon: <CheckCircle2 className="w-12 h-12" />,
+            bg: "from-indigo-600 to-purple-600",
+          },
+        ],
         stats: "+150 خبير انطلقوا في مسيرتهم المهنية",
       },
       problem: {
@@ -94,35 +136,101 @@ const App = () => {
         title: "التقنيات والأدوات",
         subtitle: "تعلم التقنيات والأدوات المستخدمة في الشركات الكبرى",
         technologies: [
-          { name: "React", image: `${process.env.PUBLIC_URL}/assets/react.png` },
-          { name: "Laravel", image: `${process.env.PUBLIC_URL}/assets/Laravel.svg` },
+          {
+            name: "React",
+            image: `${process.env.PUBLIC_URL}/assets/react.png`,
+          },
+          {
+            name: "Laravel",
+            image: `${process.env.PUBLIC_URL}/assets/Laravel.svg`,
+          },
           { name: "PHP", image: `${process.env.PUBLIC_URL}/assets/php.png` },
-          { name: "Node.js", image: `${process.env.PUBLIC_URL}/assets/nodejs.webp` },
-          { name: "Flutter", image: `${process.env.PUBLIC_URL}/assets/Flutter.webp` },
-          { name: "Angular", image: `${process.env.PUBLIC_URL}/assets/angularjs.png` },
-          { name: "Vue.js", image: `${process.env.PUBLIC_URL}/assets/vue.webp` },
-          { name: "Next.js", image: `${process.env.PUBLIC_URL}/assets/nextjs.svg` },
-          { name: "Express.js", image: `${process.env.PUBLIC_URL}/assets/expressjs.png` },
-          { name: "MySQL", image: `${process.env.PUBLIC_URL}/assets/mysql.png` },
-          { name: "MongoDB", image: `${process.env.PUBLIC_URL}/assets/mongodb.png` },
-          { name: "PostgreSQL", image: `${process.env.PUBLIC_URL}/assets/postgresql.svg` },
-          { name: "Tailwind CSS", image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png` },
-          { name: "Bootstrap", image: `${process.env.PUBLIC_URL}/assets/bootstrap.png` },
+          {
+            name: "Node.js",
+            image: `${process.env.PUBLIC_URL}/assets/nodejs.webp`,
+          },
+          {
+            name: "Flutter",
+            image: `${process.env.PUBLIC_URL}/assets/Flutter.webp`,
+          },
+          {
+            name: "Angular",
+            image: `${process.env.PUBLIC_URL}/assets/angularjs.png`,
+          },
+          {
+            name: "Vue.js",
+            image: `${process.env.PUBLIC_URL}/assets/vue.webp`,
+          },
+          {
+            name: "Next.js",
+            image: `${process.env.PUBLIC_URL}/assets/nextjs.svg`,
+          },
+          {
+            name: "Express.js",
+            image: `${process.env.PUBLIC_URL}/assets/expressjs.png`,
+          },
+          {
+            name: "MySQL",
+            image: `${process.env.PUBLIC_URL}/assets/mysql.png`,
+          },
+          {
+            name: "MongoDB",
+            image: `${process.env.PUBLIC_URL}/assets/mongodb.png`,
+          },
+          {
+            name: "PostgreSQL",
+            image: `${process.env.PUBLIC_URL}/assets/postgresql.svg`,
+          },
+          {
+            name: "Tailwind CSS",
+            image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png`,
+          },
+          {
+            name: "Bootstrap",
+            image: `${process.env.PUBLIC_URL}/assets/bootstrap.png`,
+          },
           { name: "HTML", image: `${process.env.PUBLIC_URL}/assets/html.png` },
           { name: "CSS", image: `${process.env.PUBLIC_URL}/assets/css.png` },
-          { name: "JavaScript", image: `${process.env.PUBLIC_URL}/assets/javascrit.png` },
+          {
+            name: "JavaScript",
+            image: `${process.env.PUBLIC_URL}/assets/javascrit.png`,
+          },
           { name: "MUI", image: `${process.env.PUBLIC_URL}/assets/mui.png` },
-          { name: "Font Awesome", image: `${process.env.PUBLIC_URL}/assets/font_awesome.png` },
+          {
+            name: "Font Awesome",
+            image: `${process.env.PUBLIC_URL}/assets/font_awesome.png`,
+          },
         ],
         tools: [
-          { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/github.svg` },
+          {
+            name: "GitHub",
+            image: `${process.env.PUBLIC_URL}/assets/github.svg`,
+          },
           { name: "Jira", image: `${process.env.PUBLIC_URL}/assets/jira.png` },
-          { name: "Azure DevOps", image: `${process.env.PUBLIC_URL}/assets/azure.png` },
-          { name: "Agile", image: `${process.env.PUBLIC_URL}/assets/agile.svg` },
-          { name: "Scrum", image: `${process.env.PUBLIC_URL}/assets/scrum.png` },
-          { name: "Sprints", image: `${process.env.PUBLIC_URL}/assets/sprints.png` },
-          { name: "Code Review", image: `${process.env.PUBLIC_URL}/assets/code-review.png` },
-          { name: "CI/CD", image: `${process.env.PUBLIC_URL}/assets/ci-cd.webp` },
+          {
+            name: "Azure DevOps",
+            image: `${process.env.PUBLIC_URL}/assets/azure.png`,
+          },
+          {
+            name: "Agile",
+            image: `${process.env.PUBLIC_URL}/assets/agile.svg`,
+          },
+          {
+            name: "Scrum",
+            image: `${process.env.PUBLIC_URL}/assets/scrum.png`,
+          },
+          {
+            name: "Sprints",
+            image: `${process.env.PUBLIC_URL}/assets/sprints.png`,
+          },
+          {
+            name: "Code Review",
+            image: `${process.env.PUBLIC_URL}/assets/code-review.png`,
+          },
+          {
+            name: "CI/CD",
+            image: `${process.env.PUBLIC_URL}/assets/ci-cd.webp`,
+          },
         ],
       },
       requirements: {
@@ -255,10 +363,54 @@ const App = () => {
       },
       hero: {
         badge: "Registration Open for March 2026",
-        title: 'Move from "Learner" to "Expert Employee"',
-        subtitle:
-          "Mawthiq is not just a training course, it's a real work environment simulation. Gain the practical experience you need to succeed in the job market.",
-        cta: "Join the Waitlist",
+        carousel: [
+          {
+            title: "Start Your Professional Journey with Mawthiq",
+            subtitle:
+              "From learning to professionalism, we provide the real bridge to the job market",
+            cta: "Start Your Journey Now",
+            icon: <Rocket className="w-12 h-12" />,
+            bg: "from-deep-blue to-emerald",
+          },
+          {
+            title: "Be Part of Elite Developers",
+            subtitle:
+              "We select the best to ensure an excellent and motivating learning environment",
+            cta: "Apply for Selection",
+            icon: <Star className="w-12 h-12" />,
+            bg: "from-purple-600 to-pink-600",
+          },
+          {
+            title: "Work as if in a Real Company",
+            subtitle: "Agile teams, daily meetings, and a real project manager",
+            cta: "Explore Environment",
+            icon: <Users className="w-12 h-12" />,
+            bg: "from-blue-600 to-cyan-600",
+          },
+          {
+            title: "Build Projects for Your Portfolio",
+            subtitle:
+              "Real commercial projects with Code Reviews and realistic challenges",
+            cta: "View Projects",
+            icon: <Terminal className="w-12 h-12" />,
+            bg: "from-orange-600 to-red-600",
+          },
+          {
+            title: "Master the Complete Software Lifecycle",
+            subtitle: "From Planning to Deployment, learn every practical step",
+            cta: "Learn Curriculum",
+            icon: <Target className="w-12 h-12" />,
+            bg: "from-green-600 to-teal-600",
+          },
+          {
+            title: "Combine Experience with Certified Certificate",
+            subtitle:
+              "Agile methodology with certified certificate in modern software projects",
+            cta: "Get Your Certificate",
+            icon: <CheckCircle2 className="w-12 h-12" />,
+            bg: "from-indigo-600 to-purple-600",
+          },
+        ],
         stats: "+150 experts launched their careers",
       },
       problem: {
@@ -289,35 +441,101 @@ const App = () => {
         title: "Technologies & Tools",
         subtitle: "Learn technologies and tools used in major companies",
         technologies: [
-          { name: "React", image: `${process.env.PUBLIC_URL}/assets/react.png` },
-          { name: "Laravel", image: `${process.env.PUBLIC_URL}/assets/Laravel.svg` },
+          {
+            name: "React",
+            image: `${process.env.PUBLIC_URL}/assets/react.png`,
+          },
+          {
+            name: "Laravel",
+            image: `${process.env.PUBLIC_URL}/assets/Laravel.svg`,
+          },
           { name: "PHP", image: `${process.env.PUBLIC_URL}/assets/php.png` },
-          { name: "Node.js", image: `${process.env.PUBLIC_URL}/assets/nodejs.webp` },
-          { name: "Flutter", image: `${process.env.PUBLIC_URL}/assets/Flutter.webp` },
-          { name: "Angular", image: `${process.env.PUBLIC_URL}/assets/angularjs.png` },
-          { name: "Vue.js", image: `${process.env.PUBLIC_URL}/assets/vue.webp` },
-          { name: "Next.js", image: `${process.env.PUBLIC_URL}/assets/nextjs.svg` },
-          { name: "Express.js", image: `${process.env.PUBLIC_URL}/assets/expressjs.png` },
-          { name: "MySQL", image: `${process.env.PUBLIC_URL}/assets/mysql.png` },
-          { name: "MongoDB", image: `${process.env.PUBLIC_URL}/assets/mongodb.png` },
-          { name: "PostgreSQL", image: `${process.env.PUBLIC_URL}/assets/postgresql.svg` },
-          { name: "Tailwind CSS", image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png` },
-          { name: "Bootstrap", image: `${process.env.PUBLIC_URL}/assets/bootstrap.png` },
+          {
+            name: "Node.js",
+            image: `${process.env.PUBLIC_URL}/assets/nodejs.webp`,
+          },
+          {
+            name: "Flutter",
+            image: `${process.env.PUBLIC_URL}/assets/Flutter.webp`,
+          },
+          {
+            name: "Angular",
+            image: `${process.env.PUBLIC_URL}/assets/angularjs.png`,
+          },
+          {
+            name: "Vue.js",
+            image: `${process.env.PUBLIC_URL}/assets/vue.webp`,
+          },
+          {
+            name: "Next.js",
+            image: `${process.env.PUBLIC_URL}/assets/nextjs.svg`,
+          },
+          {
+            name: "Express.js",
+            image: `${process.env.PUBLIC_URL}/assets/expressjs.png`,
+          },
+          {
+            name: "MySQL",
+            image: `${process.env.PUBLIC_URL}/assets/mysql.png`,
+          },
+          {
+            name: "MongoDB",
+            image: `${process.env.PUBLIC_URL}/assets/mongodb.png`,
+          },
+          {
+            name: "PostgreSQL",
+            image: `${process.env.PUBLIC_URL}/assets/postgresql.svg`,
+          },
+          {
+            name: "Tailwind CSS",
+            image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png`,
+          },
+          {
+            name: "Bootstrap",
+            image: `${process.env.PUBLIC_URL}/assets/bootstrap.png`,
+          },
           { name: "HTML", image: `${process.env.PUBLIC_URL}/assets/html.png` },
           { name: "CSS", image: `${process.env.PUBLIC_URL}/assets/css.png` },
-          { name: "JavaScript", image: `${process.env.PUBLIC_URL}/assets/javascrit.png` },
+          {
+            name: "JavaScript",
+            image: `${process.env.PUBLIC_URL}/assets/javascrit.png`,
+          },
           { name: "MUI", image: `${process.env.PUBLIC_URL}/assets/mui.png` },
-          { name: "Font Awesome", image: `${process.env.PUBLIC_URL}/assets/font_awesome.png` },
+          {
+            name: "Font Awesome",
+            image: `${process.env.PUBLIC_URL}/assets/font_awesome.png`,
+          },
         ],
         tools: [
-          { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/github.svg` },
+          {
+            name: "GitHub",
+            image: `${process.env.PUBLIC_URL}/assets/github.svg`,
+          },
           { name: "Jira", image: `${process.env.PUBLIC_URL}/assets/jira.png` },
-          { name: "Azure DevOps", image: `${process.env.PUBLIC_URL}/assets/azure.png` },
-          { name: "Agile", image: `${process.env.PUBLIC_URL}/assets/agile.svg` },
-          { name: "Scrum", image: `${process.env.PUBLIC_URL}/assets/scrum.png` },
-          { name: "Sprints", image: `${process.env.PUBLIC_URL}/assets/sprints.png` },
-          { name: "Code Review", image: `${process.env.PUBLIC_URL}/assets/code-review.png` },
-          { name: "CI/CD", image: `${process.env.PUBLIC_URL}/assets/ci-cd.webp` },
+          {
+            name: "Azure DevOps",
+            image: `${process.env.PUBLIC_URL}/assets/azure.png`,
+          },
+          {
+            name: "Agile",
+            image: `${process.env.PUBLIC_URL}/assets/agile.svg`,
+          },
+          {
+            name: "Scrum",
+            image: `${process.env.PUBLIC_URL}/assets/scrum.png`,
+          },
+          {
+            name: "Sprints",
+            image: `${process.env.PUBLIC_URL}/assets/sprints.png`,
+          },
+          {
+            name: "Code Review",
+            image: `${process.env.PUBLIC_URL}/assets/code-review.png`,
+          },
+          {
+            name: "CI/CD",
+            image: `${process.env.PUBLIC_URL}/assets/ci-cd.webp`,
+          },
         ],
       },
       requirements: {
@@ -539,106 +757,137 @@ const App = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Carousel Section */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-              <div className="inline-flex items-center gap-2 bg-emerald/10 text-emerald px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                <span className="w-2 h-2 bg-emerald rounded-full animate-pulse"></span>
-                {t.hero.badge}
-              </div>
-
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                <span className="gradient-text">{t.hero.title}</span>
-              </h1>
-
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                {t.hero.subtitle}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <button
-                  onClick={() => scrollToSection("cta")}
-                  className="btn-primary bg-gradient-to-r from-deep-blue to-emerald text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
-                >
-                  {t.hero.cta}
-                  <ArrowRight
-                    className={`w-5 h-5 ${lang === "ar" ? "rotate-180" : ""}`}
-                  />
-                </button>
-
-                <div className="flex items-center gap-4 px-4">
-                  <div className="flex -space-x-3">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className="w-10 h-10 bg-gradient-to-br from-deep-blue to-emerald rounded-full border-2 border-white flex items-center justify-center text-white text-xs font-bold"
-                      >
-                        {i}
-                      </div>
-                    ))}
-                  </div>
-                  <span className="text-sm text-gray-600 font-semibold">
-                    {t.hero.stats}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div data-aos="fade-left" className="relative">
-              <div className="relative z-10">
-                <div className="bg-white rounded-2xl shadow-2xl p-6 border border-gray-100">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    </div>
-                    <div className="text-xs text-gray-500 font-mono">
-                      Mawthiq IDE
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-900 rounded-lg p-4 font-mono text-sm">
-                    <div className="text-green-400 mb-2">
-                      {'// Welcome to Mawthiq'}
-                    </div>
-                    <div className="text-blue-400 mb-2">
-                      class CareerBridge {"{"}
-                    </div>
-                    <div className="text-gray-400 ml-4 mb-2">
-                      constructor() {"{"}
-                    </div>
-                    <div className="text-emerald-400 ml-8 mb-2">
-                      this.status = 'Expert';
-                    </div>
-                    <div className="text-emerald-400 ml-8 mb-2">
-                      this.confidence = 100;
-                    </div>
-                    <div className="text-gray-400 ml-4 mb-2">{"}"}</div>
-                    <div className="text-blue-400">{"}"}</div>
-
-                    <div className="mt-4 flex gap-2">
-                      <span className="px-2 py-1 bg-emerald/20 text-emerald text-xs rounded">
-                        ✓ Sprint Active
-                      </span>
-                      <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded">
-                        PR Approved
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Elements */}
-              <div className="absolute top-10 -right-10 w-20 h-20 bg-emerald/20 rounded-full animate-float"></div>
+          <Slider
+            dots={true}
+            infinite={true}
+            fade={true}
+            autoplay={true}
+            speed={1000}
+            autoplaySpeed={3000}
+            slidesToShow={1}
+            slidesToScroll={1}
+            adaptiveHeight={true}
+            className="hero-carousel"
+          >
+            {t.hero.carousel.map((slide, index) => (
               <div
-                className="absolute bottom-10 -left-10 w-16 h-16 bg-deep-blue/20 rounded-full animate-float"
-                style={{ animationDelay: "1s" }}
-              ></div>
-            </div>
-          </div>
+                key={index}
+                className={`hero-slide bg-gradient-to-r ${slide.bg} rounded-3xl p-8 md:p-12 text-white relative overflow-hidden`}
+              >
+                <div className="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+                  <div data-aos="fade-right">
+                    <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                      <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                      {t.hero.badge}
+                    </div>
+
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                        {slide.icon}
+                      </div>
+                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                        {slide.title}
+                      </h1>
+                    </div>
+
+                    <p className="text-lg md:text-xl mb-8 leading-relaxed opacity-90 max-w-2xl">
+                      {slide.subtitle}
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <button
+                        onClick={() => scrollToSection("cta")}
+                        className="btn-primary bg-white text-gray-900 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all flex items-center justify-center gap-2 shadow-2xl"
+                      >
+                        {slide.cta}
+                        <ChevronRight
+                          className={`w-5 h-5 ${lang === "ar" ? "rotate-180" : ""}`}
+                        />
+                      </button>
+
+                      <div className="flex items-center gap-4 px-4">
+                        <div className="flex -space-x-3">
+                          {[1, 2, 3, 4].map((i) => (
+                            <div
+                              key={i}
+                              className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full border-2 border-white/50 flex items-center justify-center text-white text-xs font-bold"
+                            >
+                              {i}
+                            </div>
+                          ))}
+                        </div>
+                        <span className="text-sm font-semibold opacity-90">
+                          {t.hero.stats}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div data-aos="fade-left" className="relative">
+                    <div className="relative z-10">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-6 border border-white/20">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex gap-2">
+                            <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                            <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                          </div>
+                          <div className="text-xs text-white/80 font-mono">
+                            Mawthiq IDE
+                          </div>
+                        </div>
+
+                        <div className="bg-black/50 rounded-lg p-4 font-mono text-sm">
+                          <div className="text-green-400 mb-2">
+                            {"// Welcome to Mawthiq"}
+                          </div>
+                          <div className="text-blue-400 mb-2">
+                            class CareerBridge {"{"}
+                          </div>
+                          <div className="text-gray-400 ml-4 mb-2">
+                            constructor() {"{"}
+                          </div>
+                          <div className="text-emerald-400 ml-8 mb-2">
+                            this.status = 'Expert';
+                          </div>
+                          <div className="text-emerald-400 ml-8 mb-2">
+                            this.confidence = 100;
+                          </div>
+                          <div className="text-gray-400 ml-4 mb-2">{"}"}</div>
+                          <div className="text-blue-400">{"}"}</div>
+
+                          <div className="mt-4 flex gap-2">
+                            <span className="px-2 py-1 bg-emerald/30 text-emerald text-xs rounded">
+                              ✓ Sprint Active
+                            </span>
+                            <span className="px-2 py-1 bg-blue-500/30 text-blue-300 text-xs rounded">
+                              PR Approved
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Floating Elements */}
+                    <div className="absolute top-10 -right-10 w-20 h-20 bg-white/20 rounded-full animate-float"></div>
+                    <div
+                      className="absolute bottom-10 -left-10 w-16 h-16 bg-white/20 rounded-full animate-float"
+                      style={{ animationDelay: "1s" }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent"></div>
+                  <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-white/10 to-transparent rounded-full blur-3xl"></div>
+                </div>
+              </div>
+            ))}
+          </Slider>
         </div>
       </section>
 
@@ -739,17 +988,25 @@ const App = () => {
           <div className="mb-16">
             <Swiper
               modules={[Autoplay]}
-              slidesPerView={'auto'}
+              slidesPerView={"auto"}
               spaceBetween={16}
               loop={true}
               freeMode={true}
               speed={3500}
-              autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
+              autoplay={{
+                delay: 0,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
               className="tech-swiper"
             >
               {t.techStack.technologies.map((tech, index) => (
                 <SwiperSlide key={tech.name + index} className="tech-icon">
-                  <img src={tech.image} alt={tech.name} className="object-contain" />
+                  <img
+                    src={tech.image}
+                    alt={tech.name}
+                    className="object-contain"
+                  />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -770,14 +1027,15 @@ const App = () => {
                     alt={tool.name}
                     className="w-12 h-12 mx-auto mb-3 object-contain"
                   />
-                  <div className="font-semibold text-sm text-gray-800">{tool.name}</div>
+                  <div className="font-semibold text-sm text-gray-800">
+                    {tool.name}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
       </section>
-
 
       {/* Requirements Section */}
       <section
