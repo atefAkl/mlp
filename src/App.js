@@ -43,7 +43,7 @@ const App = () => {
     AOS.init({
       duration: 1000,
       once: true,
-      offset: 100,
+      offset: 50,
     });
   }, []);
 
@@ -660,24 +660,11 @@ const App = () => {
 
   const t = content[lang];
 
-  // Function to get gradient colors for smooth transition
-  const getGradientColors = (gradientClass) => {
-    const colorMap = {
-      "from-deep-blue to-emerald": "#1e3a8a, #10b981",
-      "from-purple-600 to-pink-600": "#9333ea, #ec4899",
-      "from-blue-600 to-cyan-600": "#2563eb, #06b6d4",
-      "from-orange-600 to-red-600": "#ea580c, #dc2626",
-      "from-green-600 to-teal-600": "#16a34a, #14b8a6",
-      "from-indigo-600 to-purple-600": "#4f46e5, #9333ea",
-    };
-    return colorMap[gradientClass] || "#1e3a8a, #10b981";
-  };
-
   useEffect(() => {
     // Auto-rotate slides
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % t.hero.carousel.length);
-    }, 10000); // 10 seconds per slide
+    }, 10000); // 3 seconds per slide
 
     return () => clearInterval(interval);
   }, [t.hero.carousel.length]);
@@ -785,10 +772,7 @@ const App = () => {
       {/* Hero Section */}
       <section className="min-h-[500px] h-[67vh] w-full overflow-hidden relative">
         <div
-          className={`min-h-[500px] h-[67vh] w-full flex items-center text-white relative overflow-hidden transition-all duration-1000 ease-in-out`}
-          style={{
-            background: `linear-gradient(to right, ${getGradientColors(t.hero.carousel[currentSlide].bg)})`,
-          }}
+          className={`min-h-[500px] h-[67vh] w-full flex items-center text-white relative overflow-hidden hero-gradient-${currentSlide}`}
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 lg:grid lg:grid-cols-2 gap-12 items-center relative z-10 w-full">
             <div data-aos="fade-right">
@@ -801,10 +785,10 @@ const App = () => {
                 className="flex items-center gap-4 mb-6 opacity-0 animate-fade-in"
                 key={`title-${currentSlide}`}
               >
-                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center transition-all duration-700 ease-out">
+                <div className="w-16 h-16 p-3 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center transition-all duration-700 ease-out">
                   {t.hero.carousel[currentSlide].icon}
                 </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight transition-all duration-700 ease-out">
+                <h1 className="text-4xl md:text-3xl lg:text-4xl font-bold leading-tight transition-all duration-700 ease-out">
                   {t.hero.carousel[currentSlide].title}
                   <span className="animate-pulse">|</span>
                 </h1>
