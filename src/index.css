@@ -47,14 +47,80 @@ html {
   animation: pulse-slow 2s ease-in-out infinite;
 }
 
-/* Hero Carousel Styles */
+/* Hero Transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDelay {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  animation: fadeInDelay 1.2s ease-out forwards;
+}
+
+/* Reset animation on slide change */
+.hero-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s ease-out;
+}
 .hero-carousel {
   direction: ltr;
+  margin-bottom: 2rem;
 }
 
 .hero-carousel .slick-list {
   overflow: hidden;
   border-radius: 1.5rem;
+  min-height: 500px;
+}
+
+.hero-carousel .slick-track {
+  display: flex !important;
+}
+
+.hero-carousel .slick-slide {
+  height: inherit !important;
+  min-height: 500px !important;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hero-carousel .slick-active {
+  opacity: 1;
+}
+
+.hero-carousel .slick-current {
+  opacity: 1;
 }
 
 .hero-carousel .slick-dots {
@@ -74,9 +140,10 @@ html {
 }
 
 .hero-slide {
-  min-height: 500px;
+  min-height: 500px !important;
   display: flex !important;
   align-items: center;
+  height: auto !important;
 }
 
 .hero-slide .bg-gradient-to-r {
@@ -115,20 +182,6 @@ html {
 
 .hero-carousel .slick-prev:hover:before,
 .hero-carousel .slick-next:hover:before {
-  opacity: 1;
-}
-
-/* Fade animation for carousel */
-.hero-carousel .slick-slide {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.hero-carousel .slick-active {
-  opacity: 1;
-}
-
-.hero-carousel .slick-current {
   opacity: 1;
 }
 
