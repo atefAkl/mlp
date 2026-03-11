@@ -77,13 +77,11 @@ const content = {
       title: "فجوة الخبرة هي التحدي الأكبر",
       subtitle: "لماذا يجد الخريجون صعوبة في الحصول على وظائف؟",
       gap: "فجوة الخبرة",
-      gapDesc:
-        "تملك المعرفة النظرية ولكن تفتقر للخبرة العملية في بيئة العمل الحقيقية.",
+      gapDesc: "تملك المعرفة النظرية ولكن تفتقر للخبرة العملية في بيئة العمل الحقيقية.",
       fear: "رهبة الإنتاج",
       fearDesc: "تخاف من التعامل مع مشاريع حقيقية أو دمج الكود في أنظمة معقدة.",
       methodology: "غياب المنهجية",
-      methodologyDesc:
-        "لا تعرف كيفية العمل ضمن فرق Agile أو استخدام أدوات مثل Jira و Azure DevOps.",
+      methodologyDesc: "لا تعرف كيفية العمل ضمن فرق Agile أو استخدام أدوات مثل Jira و Azure DevOps.",
     },
     solution: {
       title: "موثق يحل فجوة الخبرة",
@@ -101,90 +99,36 @@ const content = {
       subtitle: "تعلم التقنيات والأدوات المستخدمة في الشركات الكبرى",
       technologies: [
         { name: "React", image: `${process.env.PUBLIC_URL}/assets/react.png` },
-        {
-          name: "Laravel",
-          image: `${process.env.PUBLIC_URL}/assets/Laravel.svg`,
-        },
+        { name: "Laravel", image: `${process.env.PUBLIC_URL}/assets/Laravel.svg` },
         { name: "PHP", image: `${process.env.PUBLIC_URL}/assets/php.png` },
-        {
-          name: "Node.js",
-          image: `${process.env.PUBLIC_URL}/assets/nodejs.webp`,
-        },
-        {
-          name: "Flutter",
-          image: `${process.env.PUBLIC_URL}/assets/Flutter.webp`,
-        },
-        {
-          name: "Angular",
-          image: `${process.env.PUBLIC_URL}/assets/angularjs.png`,
-        },
+        { name: "Node.js", image: `${process.env.PUBLIC_URL}/assets/nodejs.webp` },
+        { name: "Flutter", image: `${process.env.PUBLIC_URL}/assets/Flutter.webp` },
+        { name: "Angular", image: `${process.env.PUBLIC_URL}/assets/angularjs.png` },
         { name: "Vue.js", image: `${process.env.PUBLIC_URL}/assets/vue.webp` },
-        {
-          name: "Next.js",
-          image: `${process.env.PUBLIC_URL}/assets/nextjs.svg`,
-        },
-        {
-          name: "Express.js",
-          image: `${process.env.PUBLIC_URL}/assets/expressjs.png`,
-        },
+        { name: "Next.js", image: `${process.env.PUBLIC_URL}/assets/nextjs.svg` },
+        { name: "Express.js", image: `${process.env.PUBLIC_URL}/assets/expressjs.png` },
         { name: "MySQL", image: `${process.env.PUBLIC_URL}/assets/mysql.png` },
-        {
-          name: "MongoDB",
-          image: `${process.env.PUBLIC_URL}/assets/mongodb.png`,
-        },
-        {
-          name: "PostgreSQL",
-          image: `${process.env.PUBLIC_URL}/assets/postgresql.svg`,
-        },
-        {
-          name: "Tailwind CSS",
-          image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png`,
-        },
-        {
-          name: "Bootstrap",
-          image: `${process.env.PUBLIC_URL}/assets/bootstrap.png`,
-        },
+        { name: "MongoDB", image: `${process.env.PUBLIC_URL}/assets/mongodb.png` },
+        { name: "PostgreSQL", image: `${process.env.PUBLIC_URL}/assets/postgresql.svg` },
+        { name: "Tailwind CSS", image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png` },
+        { name: "Bootstrap", image: `${process.env.PUBLIC_URL}/assets/bootstrap.png` },
         { name: "HTML", image: `${process.env.PUBLIC_URL}/assets/html.png` },
         { name: "CSS", image: `${process.env.PUBLIC_URL}/assets/css.png` },
-        {
-          name: "JavaScript",
-          image: `${process.env.PUBLIC_URL}/assets/javascrit.png`,
-        },
+        { name: "JavaScript", image: `${process.env.PUBLIC_URL}/assets/javascrit.png` },
         { name: "MUI", image: `${process.env.PUBLIC_URL}/assets/mui.png` },
-        {
-          name: "Font Awesome",
-          image: `${process.env.PUBLIC_URL}/assets/font_awesome.png`,
-        },
+        { name: "Font Awesome", image: `${process.env.PUBLIC_URL}/assets/font_awesome.png` },
       ],
       tools: [
-        {
-          name: "GitHub",
-          image: `${process.env.PUBLIC_URL}/assets/github.svg`,
-        },
+        { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/github.svg` },
         { name: "Jira", image: `${process.env.PUBLIC_URL}/assets/jira.png` },
-        {
-          name: "Azure DevOps",
-          image: `${process.env.PUBLIC_URL}/assets/azure.png`,
-        },
+        { name: "Azure DevOps", image: `${process.env.PUBLIC_URL}/assets/azure.png` },
         { name: "Agile", image: `${process.env.PUBLIC_URL}/assets/agile.svg` },
         { name: "Scrum", image: `${process.env.PUBLIC_URL}/assets/scrum.png` },
-        {
-          name: "Sprints",
-          image: `${process.env.PUBLIC_URL}/assets/sprints.png`,
-        },
-        {
-          name: "Code Review",
-          image: `${process.env.PUBLIC_URL}/assets/code-review.png`,
-        },
+        { name: "Sprints", image: `${process.env.PUBLIC_URL}/assets/sprints.png` },
+        { name: "Code Review", image: `${process.env.PUBLIC_URL}/assets/code-review.png` },
         { name: "CI/CD", image: `${process.env.PUBLIC_URL}/assets/ci-cd.webp` },
-        {
-          name: "Docker",
-          image: `${process.env.PUBLIC_URL}/assets/docker.png`,
-        },
-        {
-          name: "Postman",
-          image: `${process.env.PUBLIC_URL}/assets/postman.png`,
-        },
+        { name: "Docker", image: `${process.env.PUBLIC_URL}/assets/docker.png` },
+        { name: "Postman", image: `${process.env.PUBLIC_URL}/assets/postman.png` },
         { name: "Figma", image: `${process.env.PUBLIC_URL}/assets/figma.png` },
         { name: "Slack", image: `${process.env.PUBLIC_URL}/assets/slack.png` },
       ],
@@ -193,117 +137,32 @@ const content = {
       title: "شروط الالتحاق",
       subtitle: "نبحث عن المطورين الجادين",
       items: [
-        {
-          icon: <BookOpen className="w-6 h-6" />,
-          title: "أساسيات قوية",
-          desc: "إتقان الأساسيات في المسار التقني المختار",
-        },
-        {
-          icon: <Clock className="w-6 h-6" />,
-          title: "التزام يومي",
-          desc: "الالتزام بالمزامنات اليومية والأسابيعية",
-        },
-        {
-          icon: <MessageSquare className="w-6 h-6" />,
-          title: "انفتاح للمراجعات",
-          desc: "الاستعداد لمراجعات الكود والتغذية الراجعة البناءة",
-        },
-        {
-          icon: <Users className="w-6 h-6" />,
-          title: "عقلية الفريق",
-          desc: "القدرة على العمل ضمن فريق والتعاون الفعال",
-        },
+        { icon: <BookOpen className="w-6 h-6" />, title: "أساسيات قوية", desc: "إتقان الأساسيات في المسار التقني المختار" },
+        { icon: <Clock className="w-6 h-6" />, title: "التزام يومي", desc: "الالتزام بالمزامنات اليومية والأسابيعية" },
+        { icon: <MessageSquare className="w-6 h-6" />, title: "انفتاح للمراجعات", desc: "الاستعداد لمراجعات الكود والتغذية الراجعة البناءة" },
+        { icon: <Users className="w-6 h-6" />, title: "عقلية الفريق", desc: "القدرة على العمل ضمن فريق والتعاون الفعال" },
       ],
     },
     journey: {
       title: "رحلة الطالب (5 مراحل)",
       subtitle: "من التدريب إلى الاحتراف",
       stages: [
-        {
-          number: "01",
-          title: "Onboarding",
-          desc: "استقبال وتوجيه وتجهيز بيئة العمل",
-          duration: "أسبوع",
-        },
-        {
-          number: "02",
-          title: "Learning Sprint",
-          desc: "تعلم مكثف مع تقييمات مستمرة",
-          duration: "أسبوعان",
-        },
-        {
-          number: "03",
-          title: "Project Simulation",
-          desc: "العمل على مشاريع محاكاة واقعية",
-          duration: "أسبوعان",
-        },
-        {
-          number: "04",
-          title: "Real Workflow",
-          desc: "انضمام لفريق عمل حقيقي ومزامنات يومية",
-          duration: "أسبوعان",
-        },
-        {
-          number: "05",
-          title: "Demo Day",
-          desc: "عرض المشاريع وتقييم نهائي",
-          duration: "يوم",
-        },
+        { number: "01", title: "Onboarding", desc: "استقبال وتوجيه وتجهيز بيئة العمل", duration: "أسبوع" },
+        { number: "02", title: "Learning Sprint", desc: "تعلم مكثف مع تقييمات مستمرة", duration: "أسبوعان" },
+        { number: "03", title: "Project Simulation", desc: "العمل على مشاريع محاكاة واقعية", duration: "أسبوعان" },
+        { number: "04", title: "Real Workflow", desc: "انضمام لفريق عمل حقيقي ومزامنات يومية", duration: "أسبوعان" },
+        { number: "05", title: "Demo Day", desc: "عرض المشاريع وتقييم نهائي", duration: "يوم" },
       ],
     },
     success: {
       title: "قصص نجاح",
-      subtitle: "خبراء من موثيق يشاركون قصصهم",
+      subtitle: "خبراء من موثق يشاركون قصصهم",
       stories: [
-        {
-          quote:
-            "موثق ساعدني على كسر حاجز الخوف من الإنتاج. الآن أعمل بثقة في شركة كبرى.",
-          name: "أحمد محمد",
-          position: "Full Stack Developer",
-          company: "شركة تقنية كبرى",
-        },
-        {
-          quote:
-            "البيئة المحاكاة أعطتني الخبرة العملية التي تفتقدها الجامعات. بنيت معرض أعمال حقيقي.",
-          name: "فاطمة علي",
-          position: "Frontend Developer",
-          company: "شركة ناشئة",
-        },
-        {
-          quote:
-            "تعلمت كيفية العمل ضمن فرق Agile وGit Workflow احترافي. هذا كان المفتاح لوظيفتي الحالية.",
-          name: "محمد خالد",
-          position: "Backend Developer",
-          company: "شركة استشارية",
-        },
-        {
-          quote:
-            "أجمل ما في موثق هو الـ Code Review؛ تعلمت كتابة كود نظيف وقابل للصيانة.",
-          name: "سارة حسن",
-          position: "Mobile Developer",
-          company: "Solutions Hub",
-        },
-        {
-          quote:
-            "انتقلت من مرحلة التخبط في التعلم إلى مرحلة الاحتراف بفضل المسار الواضح والمهام المحددة.",
-          name: "عمر يحيى",
-          position: "UI/UX Designer",
-          company: "Creative Agency",
-        },
-        {
-          quote:
-            "أدركت أخيراً معنى الـ Deadline وكيفية إدارة وقتي البرمجي بفعالية عالية.",
-          name: "ليلى محمود",
-          position: "Web Developer",
-          company: "Digital Flow",
-        },
-        {
-          quote:
-            "التجربة فاقت توقعاتي، العمل على مشاريع حقيقية جعلني أستعد لسوق العمل في وقت قياسي.",
-          name: "ياسين عبدالله",
-          position: "DevOps Engineer",
-          company: "Cloud Systems",
-        },
+        { quote: "موثق ساعدني على كسر حاجز الخوف من الإنتاج. الآن أعمل بثقة في شركة كبرى.", name: "أحمد محمد", country: "الأردن", date: "مارس 2026", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?fit=crop&w=300&h=300", position: "Full Stack Developer" },
+        { quote: "البيئة المحاكاة أعطتني الخبرة العملية التي تفتقدها الجامعات. بنيت معرض أعمال حقيقي.", name: "محمد محمود", country: "السعودية", date: "فبراير 2026", image: "https://images.unsplash.com/photo-1557862921-37829c790f19?fit=crop&w=300&h=300", position: "Frontend Developer" },
+        { quote: "تعلمت كيفية العمل ضمن فرق Agile وGit Workflow احترافي. هذا كان المفتاح لوظيفتي الحالية.", name: "محمد خالد", country: "الإمارات", date: "يناير 2026", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?fit=crop&w=300&h=300", position: "Backend Developer" },
+        { quote: "أجمل ما في موثق هو الـ Code Review؛ تعلمت كتابة كود نظيف وقابل للصيانة.", name: "سارة حسن", country: "مصر", date: "مارس 2026", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?fit=crop&w=300&h=300", position: "Mobile Developer" },
+        { quote: "انتقلت من مرحلة التخبط في التعلم إلى مرحلة الاحتراف بفضل المسار الواضح والمهام المحددة.", name: "عمر يحيى", country: "فلسطين", date: "ديسمبر 2025", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?fit=crop&w=300&h=300", position: "UI/UX Designer" },
       ],
     },
     partners: {
@@ -324,8 +183,7 @@ const content = {
       success: "شكراً لتسجيلك! سنتواصل معك خلال 48 ساعة.",
     },
     footer: {
-      about:
-        "موثق هو جسر يعبر بك من التعلم إلى التوظيف. نحن نوفر بيئة عمل حقيقية لمحاكاة الخبرة المهنية.",
+      about: "موثق هو جسر يعبر بك من التعلم إلى التوظيف. نحن نوفر بيئة عمل حقيقية لمحاكاة الخبرة المهنية.",
       quickLinks: "روابط سريعة",
       contact: "تواصل معنا",
       rights: "جميع الحقوق محفوظة © 2026 موثق",
@@ -347,52 +205,12 @@ const content = {
     hero: {
       badge: "Registration Open for March 2026",
       carousel: [
-        {
-          title: "Start Your Professional Journey with Mawthiq",
-          subtitle:
-            "From learning to professionalism, we provide the real bridge to the job market",
-          cta: "Start Your Journey Now",
-          icon: <Rocket className="w-12 h-12" />,
-          bg: "from-deep-blue to-emerald",
-        },
-        {
-          title: "Be Part of Elite Developers",
-          subtitle:
-            "We select the best to ensure an excellent and motivating learning environment",
-          cta: "Apply for Selection",
-          icon: <Star className="w-12 h-12" />,
-          bg: "from-purple-600 to-pink-600",
-        },
-        {
-          title: "Work as if in a Real Company",
-          subtitle: "Agile teams, daily meetings, and a real project manager",
-          cta: "Explore Environment",
-          icon: <Users className="w-12 h-12" />,
-          bg: "from-blue-600 to-cyan-600",
-        },
-        {
-          title: "Build Projects for Your Portfolio",
-          subtitle:
-            "Real commercial projects with Code Reviews and realistic challenges",
-          cta: "View Projects",
-          icon: <Terminal className="w-12 h-12" />,
-          bg: "from-orange-600 to-red-600",
-        },
-        {
-          title: "Master the Complete Software Lifecycle",
-          subtitle: "From Planning to Deployment, learn every practical step",
-          cta: "Learn Curriculum",
-          icon: <Target className="w-12 h-12" />,
-          bg: "from-green-600 to-teal-600",
-        },
-        {
-          title: "Combine Experience with Certified Certificate",
-          subtitle:
-            "Agile methodology with certified certificate in modern software projects",
-          cta: "Get Your Certificate",
-          icon: <CheckCircle2 className="w-12 h-12" />,
-          bg: "from-indigo-600 to-purple-600",
-        },
+        { title: "Start Your Professional Journey with Mawthiq", subtitle: "From learning to professionalism, we provide the real bridge to the job market", cta: "Start Your Journey Now", icon: <Rocket className="w-12 h-12" />, bg: "from-deep-blue to-emerald" },
+        { title: "Be Part of Elite Developers", subtitle: "We select the best to ensure an excellent and motivating learning environment", cta: "Apply for Selection", icon: <Star className="w-12 h-12" />, bg: "from-purple-600 to-pink-600" },
+        { title: "Work as if in a Real Company", subtitle: "Agile teams, daily meetings, and a real project manager", cta: "Explore Environment", icon: <Users className="w-12 h-12" />, bg: "from-blue-600 to-cyan-600" },
+        { title: "Build Projects for Your Portfolio", subtitle: "Real commercial projects with Code Reviews and realistic challenges", cta: "View Projects", icon: <Terminal className="w-12 h-12" />, bg: "from-orange-600 to-red-600" },
+        { title: "Master the Complete Software Lifecycle", subtitle: "From Planning to Deployment, learn every practical step", cta: "Learn Curriculum", icon: <Target className="w-12 h-12" />, bg: "from-green-600 to-teal-600" },
+        { title: "Combine Experience with Certified Certificate", subtitle: "Agile methodology with certified certificate in modern software projects", cta: "Get Your Certificate", icon: <CheckCircle2 className="w-12 h-12" />, bg: "from-indigo-600 to-purple-600" },
       ],
       stats: "+150 experts launched their careers",
     },
@@ -400,14 +218,11 @@ const content = {
       title: "The Experience Gap is the Biggest Challenge",
       subtitle: "Why do graduates struggle to get jobs?",
       gap: "Experience Gap",
-      gapDesc:
-        "You have theoretical knowledge but lack practical experience in a real work environment.",
+      gapDesc: "You have theoretical knowledge but lack practical experience in a real work environment.",
       fear: "Production Fear",
-      fearDesc:
-        "You fear dealing with real projects or merging code into complex systems.",
+      fearDesc: "You fear dealing with real projects or merging code into complex systems.",
       methodology: "Methodology Gap",
-      methodologyDesc:
-        "You don't know how to work in Agile teams or use tools like Jira and Azure DevOps.",
+      methodologyDesc: "You don't know how to work in Agile teams or use tools like Jira and Azure DevOps.",
     },
     solution: {
       title: "Mawthiq Bridges the Experience Gap",
@@ -425,216 +240,66 @@ const content = {
       subtitle: "Learn technologies and tools used in major companies",
       technologies: [
         { name: "React", image: `${process.env.PUBLIC_URL}/assets/react.png` },
-        {
-          name: "Laravel",
-          image: `${process.env.PUBLIC_URL}/assets/Laravel.svg`,
-        },
+        { name: "Laravel", image: `${process.env.PUBLIC_URL}/assets/Laravel.svg` },
         { name: "PHP", image: `${process.env.PUBLIC_URL}/assets/php.png` },
-        {
-          name: "Node.js",
-          image: `${process.env.PUBLIC_URL}/assets/nodejs.webp`,
-        },
-        {
-          name: "Flutter",
-          image: `${process.env.PUBLIC_URL}/assets/Flutter.webp`,
-        },
-        {
-          name: "Angular",
-          image: `${process.env.PUBLIC_URL}/assets/angularjs.png`,
-        },
+        { name: "Node.js", image: `${process.env.PUBLIC_URL}/assets/nodejs.webp` },
+        { name: "Flutter", image: `${process.env.PUBLIC_URL}/assets/Flutter.webp` },
+        { name: "Angular", image: `${process.env.PUBLIC_URL}/assets/angularjs.png` },
         { name: "Vue.js", image: `${process.env.PUBLIC_URL}/assets/vue.webp` },
-        {
-          name: "Next.js",
-          image: `${process.env.PUBLIC_URL}/assets/nextjs.svg`,
-        },
-        {
-          name: "Express.js",
-          image: `${process.env.PUBLIC_URL}/assets/expressjs.png`,
-        },
+        { name: "Next.js", image: `${process.env.PUBLIC_URL}/assets/nextjs.svg` },
+        { name: "Express.js", image: `${process.env.PUBLIC_URL}/assets/expressjs.png` },
         { name: "MySQL", image: `${process.env.PUBLIC_URL}/assets/mysql.png` },
-        {
-          name: "MongoDB",
-          image: `${process.env.PUBLIC_URL}/assets/mongodb.png`,
-        },
-        {
-          name: "PostgreSQL",
-          image: `${process.env.PUBLIC_URL}/assets/postgresql.svg`,
-        },
-        {
-          name: "Tailwind CSS",
-          image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png`,
-        },
-        {
-          name: "Bootstrap",
-          image: `${process.env.PUBLIC_URL}/assets/bootstrap.png`,
-        },
+        { name: "MongoDB", image: `${process.env.PUBLIC_URL}/assets/mongodb.png` },
+        { name: "PostgreSQL", image: `${process.env.PUBLIC_URL}/assets/postgresql.svg` },
+        { name: "Tailwind CSS", image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png` },
+        { name: "Bootstrap", image: `${process.env.PUBLIC_URL}/assets/bootstrap.png` },
         { name: "HTML", image: `${process.env.PUBLIC_URL}/assets/html.png` },
         { name: "CSS", image: `${process.env.PUBLIC_URL}/assets/css.png` },
-        {
-          name: "JavaScript",
-          image: `${process.env.PUBLIC_URL}/assets/javascrit.png`,
-        },
+        { name: "JavaScript", image: `${process.env.PUBLIC_URL}/assets/javascript.png` },
         { name: "MUI", image: `${process.env.PUBLIC_URL}/assets/mui.png` },
-        {
-          name: "Font Awesome",
-          image: `${process.env.PUBLIC_URL}/assets/font_awesome.png`,
-        },
+        { name: "Font Awesome", image: `${process.env.PUBLIC_URL}/assets/font_awesome.png` },
       ],
       tools: [
-        {
-          name: "GitHub",
-          image: `${process.env.PUBLIC_URL}/assets/github.svg`,
-        },
+        { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/github.svg` },
         { name: "Jira", image: `${process.env.PUBLIC_URL}/assets/jira.png` },
-        {
-          name: "Azure DevOps",
-          image: `${process.env.PUBLIC_URL}/assets/azure.png`,
-        },
+        { name: "Azure DevOps", image: `${process.env.PUBLIC_URL}/assets/azure.png` },
         { name: "Agile", image: `${process.env.PUBLIC_URL}/assets/agile.svg` },
         { name: "Scrum", image: `${process.env.PUBLIC_URL}/assets/scrum.png` },
-        {
-          name: "Sprints",
-          image: `${process.env.PUBLIC_URL}/assets/sprints.png`,
-        },
-        {
-          name: "Code Review",
-          image: `${process.env.PUBLIC_URL}/assets/code-review.png`,
-        },
+        { name: "Sprints", image: `${process.env.PUBLIC_URL}/assets/sprints.png` },
+        { name: "Code Review", image: `${process.env.PUBLIC_URL}/assets/code-review.png` },
         { name: "CI/CD", image: `${process.env.PUBLIC_URL}/assets/ci-cd.webp` },
-        {
-          name: "Docker",
-          image: `${process.env.PUBLIC_URL}/assets/docker.png`,
-        },
-        {
-          name: "Postman",
-          image: `${process.env.PUBLIC_URL}/assets/postman.png`,
-        },
-        { name: "Figma", image: `${process.env.PUBLIC_URL}/assets/figma.png` },
-        { name: "Slack", image: `${process.env.PUBLIC_URL}/assets/slack.png` },
       ],
     },
     requirements: {
       title: "Eligibility Requirements",
       subtitle: "We are looking for serious developers",
       items: [
-        {
-          icon: <BookOpen className="w-6 h-6" />,
-          title: "Solid Basics",
-          desc: "Strong fundamentals in your chosen tech track",
-        },
-        {
-          icon: <Clock className="w-6 h-6" />,
-          title: "Daily Commitment",
-          desc: "Commitment to daily syncs and weekly sprints",
-        },
-        {
-          icon: <MessageSquare className="w-6 h-6" />,
-          title: "Open to Reviews",
-          desc: "Readiness for code reviews and constructive feedback",
-        },
-        {
-          icon: <Users className="w-6 h-6" />,
-          title: "Team Mindset",
-          desc: "Ability to work in a team and effective collaboration",
-        },
+        { icon: <BookOpen className="w-6 h-6" />, title: "Solid Basics", desc: "Strong fundamentals in your chosen tech track" },
+        { icon: <Clock className="w-6 h-6" />, title: "Daily Commitment", desc: "Commitment to daily syncs and weekly sprints" },
+        { icon: <MessageSquare className="w-6 h-6" />, title: "Open to Reviews", desc: "Readiness for code reviews and constructive feedback" },
+        { icon: <Users className="w-6 h-6" />, title: "Team Mindset", desc: "Ability to work in a team and effective collaboration" },
       ],
     },
     journey: {
       title: "Student Journey (5 Stages)",
       subtitle: "From Training to Professional",
       stages: [
-        {
-          number: "01",
-          title: "Onboarding",
-          desc: "Welcome, orientation, and work environment setup",
-          duration: "1 week",
-        },
-        {
-          number: "02",
-          title: "Learning Sprint",
-          desc: "Intensive learning with continuous assessments",
-          duration: "2 weeks",
-        },
-        {
-          number: "03",
-          title: "Project Simulation",
-          desc: "Working on realistic simulation projects",
-          duration: "2 weeks",
-        },
-        {
-          number: "04",
-          title: "Real Workflow",
-          desc: "Joining a real team and daily syncs",
-          duration: "2 weeks",
-        },
-        {
-          number: "05",
-          title: "Demo Day",
-          desc: "Project presentations and final evaluation",
-          duration: "1 day",
-        },
+        { number: "01", title: "Onboarding", desc: "Welcome, orientation, and work environment setup", duration: "1 week" },
+        { number: "02", title: "Learning Sprint", desc: "Intensive learning with continuous assessments", duration: "2 weeks" },
+        { number: "03", title: "Project Simulation", desc: "Working on realistic simulation projects", duration: "2 weeks" },
+        { number: "04", title: "Real Workflow", desc: "Joining a real team and daily syncs", duration: "2 weeks" },
+        { number: "05", title: "Demo Day", desc: "Project presentations and final evaluation", duration: "1 day" },
       ],
     },
     success: {
       title: "Success Stories",
-      subtitle: "Mawthiq experts share their stories",
+      subtitle: "Mawthiq experts share their professional journeys",
       stories: [
-        {
-          quote:
-            "Mawthiq helped me break the production fear barrier. Now, I work with confidence at a major tech company.",
-          name: "Ahmed Mohammed",
-          position: "Full Stack Developer",
-          company: "Major Tech Company",
-        },
-        {
-          quote:
-            "The simulated environment provided the practical experience that universities lack. I built a real-world portfolio.",
-          name: "Fatima Ali",
-          position: "Frontend Developer",
-          company: "Startup Co.",
-        },
-        {
-          quote:
-            "I learned how to work within Agile teams and professional Git Workflows. This was the key to my current job.",
-          name: "Mohammed Khalid",
-          position: "Backend Developer",
-          company: "Consulting Firm",
-        },
-        {
-          quote:
-            "I moved from a stage of learning confusion to professionalism thanks to the clear path and defined tasks.",
-          name: "Omar Yahya",
-          position: "UI/UX Designer",
-          company: "Creative Agency",
-        },
-        {
-          quote:
-            "The best part of Mawthiq is the Code Review; I learned how to write clean, maintainable code.",
-          name: "Sara Hassan",
-          position: "Mobile Developer",
-          company: "Solutions Hub",
-        },
-        {
-          quote:
-            "Technical support and continuous code reviews enabled me to write Clean Code that any developer would be proud of.",
-          name: "Saad Al-Fayez",
-          position: "Frontend Developer",
-          company: "Tech Solutions",
-        },
-        {
-          quote:
-            "I used to struggle with Deployment; at Mawthiq, I deployed my project myself and learned every single detail.",
-          name: "Maryam Al-Otaibi",
-          position: "Full Stack Developer",
-          company: "Digital Systems",
-        },
-        {
-          quote:
-            "This experience isn't just a course; it's a real-world bootcamp that puts you on the right track for career success.",
-          name: "Majed Sulaiman",
-          position: "Mobile App Developer",
-          company: "App Works",
-        },
+        { quote: "Mawthiq helped me break the fear of production. Now I work with confidence in a major company.", name: "Ahmed Mohammed", country: "Jordan", date: "March 2026", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?fit=crop&w=300&h=300", position: "Full Stack Developer" },
+        { quote: "The simulated environment gave me the practical experience that universities lack. I built a real portfolio.", name: "Mohammed Mahmoud", country: "Saudi Arabia", date: "February 2026", image: "https://images.unsplash.com/photo-1557862921-37829c790f19?fit=crop&w=300&h=300", position: "Frontend Developer" },
+        { quote: "I learned how to work within Agile teams and professional Git workflows. This was the key to my current job.", name: "Mohammed Khalid", country: "UAE", date: "January 2026", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?fit=crop&w=300&h=300", position: "Backend Developer" },
+        { quote: "The best part of Mawthiq is the Code Review; I learned how to write clean and maintainable code.", name: "Sara Hassan", country: "Egypt", date: "March 2026", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?fit=crop&w=300&h=300", position: "Mobile Developer" },
+        { quote: "I moved from a stage of confusion in learning to professionalism, thanks to the clear path and defined tasks.", name: "Omar Yahya", country: "Palestine", date: "December 2025", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?fit=crop&w=300&h=300", position: "UI/UX Designer" },
       ],
     },
     partners: {
@@ -652,12 +317,10 @@ const content = {
         message: "Additional Message (Optional)",
         submit: "Join Waitlist",
       },
-      success:
-        "Thank you for registering! We will contact you within 48 hours.",
+      success: "Thank you for registering! We will contact you within 48 hours.",
     },
     footer: {
-      about:
-        "Mawthiq is a bridge that takes you from learning to employment. We provide a real work environment to simulate professional experience.",
+      about: "Mawthiq is a bridge that takes you from learning to employment. We provide a real work environment to simulate professional experience.",
       quickLinks: "Quick Links",
       contact: "Contact Us",
       rights: "All Rights Reserved © 2026 Mawthiq",
