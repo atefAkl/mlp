@@ -4,11 +4,11 @@
 
 /* Custom CSS for RTL/LTR support */
 body {
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
 }
 
 body.ltr {
-  font-family: 'Almarai', sans-serif;
+  font-family: "Almarai", sans-serif;
 }
 
 /* Smooth scrolling */
@@ -18,7 +18,6 @@ html {
 
 /* Custom animations */
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0px);
@@ -30,7 +29,6 @@ html {
 }
 
 @keyframes pulse-slow {
-
   0%,
   100% {
     opacity: 1;
@@ -49,6 +47,192 @@ html {
   animation: pulse-slow 2s ease-in-out infinite;
 }
 
+/* Hero Gradient Animations */
+.hero-gradient-0 {
+  background: linear-gradient(to right, #1e3a8a, #10b981);
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+.hero-gradient-1 {
+  background: linear-gradient(to right, #9333ea, #ec4899);
+  animation: gradientShift 3s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+.hero-gradient-2 {
+  background: linear-gradient(to right, #2563eb, #06b6d4);
+  animation: gradientShift 3s ease-in-out infinite;
+  animation-delay: 6s;
+}
+
+.hero-gradient-3 {
+  background: linear-gradient(to right, #ea580c, #dc2626);
+  animation: gradientShift 3s ease-in-out infinite;
+  animation-delay: 9s;
+}
+
+.hero-gradient-4 {
+  background: linear-gradient(to right, #16a34a, #14b8a6);
+  animation: gradientShift 3s ease-in-out infinite;
+  animation-delay: 12s;
+}
+
+.hero-gradient-5 {
+  background: linear-gradient(to right, #4f46e5, #9333ea);
+  animation: gradientShift 3s ease-in-out infinite;
+  animation-delay: 15s;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.99;
+    transform: scale(1.01);
+  }
+}
+
+/* Hero Transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDelay {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  20% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  animation: fadeInDelay 1.2s ease-out forwards;
+}
+
+/* Reset animation on slide change */
+.hero-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s ease-out;
+}
+.hero-carousel {
+  direction: ltr;
+  margin-bottom: 2rem;
+}
+
+.hero-carousel .slick-list {
+  overflow: hidden;
+  border-radius: 1.5rem;
+  min-height: 500px;
+}
+
+.hero-carousel .slick-track {
+  display: flex !important;
+}
+
+.hero-carousel .slick-slide {
+  height: inherit !important;
+  min-height: 500px !important;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hero-carousel .slick-active {
+  opacity: 1;
+}
+
+.hero-carousel .slick-current {
+  opacity: 1;
+}
+
+.hero-carousel .slick-dots {
+  bottom: 20px;
+  z-index: 20;
+}
+
+.hero-carousel .slick-dots li button:before {
+  color: white;
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.hero-carousel .slick-dots li.slick-active button:before {
+  color: white;
+  opacity: 1;
+}
+
+.hero-slide {
+  min-height: 500px !important;
+  display: flex !important;
+  align-items: center;
+  height: auto !important;
+}
+
+.hero-slide .bg-gradient-to-r {
+  transition: all 0.5s ease;
+}
+
+/* RTL Support for Carousel */
+[dir="rtl"] .hero-carousel {
+  direction: ltr;
+}
+
+[dir="rtl"] .hero-carousel .slick-prev {
+  left: auto;
+  right: 25px;
+}
+
+[dir="rtl"] .hero-carousel .slick-next {
+  right: auto;
+  left: 25px;
+}
+
+/* Custom slick arrows */
+.hero-carousel .slick-prev,
+.hero-carousel .slick-next {
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+}
+
+.hero-carousel .slick-prev:before,
+.hero-carousel .slick-next:before {
+  color: white;
+  font-size: 24px;
+  opacity: 0.8;
+}
+
+.hero-carousel .slick-prev:hover:before,
+.hero-carousel .slick-next:hover:before {
+  opacity: 1;
+}
+
 /* RTL specific styles */
 [dir="rtl"] .text-left {
   text-align: right;
@@ -60,11 +244,11 @@ html {
 
 /* Gradient backgrounds */
 .gradient-bg {
-  background: linear-gradient(135deg, #1E3A8A 0%, #10B981 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #10b981 100%);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #1E3A8A 0%, #10B981 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #10b981 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -95,13 +279,18 @@ html {
 }
 
 .btn-primary::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -111,18 +300,18 @@ html {
 
 /* Timeline styles */
 .timeline-line {
-  background: linear-gradient(180deg, #1E3A8A 0%, #10B981 100%);
+  background: linear-gradient(180deg, #1e3a8a 0%, #10b981 100%);
 }
 
 /* Success cards */
 .success-card {
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border-left: 4px solid #10B981;
+  border-left: 4px solid #10b981;
 }
 
 [dir="rtl"] .success-card {
   border-left: none;
-  border-right: 4px solid #10B981;
+  border-right: 4px solid #10b981;
 }
 
 /* Tech stack logos */
