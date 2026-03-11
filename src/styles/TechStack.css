@@ -1,0 +1,228 @@
+/* Swapir style*/
+.tech-section-wrapper {
+  position: relative;
+  @apply py-12;
+}
+
+.tech-item-card {
+  @apply flex flex-col items-center gap-6 transition-all duration-500;
+}
+
+
+.tech-geometric-box {
+  position: relative;
+  @apply w-20 h-20 transition-all duration-500;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.main-face {
+  @apply w-full h-full flex items-center justify-center bg-white transition-all duration-500;
+  box-shadow: inset 0 0 15px rgba(0, 70, 175, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+
+.tech-icon-svg {
+  @apply w-10 h-10 object-contain grayscale opacity-60 transition-all duration-500;
+}
+
+.tech-item-card:hover .tech-geometric-box {
+  @apply -translate-y-3;
+  transform: rotateY(10deg) rotateX(10deg); 
+}
+
+.tech-item-card:hover .main-face {
+  @apply grayscale-0 opacity-100;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  border-color: #10b981;
+}
+
+.tech-item-card:hover .tech-icon-svg {
+  @apply grayscale-0 opacity-100 scale-110;
+}
+
+
+.tech-box-shadow {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  @apply rounded-full blur-md opacity-0 transition-all duration-500;
+}
+
+.tech-item-card:hover .tech-box-shadow {
+  @apply opacity-100 w-32;
+}
+
+.tech-text-label {
+  @apply text-sm font-bold tracking-widest text-gray-500 uppercase transition-all duration-300;
+}
+
+.tech-item-card:hover .tech-text-label {
+  @apply text-deep-blue;
+}
+
+
+/* Tech Carousel Container */
+.tech-carousel {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 1rem;
+  position: relative;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+.tech-carousel::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}
+
+.tech-carousel-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  will-change: transform;
+}
+
+/* Pulse (alternate) animation for seamless left-right motion.
+   Uses a CSS variable --scroll-distance (negative px) set by JS to avoid gaps. */
+.tech-carousel-track.tech-pulse {
+  animation-name: tech-pulse;
+  animation-duration: var(--duration, 18s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes tech-pulse {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--scroll-distance));
+  }
+}
+
+/* Tech Icon Styles */
+.tech-icon {
+  flex-shrink: 0;
+  filter: grayscale(100%);
+  width: 160px;
+  height: 160px;
+  margin: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tech-icon:hover {
+  filter: grayscale(0%);
+  transform: scale(1.1);
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tech-icon img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tech-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 6px;
+  }
+
+  .tech-icon img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 4px;
+  }
+
+  .tech-icon img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Fade effect for carousel edges */
+.tech-carousel::before,
+.tech-carousel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.tech-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, white, transparent);
+}
+
+.tech-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, white, transparent);
+}
+
+.success-card-marquee-white {
+  @apply relative h-full p-10 rounded-[2rem] flex flex-col overflow-hidden transition-all duration-500 border-none;
+  
+  background: #ffffff !important; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+
+.success-card-marquee-white .quote-text {
+  @apply text-[#1a2b4b] font-bold text-lg leading-relaxed; 
+}
+
+.success-card-marquee-white .user-name {
+  @apply text-[#003180] font-extrabold text-base;
+}
+
+.success-card-marquee-white .user-position {
+  @apply text-[#10B981] font-bold text-xs uppercase;
+}
+
+
+.stars-container {
+  @apply flex gap-1 mb-4 text-yellow-400 text-sm;
+}
+
+.success-card-marquee-white:hover {
+  @apply -translate-y-3;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+.partners-swiper .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+.partners-swiper {
+  padding: 20px 0;
+}
