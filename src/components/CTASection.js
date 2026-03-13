@@ -8,8 +8,8 @@ const CTASection = ({ t, lang, isFormSubmitted, setIsFormSubmitted }) => {
   };
 
   return (
-    <section
-      id="cta"
+    <section 
+      id="contact"
       className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-deep-blue to-emerald text-white"
     >
       <div className="max-w-4xl mx-auto">

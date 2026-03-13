@@ -17,7 +17,7 @@ const HeroSection = ({
   }, [t.hero.carousel.length, setCurrentSlide]);
 
   return (
-    <section className="min-h-[500px] h-[67vh] w-full overflow-hidden relative">
+    <section id="home" className="min-h-[500px] h-[67vh] w-full overflow-hidden relative">
       <div
         className={`min-h-[500px] h-[67vh] w-full flex items-center text-white relative overflow-hidden hero-gradient-${currentSlide}`}
       >

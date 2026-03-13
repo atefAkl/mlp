@@ -11,6 +11,36 @@ import {
   Rocket,
 } from "lucide-react";
 
+import reactImg from "../assets/react.png";
+import laravelImg from "../assets/Laravel.svg";
+import phpImg from "../assets/php.png";
+import nodejsImg from "../assets/nodejs.webp";
+import flutterImg from "../assets/Flutter.webp";
+import angularImg from "../assets/angularjs.png";
+import vueImg from "../assets/vue.webp";
+import nextjsImg from "../assets/nextjs.svg";
+import expressImg from "../assets/expressjs.png";
+import mysqlImg from "../assets/mysql.png";
+import mongodbImg from "../assets/mongodb.png";
+import postgresqlImg from "../assets/postgresql.svg";
+import tailwindImg from "../assets/tailwind-css.png";
+import bootstrapImg from "../assets/bootstrap.png";
+import htmlImg from "../assets/html.png";
+import cssImg from "../assets/css.png";
+import jsImg from "../assets/javascrit.png";
+import muiImg from "../assets/mui.png";
+import fontAwesomeImg from "../assets/font_awesome.png";
+
+
+import githubImg from "../assets/github.svg";
+import jiraImg from "../assets/jira.png";
+import azureImg from "../assets/azure.png";
+import agileImg from "../assets/agile.svg";
+import scrumImg from "../assets/scrum.png";
+import sprintsImg from "../assets/sprints.png";
+import codeReviewImg from "../assets/code-review.png";
+import cicdImg from "../assets/ci-cd.webp";
+
 const content = {
   ar: {
     dir: "rtl",
@@ -97,42 +127,39 @@ const content = {
     techStack: {
       title: "التقنيات والأدوات",
       subtitle: "تعلم التقنيات والأدوات المستخدمة في الشركات الكبرى",
-      technologies: [
-        { name: "React", image: `${process.env.PUBLIC_URL}/assets/react.png` },
-        { name: "Laravel", image: `${process.env.PUBLIC_URL}/assets/Laravel.svg` },
-        { name: "PHP", image: `${process.env.PUBLIC_URL}/assets/php.png` },
-        { name: "Node.js", image: `${process.env.PUBLIC_URL}/assets/nodejs.webp` },
-        { name: "Flutter", image: `${process.env.PUBLIC_URL}/assets/Flutter.webp` },
-        { name: "Angular", image: `${process.env.PUBLIC_URL}/assets/angularjs.png` },
-        { name: "Vue.js", image: `${process.env.PUBLIC_URL}/assets/vue.webp` },
-        { name: "Next.js", image: `${process.env.PUBLIC_URL}/assets/nextjs.svg` },
-        { name: "Express.js", image: `${process.env.PUBLIC_URL}/assets/expressjs.png` },
-        { name: "MySQL", image: `${process.env.PUBLIC_URL}/assets/mysql.png` },
-        { name: "MongoDB", image: `${process.env.PUBLIC_URL}/assets/mongodb.png` },
-        { name: "PostgreSQL", image: `${process.env.PUBLIC_URL}/assets/postgresql.svg` },
-        { name: "Tailwind CSS", image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png` },
-        { name: "Bootstrap", image: `${process.env.PUBLIC_URL}/assets/bootstrap.png` },
-        { name: "HTML", image: `${process.env.PUBLIC_URL}/assets/html.png` },
-        { name: "CSS", image: `${process.env.PUBLIC_URL}/assets/css.png` },
-        { name: "JavaScript", image: `${process.env.PUBLIC_URL}/assets/javascrit.png` },
-        { name: "MUI", image: `${process.env.PUBLIC_URL}/assets/mui.png` },
-        { name: "Font Awesome", image: `${process.env.PUBLIC_URL}/assets/font_awesome.png` },
-      ],
-      tools: [
-        { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/github.svg` },
-        { name: "Jira", image: `${process.env.PUBLIC_URL}/assets/jira.png` },
-        { name: "Azure DevOps", image: `${process.env.PUBLIC_URL}/assets/azure.png` },
-        { name: "Agile", image: `${process.env.PUBLIC_URL}/assets/agile.svg` },
-        { name: "Scrum", image: `${process.env.PUBLIC_URL}/assets/scrum.png` },
-        { name: "Sprints", image: `${process.env.PUBLIC_URL}/assets/sprints.png` },
-        { name: "Code Review", image: `${process.env.PUBLIC_URL}/assets/code-review.png` },
-        { name: "CI/CD", image: `${process.env.PUBLIC_URL}/assets/ci-cd.webp` },
-        { name: "Docker", image: `${process.env.PUBLIC_URL}/assets/docker.png` },
-        { name: "Postman", image: `${process.env.PUBLIC_URL}/assets/postman.png` },
-        { name: "Figma", image: `${process.env.PUBLIC_URL}/assets/figma.png` },
-        { name: "Slack", image: `${process.env.PUBLIC_URL}/assets/slack.png` },
-      ],
-    },
+      
+  technologies: [
+    { name: "React", image: reactImg },
+    { name: "Laravel", image: laravelImg },
+    { name: "PHP", image: phpImg },
+    { name: "Node.js", image: nodejsImg },
+    { name: "Flutter", image: flutterImg },
+    { name: "Angular", image: angularImg },
+    { name: "Vue.js", image: vueImg },
+    { name: "Next.js", image: nextjsImg },
+    { name: "Express.js", image: expressImg },
+    { name: "MySQL", image: mysqlImg },
+    { name: "MongoDB", image: mongodbImg },
+    { name: "PostgreSQL", image: postgresqlImg },
+    { name: "Tailwind CSS", image: tailwindImg },
+    { name: "Bootstrap", image: bootstrapImg },
+    { name: "HTML", image: htmlImg },
+    { name: "CSS", image: cssImg },
+    { name: "JavaScript", image: jsImg },
+    { name: "MUI", image: muiImg },
+    { name: "Font Awesome", image: fontAwesomeImg },
+  ],
+  tools: [
+    { name: "GitHub", image: githubImg },
+    { name: "Jira", image: jiraImg },
+    { name: "Azure DevOps", image: azureImg },
+    { name: "Agile", image: agileImg },
+    { name: "Scrum", image: scrumImg },
+    { name: "Sprints", image: sprintsImg },
+    { name: "Code Review", image: codeReviewImg },
+    { name: "CI/CD", image: cicdImg },
+  ],
+},
     requirements: {
       title: "شروط الالتحاق",
       subtitle: "نبحث عن المطورين الجادين",
@@ -182,12 +209,16 @@ const content = {
       },
       success: "شكراً لتسجيلك! سنتواصل معك خلال 48 ساعة.",
     },
-    footer: {
-      about: "موثق هو جسر يعبر بك من التعلم إلى التوظيف. نحن نوفر بيئة عمل حقيقية لمحاكاة الخبرة المهنية.",
-      quickLinks: "روابط سريعة",
-      contact: "تواصل معنا",
-      rights: "جميع الحقوق محفوظة © 2026 موثق",
-    },
+   footer: {
+  emailPlaceholder: "أدخل بريدك الإلكتروني",
+  about: "موثق هو الجسر الذي ينقلك من التعلم إلى التوظيف. نحن نوفر بيئة عمل حقيقية لمحاكاة الخبرة المهنية.",
+  quickLinks: "روابط سريعة",
+  contact: "اتصل بنا",
+  rights: "جميع الحقوق محفوظة © 2026 موثق",
+  newsletterTitle: "النشرة الإخبارية",
+  newsletterSubtitle: "اشترك للحصول على آخر التحديثات والمقالات التقنية.",
+  location: "الرياض، المملكة العربية السعودية",
+},
   },
   en: {
     dir: "ltr",
@@ -238,38 +269,39 @@ const content = {
     techStack: {
       title: "Technologies & Tools",
       subtitle: "Learn technologies and tools used in major companies",
-      technologies: [
-        { name: "React", image: `${process.env.PUBLIC_URL}/assets/react.png` },
-        { name: "Laravel", image: `${process.env.PUBLIC_URL}/assets/Laravel.svg` },
-        { name: "PHP", image: `${process.env.PUBLIC_URL}/assets/php.png` },
-        { name: "Node.js", image: `${process.env.PUBLIC_URL}/assets/nodejs.webp` },
-        { name: "Flutter", image: `${process.env.PUBLIC_URL}/assets/Flutter.webp` },
-        { name: "Angular", image: `${process.env.PUBLIC_URL}/assets/angularjs.png` },
-        { name: "Vue.js", image: `${process.env.PUBLIC_URL}/assets/vue.webp` },
-        { name: "Next.js", image: `${process.env.PUBLIC_URL}/assets/nextjs.svg` },
-        { name: "Express.js", image: `${process.env.PUBLIC_URL}/assets/expressjs.png` },
-        { name: "MySQL", image: `${process.env.PUBLIC_URL}/assets/mysql.png` },
-        { name: "MongoDB", image: `${process.env.PUBLIC_URL}/assets/mongodb.png` },
-        { name: "PostgreSQL", image: `${process.env.PUBLIC_URL}/assets/postgresql.svg` },
-        { name: "Tailwind CSS", image: `${process.env.PUBLIC_URL}/assets/tailwind-css.png` },
-        { name: "Bootstrap", image: `${process.env.PUBLIC_URL}/assets/bootstrap.png` },
-        { name: "HTML", image: `${process.env.PUBLIC_URL}/assets/html.png` },
-        { name: "CSS", image: `${process.env.PUBLIC_URL}/assets/css.png` },
-        { name: "JavaScript", image: `${process.env.PUBLIC_URL}/assets/javascript.png` },
-        { name: "MUI", image: `${process.env.PUBLIC_URL}/assets/mui.png` },
-        { name: "Font Awesome", image: `${process.env.PUBLIC_URL}/assets/font_awesome.png` },
-      ],
-      tools: [
-        { name: "GitHub", image: `${process.env.PUBLIC_URL}/assets/github.svg` },
-        { name: "Jira", image: `${process.env.PUBLIC_URL}/assets/jira.png` },
-        { name: "Azure DevOps", image: `${process.env.PUBLIC_URL}/assets/azure.png` },
-        { name: "Agile", image: `${process.env.PUBLIC_URL}/assets/agile.svg` },
-        { name: "Scrum", image: `${process.env.PUBLIC_URL}/assets/scrum.png` },
-        { name: "Sprints", image: `${process.env.PUBLIC_URL}/assets/sprints.png` },
-        { name: "Code Review", image: `${process.env.PUBLIC_URL}/assets/code-review.png` },
-        { name: "CI/CD", image: `${process.env.PUBLIC_URL}/assets/ci-cd.webp` },
-      ],
-    },
+     
+  technologies: [
+    { name: "React", image: require("../assets/react.png") },
+    { name: "Laravel", image: require("../assets/Laravel.svg") },
+    { name: "PHP", image: require("../assets/php.png") },
+    { name: "Node.js", image: require("../assets/nodejs.webp") },
+    { name: "Flutter", image: require("../assets/Flutter.webp") },
+    { name: "Angular", image: require("../assets/angularjs.png") },
+    { name: "Vue.js", image: require("../assets/vue.webp") },
+    { name: "Next.js", image: require("../assets/nextjs.svg") },
+    { name: "Express.js", image: require("../assets/expressjs.png") },
+    { name: "MySQL", image: require("../assets/mysql.png") },
+    { name: "MongoDB", image: require("../assets/mongodb.png") },
+    { name: "PostgreSQL", image: require("../assets/postgresql.svg") },
+    { name: "Tailwind CSS", image: require("../assets/tailwind-css.png") },
+    { name: "Bootstrap", image: require("../assets/bootstrap.png") },
+    { name: "HTML", image: require("../assets/html.png") },
+    { name: "CSS", image: require("../assets/css.png") },
+    { name: "JavaScript", image: require("../assets/javascrit.png") },
+    { name: "MUI", image: require("../assets/mui.png") },
+    { name: "Font Awesome", image: require("../assets/font_awesome.png") },
+  ],
+  tools: [
+    { name: "GitHub", image: require("../assets/github.svg") },
+    { name: "Jira", image: require("../assets/jira.png") },
+    { name: "Azure DevOps", image: require("../assets/azure.png") },
+    { name: "Agile", image: require("../assets/agile.svg") },
+    { name: "Scrum", image: require("../assets/scrum.png") },
+    { name: "Sprints", image: require("../assets/sprints.png") },
+    { name: "Code Review", image: require("../assets/code-review.png") },
+    { name: "CI/CD", image: require("../assets/ci-cd.webp") },
+  ],
+},
     requirements: {
       title: "Eligibility Requirements",
       subtitle: "We are looking for serious developers",
@@ -320,10 +352,14 @@ const content = {
       success: "Thank you for registering! We will contact you within 48 hours.",
     },
     footer: {
+      emailPlaceholder: "Enter your email",
       about: "Mawthiq is a bridge that takes you from learning to employment. We provide a real work environment to simulate professional experience.",
       quickLinks: "Quick Links",
       contact: "Contact Us",
       rights: "All Rights Reserved © 2026 Mawthiq",
+       newsletterTitle: "Newsletter",
+      newsletterSubtitle: "Subscribe to get the latest updates and technical articles.",
+      location: "Riyadh, Saudi Arabia",
     },
   },
 };
