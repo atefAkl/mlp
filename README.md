@@ -17,27 +17,32 @@
 ### ⚡ الأداء والتفاعل
 - React 18 مع Hooks
 - Tailwind CSS للتصميم
-- Framer Motion للأنيميشن
 - AOS للتحريك مع السكرول
 - متجاوب بالكامل (Mobile-first)
+- A/B Testing مدمج عبر `analytics.js`
+- تتبع أحداث المستخدم (gtag) مع `trackEvent`
 
 ### 📱 الأقسام
-1. **Hero Section** - عنوان رئيسي جذاب مع CTA
-2. **Problem & Solution** - عرض فجوة الخبرة والحل
-3. **Tech Stack & Ecosystem** - عرض التقنيات والأدوات
-4. **Eligibility Requirements** - شروط الالتحاق
-5. **Student Journey** - رحلة الطالب في 5 مراحل
-6. **Success Stories** - قصص نجاح الخريجين
-7. **Success Partners** - شركاء النجاح
-8. **Final CTA** - نموذج تسجيل للقائمة الانتظارية
+1. **Navbar** - شريط تنقل ثنائي اللغة مع قائمة موبايل
+2. **Hero Section** - كاروسيل متعدد الشرائح مع CTA
+3. **Problem Section** - عرض فجوة الخبرة (A/B test: `hero_headline_test`)
+4. **Solution Section** - عرض الحل مع بطاقات المميزات والإحصاءات
+5. **Tech Stack** - عرض التقنيات والأدوات
+6. **Requirements Section** - شروط الالتحاق
+7. **Journey Section** - رحلة المتدرب في 6 مراحل (timeline عمودي)
+8. **Success Section** - قصص نجاح الخريجين
+9. **Partners Section** - شركاء النجاح
+10. **Contact Section** - نموذج تسجيل للقائمة الانتظارية
+11. **Course Details** - صفحة تفاصيل البرنامج (view منفصل)
+12. **Footer** - تذييل الصفحة
 
 ## التقنيات المستخدمة
 
 - **React 18** - واجهة المستخدم
 - **Tailwind CSS** - تصميم وتنسيق
-- **Framer Motion** - أنيميشن وانتقالات
 - **AOS (Animate On Scroll)** - تحريك العناصر مع السكرول
 - **Lucide React** - أيقونات حديثة
+- **react-slick** - كاروسيل Hero Section
 
 ## التثبيت والتشغيل
 
@@ -60,9 +65,29 @@ npm run build
 
 ```
 src/
-├── App.js              # المكون الرئيسي
-├── index.js            # نقطة الدخول
-└── index.css           # التنسيقات العامة
+├── App.js                    # المكون الرئيسي — يدير view (landing | course) ولغة العرض
+├── index.js                  # نقطة الدخول
+├── index.css                 # التنسيقات العامة + Tailwind directives
+├── components/
+│   ├── Navbar.js             # شريط التنقل
+│   ├── HeroSection.js        # كاروسيل Hero
+│   ├── ProblemSection.js     # قسم المشكلة (A/B)
+│   ├── SolutionSection.js    # قسم الحل
+│   ├── TechStackSection.js   # التقنيات
+│   ├── RequirementsSection.js# شروط الالتحاق
+│   ├── JourneySection.js     # رحلة المتدرب (vertical timeline، 6 مراحل)
+│   ├── SuccessSection.js     # قصص النجاح
+│   ├── PartnersSection.js    # الشركاء
+│   ├── ContactSection.js     # نموذج التواصل
+│   ├── CourseDetails.js      # صفحة تفاصيل البرنامج
+│   ├── CTASection.js         # CTA مستقل
+│   └── Footer.js             # التذييل
+├── data/
+│   └── content.js            # جميع المحتوى بالعربية والإنجليزية
+├── utils/
+│   └── analytics.js          # trackEvent + getVariant (A/B) + getStoredVariants
+└── styles/
+    └── TechStack.css         # ستايلات خاصة بقسم التقنيات
 ```
 
 ## التخصيص
@@ -87,8 +112,14 @@ theme: {
 - Cairo للغة العربية
 - Almarai للغة الإنجليزية
 
-### الأنيميشن
-يمكن تخصيص الأنيميشن من `src/index.css` أو باستخدام Framer Motion.
+### المحتوى
+جميع النصوص والمحتوى مركزي في `src/data/content.js` — يدعم `ar` و `en` وسهل التوسعة.
+
+### A/B Testing
+يستخدم المشروع `src/utils/analytics.js` لتجربة متغيرات المحتوى:
+- `getVariant(key, variants)` — يختار variant ويخزنه في localStorage
+- `trackEvent(name, payload)` — يُطلق حدث gtag + console.debug
+- `getStoredVariants()` — يُرجع جميع المتغيرات المخزنة
 
 ## التوافق
 
