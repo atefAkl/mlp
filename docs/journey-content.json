@@ -1,0 +1,146 @@
+{
+  "section": {
+    "trainee_journey_title": {
+      "ar": "رحلة المتدرب — من التدريب إلى التوظيف خلال 6 أسابيع",
+      "en": "Trainee Journey — From Training to Employment in 6 Weeks"
+    },
+    "trainee_journey_subtitle": {
+      "ar": "خريطة عملية ومباشرة مع مهام يومية، أدوات حقيقية، ومخرجات قابلة للعرض أمام أصحاب العمل.",
+      "en": "A practical roadmap with daily tasks, real tools, and presentable deliverables for employers."
+    }
+  },
+  "stages": [
+    {
+      "keyEN": "onboarding",
+      "week_key": "week_1",
+      "title": {
+        "ar": "استقبال وإعداد",
+        "en": "Onboarding"
+      },
+      "desc_key": "onboarding_desc",
+      "desc": {
+        "ar": "تهيئة بيئة العمل، إعداد الحسابات، وتعريف الفريق.",
+        "en": "Work environment setup, account configuration, and team introduction."
+      },
+      "longDesc": {
+        "ar": "أسبوع تمهيدي يهدف إلى تجهيز المتدرب للعمل الفعلي: إعداد حسابات المشروع، تهيئة بيئة التطوير، تعريف الأدوات (Git, Jira, Azure DevOps)، ومنح صلاحيات الوصول. يتضمن جلسات تعريفية مع المرشد وقائد الفريق وقائمة مهام أولية لضمان انطلاقة سلسة.",
+        "en": "An introductory week to prepare the trainee for real work: setting up project accounts, configuring the development environment, introducing tools (Git, Jira, Azure DevOps), and granting access permissions. Includes orientation sessions with the mentor and team lead plus an initial task list for a smooth start."
+      },
+      "duration": {
+        "ar": "أسبوع 1",
+        "en": "Week 1"
+      },
+      "highlight": false
+    },
+    {
+      "keyEN": "learning_sprint",
+      "week_key": "week_2",
+      "title": {
+        "ar": "Sprint تعلّمي مكثّف",
+        "en": "Learning Sprint"
+      },
+      "desc_key": "learning_sprint_desc",
+      "desc": {
+        "ar": "مهام قصيرة مع تقييمات يومية ومراجعات كود.",
+        "en": "Short tasks with daily evaluations and code reviews."
+      },
+      "longDesc": {
+        "ar": "سلسلة مهام قصيرة ومركّزة مع تسليمات يومية: تمارين عملية، تحديات برمجية، ومراجعات كود فورية. الهدف رفع مستوى الثقة في كتابة الكود والعمل وفق معايير الفريق.",
+        "en": "A series of short, focused tasks with daily deliverables: hands-on exercises, coding challenges, and immediate code reviews. The goal is to build confidence in writing code and working to team standards."
+      },
+      "duration": {
+        "ar": "أسبوع 2",
+        "en": "Week 2"
+      },
+      "highlight": false
+    },
+    {
+      "keyEN": "project_kickoff",
+      "week_key": "week_3",
+      "title": {
+        "ar": "انطلاق المشروع (Project Kickoff)",
+        "en": "Project Kickoff"
+      },
+      "desc_key": "project_kickoff_desc",
+      "desc": {
+        "ar": "تشكيل فرق، تقسيم مهام، وبدء العمل على مشروع محاكاة.",
+        "en": "Team formation, task breakdown, and kickoff on a simulation project."
+      },
+      "longDesc": {
+        "ar": "تشكيل فرق صغيرة، تقسيم المهام إلى قصص مستخدم، وضع Definition of Done، وبدء تنفيذ أولى المهام تحت إشراف مهندس مرشد مع مراجعات دورية.",
+        "en": "Forming small teams, breaking tasks into user stories, defining the Definition of Done, and beginning execution of first tasks under a mentor engineer with periodic reviews."
+      },
+      "duration": {
+        "ar": "أسبوع 3",
+        "en": "Week 3"
+      },
+      "highlight": false
+    },
+    {
+      "keyEN": "real_workflow",
+      "week_key": "week_4",
+      "title": {
+        "ar": "سير عمل حقيقي (Real Workflow)",
+        "en": "Real Workflow"
+      },
+      "desc_key": "real_workflow_desc",
+      "desc": {
+        "ar": "مهام يومية ضمن فريق Agile، اجتماعات Scrum، ومراجعات كود.",
+        "en": "Daily tasks in an Agile team, Scrum meetings, and code reviews."
+      },
+      "longDesc": {
+        "ar": "العمل اليومي ضمن فريق Agile: اجتماعات Scrum، إدارة المهام في Jira/Azure DevOps، مراجعات كود رسمية، ودمج تغييرات عبر feature branches. هذه المرحلة تحاكي وتيرة العمل الحقيقية وتجهّز المتدرب لتحمّل مسؤوليات وظيفية.",
+        "en": "Daily work in an Agile team: Scrum meetings, task management in Jira/Azure DevOps, formal code reviews, and merging changes via feature branches. This phase mirrors the pace of real work and prepares the trainee for job responsibilities."
+      },
+      "duration": {
+        "ar": "أسبوع 4",
+        "en": "Week 4"
+      },
+      "highlight": true
+    },
+    {
+      "keyEN": "ci_cd",
+      "week_key": "week_5",
+      "title": {
+        "ar": "تكامل ونشر (CI/CD & Finalization)",
+        "en": "CI/CD & Finalization"
+      },
+      "desc_key": "ci_cd_desc",
+      "desc": {
+        "ar": "إعداد pipeline، اختبارات، ونشر تجريبي.",
+        "en": "Pipeline setup, testing, and trial deployment."
+      },
+      "longDesc": {
+        "ar": "إعداد خطوط التكامل والتسليم: كتابة اختبارات تلقائية، إعداد pipeline، تنفيذ نشر تجريبي إلى بيئة staging، ومراقبة الأداء. المتدرب يتعلم ضمان جودة الكود واستقرار النشر.",
+        "en": "Setting up integration and delivery pipelines: writing automated tests, configuring the pipeline, executing a trial deployment to a staging environment, and monitoring performance. Trainees learn to ensure code quality and deployment stability."
+      },
+      "duration": {
+        "ar": "أسبوع 5",
+        "en": "Week 5"
+      },
+      "highlight": false
+    },
+    {
+      "keyEN": "demo_day",
+      "week_key": "week_6",
+      "title": {
+        "ar": "يوم العرض والتحضير للتوظيف (Demo Day)",
+        "en": "Demo Day & Hiring Prep"
+      },
+      "desc_key": "demo_day_desc",
+      "desc": {
+        "ar": "عرض المشروع، تقييم نهائي، وإعداد محفظة أعمال قابلة للعرض.",
+        "en": "Project presentation, final evaluation, and building a presentable portfolio."
+      },
+      "longDesc": {
+        "ar": "عرض نهائي للمشاريع أمام لجنة تقييم وممثلين من سوق العمل، مراجعة محفظة الأعمال، جلسة تحضير للمقابلات، وخطة متابعة للتوظيف. الهدف خروج المتدرب بمواد قابلة للعرض وفرص متابعة توظيفية.",
+        "en": "A final project presentation before an evaluation committee and job market representatives, portfolio review, interview preparation session, and an employment follow-up plan. The goal is for trainees to leave with presentable materials and follow-up job opportunities."
+      },
+      "duration": {
+        "ar": "أسبوع 6",
+        "en": "Week 6"
+      },
+      "highlight": true
+    }
+  ]
+}

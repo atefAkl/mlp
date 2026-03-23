@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { ChevronRight } from "lucide-react";
+import { trackEvent } from "../utils/analytics";
 
 const HeroSection = ({
   t,
@@ -7,6 +8,7 @@ const HeroSection = ({
   currentSlide,
   setCurrentSlide,
   scrollToSection,
+  abCtaText,
 }) => {
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,7 +19,7 @@ const HeroSection = ({
   }, [t.hero.carousel.length, setCurrentSlide]);
 
   return (
-    <section className="min-h-[500px] h-[67vh] w-full overflow-hidden relative">
+    <section role="main" aria-label="hero" className="min-h-[500px] h-[67vh] w-full overflow-hidden relative">
       <div
         className={`min-h-[500px] h-[67vh] w-full flex items-center text-white relative overflow-hidden hero-gradient-${currentSlide}`}
       >
@@ -50,10 +52,18 @@ const HeroSection = ({
 
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                onClick={() => scrollToSection("cta")}
+                onClick={() => {
+                  trackEvent("cta_click", {
+                    ctaText: abCtaText || t.hero.carousel[currentSlide].cta,
+                    variant: "hero",
+                    slide: currentSlide,
+                  });
+                  scrollToSection("cta");
+                }}
+                aria-label={abCtaText || t.hero.carousel[currentSlide].cta}
                 className="btn-primary bg-white text-gray-900 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all flex items-center justify-center gap-2 shadow-2xl"
               >
-                {t.hero.carousel[currentSlide].cta}
+                {abCtaText || t.hero.carousel[currentSlide].cta}
                 <ChevronRight
                   className={`w-5 h-5 ${lang === "ar" ? "rotate-180" : ""}`}
                 />
@@ -75,6 +85,17 @@ const HeroSection = ({
                 </span>
               </div>
             </div>
+
+            {t.hero.bullets && (
+              <ul className="mt-5 space-y-2" aria-label="program highlights">
+                {t.hero.bullets.map((b, i) => (
+                  <li key={i} className="flex items-center gap-2 text-sm text-white/80">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div data-aos="fade-left" className="relative lg:block hidden">

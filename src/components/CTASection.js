@@ -1,9 +1,25 @@
 import React from "react";
 import { CheckCircle2, ChevronRight } from "lucide-react";
+import { trackEvent } from "../utils/analytics";
 
-const CTASection = ({ t, lang, isFormSubmitted, setIsFormSubmitted }) => {
-  const handleSubmit = (e) => {
+const CTASection = ({ t, lang, isFormSubmitted, setIsFormSubmitted, abCtaText }) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    const email = formData.get("email") || "";
+
+    trackEvent("signup_submit", { source: "cta_form" });
+
+    try {
+      await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
+    } catch (_) {
+      // silently fail — UI still proceeds to success state
+    }
+
     setIsFormSubmitted(true);
   };
 
@@ -31,6 +47,7 @@ const CTASection = ({ t, lang, isFormSubmitted, setIsFormSubmitted }) => {
                   </label>
                   <input
                     type="text"
+                    name="name"
                     required
                     className="form-input w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/70 focus:outline-none focus:border-white"
                     placeholder={t.cta.form.name}
@@ -43,6 +60,7 @@ const CTASection = ({ t, lang, isFormSubmitted, setIsFormSubmitted }) => {
                   </label>
                   <input
                     type="email"
+                    name="email"
                     required
                     className="form-input w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/70 focus:outline-none focus:border-white"
                     placeholder={t.cta.form.email}
@@ -55,6 +73,7 @@ const CTASection = ({ t, lang, isFormSubmitted, setIsFormSubmitted }) => {
                   </label>
                   <input
                     type="tel"
+                    name="phone"
                     required
                     className="form-input w-full bg-white/20 border border-white/30 rounded-lg px-4 py-3 text-white placeholder-white/70 focus:outline-none focus:border-white"
                     placeholder={t.cta.form.phone}
@@ -88,9 +107,16 @@ const CTASection = ({ t, lang, isFormSubmitted, setIsFormSubmitted }) => {
 
               <button
                 type="submit"
+                onClick={() =>
+                  trackEvent("cta_click", {
+                    ctaText: abCtaText || t.cta.primaryBtn || t.cta.form.submit,
+                    variant: "cta_form",
+                  })
+                }
+                aria-label={abCtaText || t.cta.primaryBtn || t.cta.form.submit}
                 className="btn-primary w-full bg-white text-deep-blue py-4 rounded-xl font-bold hover:bg-gray-100 transition-all flex items-center justify-center gap-2"
               >
-                {t.cta.form.submit}
+                {abCtaText || t.cta.primaryBtn || t.cta.form.submit}
                 <ChevronRight
                   className={`w-5 h-5 ${lang === "ar" ? "rotate-180" : ""}`}
                 />
