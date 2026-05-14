@@ -15,6 +15,7 @@ import {
 import Button from '../components/atoms/Button';
 import Badge from '../components/atoms/Badge';
 import StatsCard from '../components/molecules/StatsCard';
+import Pagination from '../components/molecules/Pagination';
 import ResourceHeader from '../components/organisms/ResourceHeader';
 import ResourceFilters from '../components/organisms/ResourceFilters';
 import Modal from '../components/organisms/Modal';
@@ -44,6 +45,10 @@ const PermissionList = () => {
   const [isAddingNewGroup, setIsAddingNewGroup] = useState(false);
   const [newGroupName, setNewGroupName] = useState('');
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Fewer per page because permissions are grouped/nested
+
   if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div></div>;
   if (error) return <div className="text-red-500 p-4">Error loading permissions</div>;
 
@@ -67,8 +72,19 @@ const PermissionList = () => {
     return acc;
   }, {});
 
-  if (activeGroup === null && Object.keys(filteredGroups).length > 0) {
-      setActiveGroup(Object.keys(filteredGroups)[0]);
+  // Pagination Logic for Groups
+  const groupEntries = Object.entries(filteredGroups);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentGroups = groupEntries.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  if (activeGroup === null && currentGroups.length > 0) {
+      setActiveGroup(currentGroups[0][0]);
   }
 
   const handleOpenCreateModal = () => {
@@ -97,10 +113,10 @@ const PermissionList = () => {
       if (window.confirm(isRTL ? `حذف ${selectedIds.length} صلاحيات؟` : `Delete ${selectedIds.length} items?`)) {
         try {
           await bulkDelete(selectedIds).unwrap();
-          toast.success(isRTL ? 'تم الحذف بنجاح' : 'Deleted successfully');
+          toast.success(isRTL ? 'تم الحذف بنجاح' : 'Deleted');
           setSelectedIds([]);
         } catch (err) {
-          toast.error('Bulk action failed');
+          toast.error('Failed');
         }
       }
     }
@@ -174,14 +190,13 @@ const PermissionList = () => {
   };
 
   return (
-    <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="space-y-6 pb-10" dir={isRTL ? 'rtl' : 'ltr'}>
       <ResourceHeader 
         title={isRTL ? 'إدارة الصلاحيات' : 'Permissions Management'} 
         onRefresh={refetch}
         onAdd={handleOpenCreateModal}
       />
 
-      {/* Stats Cards with dynamic equal width */}
       <div className="flex gap-4">
           <div className="flex-1">
             <StatsCard title={isRTL ? 'إجمالي الصلاحيات' : 'Total Permissions'} value={permissions?.length || 0} icon={faKey} color="blue" />
@@ -191,9 +206,8 @@ const PermissionList = () => {
           </div>
       </div>
 
-      {/* Integrated Resource Filters */}
       <ResourceFilters 
-        onSearch={setSearchTerm} 
+        onSearch={(val) => { setSearchTerm(val); setCurrentPage(1); }} 
         onViewChange={setViewMode}
         currentView={viewMode}
         onBulkAction={handleBulkAction}
@@ -201,8 +215,8 @@ const PermissionList = () => {
       />
 
       {viewMode === 'grid' ? (
-        <div className="space-y-10">
-          {Object.entries(filteredGroups).map(([group, perms]) => (
+        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2">
+          {currentGroups.map(([group, perms]) => (
             <fieldset key={group} className="border border-slate-200 rounded-2xl p-6 bg-white/40">
               <legend className="px-5 py-1.5 bg-slate-800 text-white rounded-full text-xs font-black shadow-lg">
                 {group}
@@ -214,8 +228,8 @@ const PermissionList = () => {
           ))}
         </div>
       ) : (
-        <div className="space-y-3">
-          {Object.entries(filteredGroups).map(([group, perms]) => {
+        <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2">
+          {currentGroups.map(([group, perms]) => {
             const isOpen = activeGroup === group;
             return (
               <div key={group} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm smooth-transition">
@@ -242,6 +256,14 @@ const PermissionList = () => {
           })}
         </div>
       )}
+
+      {/* Pagination Integration */}
+      <Pagination 
+        totalItems={groupEntries.length}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
 
       {/* Permission Modal */}
       <Modal

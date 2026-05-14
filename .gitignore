@@ -1,0 +1,32 @@
+# Mawthiq Root Gitignore
+
+# Local Environment files
+**/.env
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# Dependencies
+**/node_modules/
+**/vendor/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Laravel specific
+back/storage/*.key
+back/public/storage
+back/public/hot
+back/storage/framework/cache/data/*
+back/storage/framework/sessions/*
+back/storage/framework/testing/*
+back/storage/framework/views/*
+
+# React specific
+front/build/
+front/dist/
+front/.eslintcache

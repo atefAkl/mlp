@@ -17,6 +17,7 @@ import {
 import Button from '../components/atoms/Button';
 import Badge from '../components/atoms/Badge';
 import StatsCard from '../components/molecules/StatsCard';
+import Pagination from '../components/molecules/Pagination';
 import ResourceHeader from '../components/organisms/ResourceHeader';
 import ResourceFilters from '../components/organisms/ResourceFilters';
 import Modal from '../components/organisms/Modal';
@@ -43,6 +44,11 @@ const RoleList = () => {
   const [selectedRoleId, setSelectedRoleId] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
   const [activeGroupModal, setActiveGroupModal] = useState(null);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -64,6 +70,16 @@ const RoleList = () => {
     role.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Pagination Logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredRoles?.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const toggleSelect = (id) => {
     setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
   };
@@ -73,10 +89,10 @@ const RoleList = () => {
       if (window.confirm(isRTL ? `حذف ${selectedIds.length} أدوار؟` : `Delete ${selectedIds.length} roles?`)) {
         try {
           await bulkDelete(selectedIds).unwrap();
-          toast.success(isRTL ? 'تم الحذف بنجاح' : 'Deleted successfully');
+          toast.success(isRTL ? 'تم الحذف بنجاح' : 'Deleted');
           setSelectedIds([]);
         } catch (err) {
-          toast.error('Bulk action failed');
+          toast.error('Failed');
         }
       }
     }
@@ -140,7 +156,7 @@ const RoleList = () => {
   };
 
   return (
-    <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="space-y-6 pb-10" dir={isRTL ? 'rtl' : 'ltr'}>
       <ResourceHeader 
         title={isRTL ? 'إدارة الأدوار' : 'Roles Management'} 
         onRefresh={refetch}
@@ -157,7 +173,7 @@ const RoleList = () => {
       </div>
 
       <ResourceFilters 
-        onSearch={setSearchTerm} 
+        onSearch={(val) => { setSearchTerm(val); setCurrentPage(1); }} 
         onViewChange={setViewMode}
         currentView={viewMode}
         onBulkAction={handleBulkAction}
@@ -165,7 +181,7 @@ const RoleList = () => {
       />
 
       {viewMode === 'list' ? (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden animate-in fade-in slide-in-from-bottom-2">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-start">
               <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[10px]">
@@ -175,10 +191,10 @@ const RoleList = () => {
                       type="checkbox" 
                       className="rounded border-slate-300 text-blue-600" 
                       onChange={(e) => {
-                        if (e.target.checked) setSelectedIds(filteredRoles.map(r => r.id));
+                        if (e.target.checked) setSelectedIds(currentItems.map(r => r.id));
                         else setSelectedIds([]);
                       }}
-                      checked={selectedIds.length === filteredRoles?.length && filteredRoles?.length > 0}
+                      checked={selectedIds.length > 0 && selectedIds.length === currentItems?.length}
                     />
                   </th>
                   <th className="px-6 py-4 text-start">{isRTL ? 'الدور والوصف' : 'Role & Description'}</th>
@@ -187,7 +203,7 @@ const RoleList = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filteredRoles?.map((role) => (
+                {currentItems?.map((role) => (
                   <tr key={role.id} className={`hover:bg-slate-50 smooth-transition ${selectedIds.includes(role.id) ? 'bg-blue-50/30' : ''}`}>
                     <td className="px-6 py-4">
                        <input 
@@ -226,8 +242,8 @@ const RoleList = () => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredRoles?.map((role) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-in fade-in slide-in-from-bottom-2">
+          {currentItems?.map((role) => {
             const isSelected = selectedIds.includes(role.id);
             return (
               <div key={role.id} className={`bg-white border rounded-xl p-5 shadow-sm hover:shadow-md smooth-transition group relative ${isSelected ? 'border-blue-400 ring-1 ring-blue-100 bg-blue-50/10' : 'border-slate-200'}`}>
@@ -260,6 +276,14 @@ const RoleList = () => {
           })}
         </div>
       )}
+
+      {/* Pagination Integration */}
+      <Pagination 
+        totalItems={filteredRoles?.length || 0}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
 
       {/* Role Modal */}
       <Modal
