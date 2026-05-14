@@ -1,92 +1,321 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useGetPermissionsQuery } from '../features/api/apiSlice';
+import { 
+  useGetPermissionsQuery, 
+  useCreatePermissionMutation, 
+  useUpdatePermissionMutation, 
+  useDeletePermissionMutation,
+  useBulkDeletePermissionsMutation
+} from '../features/api/apiSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faKey, faLockOpen, faShield } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faEdit, faTrash, faKey, faLayerGroup, 
+  faChevronDown, faChevronUp, faEdit as faEditAlt 
+} from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/atoms/Button';
 import Badge from '../components/atoms/Badge';
 import StatsCard from '../components/molecules/StatsCard';
 import ResourceHeader from '../components/organisms/ResourceHeader';
 import ResourceFilters from '../components/organisms/ResourceFilters';
+import Modal from '../components/organisms/Modal';
+import { Input, Select } from '../components/atoms/FormElements';
+import { toast } from 'react-toastify';
 
 const PermissionList = () => {
   const { t, i18n } = useTranslation();
-  const { data: permissions, isLoading, error, refetch } = useGetPermissionsQuery();
   const isRTL = i18n.language === 'ar';
+  
+  // API Queries
+  const { data: permissions, isLoading, error, refetch } = useGetPermissionsQuery();
+  const [createPermission, { isLoading: isCreating }] = useCreatePermissionMutation();
+  const [updatePermission, { isLoading: isUpdating }] = useUpdatePermissionMutation();
+  const [deletePermission] = useDeletePermissionMutation();
+  const [bulkDelete] = useBulkDeletePermissionsMutation();
+
+  // State
   const [searchTerm, setSearchTerm] = useState('');
+  const [viewMode, setViewMode] = useState('list'); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedPermissionId, setSelectedPermissionId] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [activeGroup, setActiveGroup] = useState(null);
+  const [formData, setFormData] = useState({ name: '', description: '', group: '' });
+  const [isAddingNewGroup, setIsAddingNewGroup] = useState(false);
+  const [newGroupName, setNewGroupName] = useState('');
 
   if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div></div>;
   if (error) return <div className="text-red-500 p-4">Error loading permissions</div>;
 
-  const filteredPermissions = permissions?.filter(permission => 
-    permission.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const formatName = (name) => name.replace(/_/g, ' ').toUpperCase();
 
-  const breadcrumbs = [
-    { label: isRTL ? 'الإعدادات' : 'Settings' },
-    { label: isRTL ? 'الصلاحيات' : 'Permissions' }
-  ];
+  const groupedPermissions = permissions?.reduce((acc, perm) => {
+    const group = perm.group || (isRTL ? 'عام' : 'General');
+    if (!acc[group]) acc[group] = [];
+    acc[group].push(perm);
+    return acc;
+  }, {});
 
-  return (
-    <div className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
-      <ResourceHeader 
-        title={isRTL ? 'إدارة الصلاحيات' : 'Permissions Management'} 
-        breadcrumbs={breadcrumbs} 
-        onRefresh={refetch}
-      />
+  const dynamicGroupOptions = Object.keys(groupedPermissions || {}).map(g => ({ value: g, label: g }));
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <StatsCard title={isRTL ? 'إجمالي الصلاحيات' : 'Total Permissions'} value={permissions?.length || 0} icon={faKey} color="emerald" />
-        <StatsCard title={isRTL ? 'صلاحيات نشطة' : 'Active Permissions'} value={permissions?.length || 0} icon={faLockOpen} color="blue" />
-        <StatsCard title={isRTL ? 'محمية' : 'Protected'} value="All" icon={faShield} color="amber" />
-      </div>
+  const filteredGroups = Object.entries(groupedPermissions || {}).reduce((acc, [group, perms]) => {
+    const filteredPerms = perms.filter(p => 
+      p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      p.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (filteredPerms.length > 0) acc[group] = filteredPerms;
+    return acc;
+  }, {});
 
-      <ResourceFilters onSearch={setSearchTerm} />
+  if (activeGroup === null && Object.keys(filteredGroups).length > 0) {
+      setActiveGroup(Object.keys(filteredGroups)[0]);
+  }
 
-      <div className="bg-white rounded shadow-sm border border-slate-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-start">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
-              <tr>
-                <th className="px-4 py-2 text-start w-10">
-                  <input type="checkbox" className="rounded border-slate-300" />
-                </th>
-                <th className="px-4 py-2 text-start">ID</th>
-                <th className="px-4 py-2 text-start">{isRTL ? 'اسم الصلاحية' : 'Permission Name'}</th>
-                <th className="px-4 py-2 text-start">{isRTL ? 'الحارس' : 'Guard'}</th>
-                <th className="px-4 py-2 text-center">{isRTL ? 'العمليات' : 'Actions'}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {filteredPermissions?.map((permission) => (
-                <tr key={permission.id} className="hover:bg-slate-50 smooth-transition">
-                  <td className="px-4 py-2">
-                    <input type="checkbox" className="rounded border-slate-300" />
-                  </td>
-                  <td className="px-4 py-2 text-slate-500 text-xs">#{permission.id}</td>
-                  <td className="px-4 py-2 font-medium text-slate-800">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100">
-                        <FontAwesomeIcon icon={faKey} className="text-[10px]" />
-                      </div>
-                      <code className="text-xs bg-slate-100 px-1 rounded text-blue-600">{permission.name}</code>
-                    </div>
-                  </td>
-                  <td className="px-4 py-2 text-slate-600">
-                    <Badge variant="slate">{permission.guard_name}</Badge>
-                  </td>
-                  <td className="px-4 py-2">
-                    <div className="flex justify-center gap-1">
-                      <Button variant="ghost" icon={faEdit} className="p-1.5 text-blue-600 hover:bg-blue-50" tooltip="Edit" />
-                      <Button variant="ghost" icon={faTrash} className="p-1.5 text-red-600 hover:bg-red-50" tooltip="Delete" />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+  const handleOpenCreateModal = () => {
+    setEditMode(false);
+    setFormData({ name: '', description: '', group: dynamicGroupOptions[0]?.value || '' });
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEditModal = (permission) => {
+    setEditMode(true);
+    setSelectedPermissionId(permission.id);
+    setFormData({ 
+      name: permission.name,
+      description: permission.description || '',
+      group: permission.group || ''
+    });
+    setIsModalOpen(true);
+  };
+
+  const toggleSelect = (id) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const handleBulkAction = async (action) => {
+    if (action === 'delete' && selectedIds.length > 0) {
+      if (window.confirm(isRTL ? `حذف ${selectedIds.length} صلاحيات؟` : `Delete ${selectedIds.length} items?`)) {
+        try {
+          await bulkDelete(selectedIds).unwrap();
+          toast.success(isRTL ? 'تم الحذف بنجاح' : 'Deleted successfully');
+          setSelectedIds([]);
+        } catch (err) {
+          toast.error('Bulk action failed');
+        }
+      }
+    }
+  };
+
+  const toggleAccordion = (group) => {
+    setActiveGroup(prev => prev === group ? null : group);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const finalGroup = isAddingNewGroup ? newGroupName : formData.group;
+    try {
+      if (editMode) {
+        await updatePermission({ id: selectedPermissionId, ...formData, group: finalGroup }).unwrap();
+        toast.success(isRTL ? 'تم التحديث' : 'Updated');
+      } else {
+        await createPermission({ ...formData, group: finalGroup }).unwrap();
+        toast.success(isRTL ? 'تمت الإضافة' : 'Created');
+      }
+      setIsModalOpen(false);
+      setIsAddingNewGroup(false);
+      setNewGroupName('');
+    } catch (err) {
+      toast.error(err.data?.message || 'Error');
+    }
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm(isRTL ? 'حذف هذه الصلاحية؟' : 'Delete?')) {
+      try {
+        await deletePermission(selectedPermissionId).unwrap();
+        toast.success(isRTL ? 'تم الحذف' : 'Deleted');
+        setIsModalOpen(false);
+      } catch (err) {
+        toast.error('Failed');
+      }
+    }
+  };
+
+  const PermissionCard = ({ perm }) => {
+    const isSelected = selectedIds.includes(perm.id);
+    return (
+      <div 
+        className={`group relative bg-white border p-3 rounded-lg shadow-sm hover:shadow-md smooth-transition flex items-start gap-3 ${isSelected ? 'border-blue-400 ring-1 ring-blue-400 bg-blue-50/10' : 'border-slate-100 hover:border-blue-200'}`}
+      >
+        <div className="pt-1">
+          <input 
+            type="checkbox" 
+            checked={isSelected} 
+            onChange={(e) => {
+                e.stopPropagation();
+                toggleSelect(perm.id);
+            }}
+            className="w-3.5 h-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+          />
+        </div>
+        <div className="cursor-pointer flex-1 min-w-0" onClick={() => handleOpenEditModal(perm)}>
+          <h4 className="text-[11px] font-black text-slate-800 truncate mb-0.5 uppercase">
+            {formatName(perm.name)}
+          </h4>
+          <p className="text-[10px] text-slate-400 line-clamp-1 leading-tight">
+            {perm.description || (isRTL ? 'لا يوجد وصف' : 'No description')}
+          </p>
+        </div>
+        <div className="opacity-0 group-hover:opacity-100 smooth-transition pt-0.5">
+            <FontAwesomeIcon icon={faEditAlt} className="text-[10px] text-blue-400" />
         </div>
       </div>
+    );
+  };
+
+  return (
+    <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
+      <ResourceHeader 
+        title={isRTL ? 'إدارة الصلاحيات' : 'Permissions Management'} 
+        onRefresh={refetch}
+        onAdd={handleOpenCreateModal}
+      />
+
+      {/* Stats Cards with dynamic equal width */}
+      <div className="flex gap-4">
+          <div className="flex-1">
+            <StatsCard title={isRTL ? 'إجمالي الصلاحيات' : 'Total Permissions'} value={permissions?.length || 0} icon={faKey} color="blue" />
+          </div>
+          <div className="flex-1">
+            <StatsCard title={isRTL ? 'إجمالي المجموعات' : 'Total Groups'} value={Object.keys(groupedPermissions || {}).length} icon={faLayerGroup} color="emerald" />
+          </div>
+      </div>
+
+      {/* Integrated Resource Filters */}
+      <ResourceFilters 
+        onSearch={setSearchTerm} 
+        onViewChange={setViewMode}
+        currentView={viewMode}
+        onBulkAction={handleBulkAction}
+        selectedCount={selectedIds.length}
+      />
+
+      {viewMode === 'grid' ? (
+        <div className="space-y-10">
+          {Object.entries(filteredGroups).map(([group, perms]) => (
+            <fieldset key={group} className="border border-slate-200 rounded-2xl p-6 bg-white/40">
+              <legend className="px-5 py-1.5 bg-slate-800 text-white rounded-full text-xs font-black shadow-lg">
+                {group}
+              </legend>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {perms.map(perm => <PermissionCard key={perm.id} perm={perm} />)}
+              </div>
+            </fieldset>
+          ))}
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {Object.entries(filteredGroups).map(([group, perms]) => {
+            const isOpen = activeGroup === group;
+            return (
+              <div key={group} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm smooth-transition">
+                <button 
+                  onClick={() => toggleAccordion(group)}
+                  className={`w-full flex items-center justify-between p-4 text-sm font-bold smooth-transition ${isOpen ? 'bg-slate-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50'}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <FontAwesomeIcon icon={faLayerGroup} className="text-xs opacity-50" />
+                    <span>{group}</span>
+                    <Badge variant="slate" className="text-[10px]">{perms.length}</Badge>
+                  </div>
+                  <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} className="text-[10px]" />
+                </button>
+                {isOpen && (
+                  <div className="p-4 bg-white border-t border-slate-100">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                        {perms.map(perm => <PermissionCard key={perm.id} perm={perm} />)}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Permission Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={editMode ? (isRTL ? 'تعديل الصلاحية' : 'Edit Permission') : (isRTL ? 'إضافة صلاحية جديدة' : 'Add New Permission')}
+        footer={
+          <div className="w-full flex items-center justify-between">
+            <div>
+              {editMode && (
+                <Button variant="ghost" icon={faTrash} onClick={handleDelete} className="text-red-500 hover:bg-red-50 text-xs">
+                  {isRTL ? 'حذف' : 'Delete'}
+                </Button>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Button variant="secondary" onClick={() => setIsModalOpen(false)} className="text-xs">{isRTL ? 'إلغاء' : 'Cancel'}</Button>
+              <Button variant="primary" onClick={handleSubmit} disabled={isCreating || isUpdating} className="text-xs">
+                {isRTL ? 'حفظ' : 'Save'}
+              </Button>
+            </div>
+          </div>
+        }
+      >
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input 
+            label={isRTL ? 'مفتاح الصلاحية' : 'Key'} 
+            placeholder="e.g. view_users"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            required
+          />
+          
+          <div className="space-y-1">
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">{isRTL ? 'المجموعة' : 'Group'}</label>
+              <button 
+                type="button" 
+                onClick={() => setIsAddingNewGroup(!isAddingNewGroup)}
+                className="text-[10px] font-bold text-blue-600 hover:underline"
+              >
+                {isAddingNewGroup ? (isRTL ? 'اختر من القائمة' : 'Select from list') : (isRTL ? '+ مجموعة جديدة' : '+ New Group')}
+              </button>
+            </div>
+            
+            {isAddingNewGroup ? (
+              <Input 
+                placeholder={isRTL ? 'اسم المجموعة الجديدة...' : 'New group name...'}
+                value={newGroupName}
+                onChange={(e) => setNewGroupName(e.target.value)}
+                autoFocus
+              />
+            ) : (
+              <Select 
+                options={dynamicGroupOptions}
+                value={formData.group}
+                onChange={(e) => setFormData({ ...formData, group: e.target.value })}
+                required
+              />
+            )}
+          </div>
+
+          <div className="space-y-1">
+             <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">{isRTL ? 'الوصف' : 'Description'}</label>
+             <textarea 
+               className="block w-full px-3 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 smooth-transition"
+               rows="3"
+               value={formData.description}
+               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+               placeholder={isRTL ? 'وصف الصلاحية...' : 'Description...'}
+             ></textarea>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };

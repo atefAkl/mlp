@@ -2,17 +2,15 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   useGetUsersQuery, 
-  useGetRolesQuery, 
-  useCreateUserMutation,
-  useUpdateUserMutation,
-  useDeleteUserMutation,
-  useToggleUserStatusMutation
+  useCreateUserMutation, 
+  useUpdateUserMutation, 
+  useDeleteUserMutation, 
+  useToggleUserStatusMutation,
+  useBulkDeleteUsersMutation,
+  useGetRolesQuery 
 } from '../features/api/apiSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faEdit, faTrash, faUser, faUsers, faUserShield, 
-  faUserCheck, faUserClock, faEnvelope, faLock, faToggleOn, faToggleOff 
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faUserCheck, faUserTimes, faUsers, faUserShield, faEnvelope, faCircle } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/atoms/Button';
 import Badge from '../components/atoms/Badge';
 import StatsCard from '../components/molecules/StatsCard';
@@ -26,34 +24,58 @@ const UserList = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   
-  // API Hooks
+  // API Queries
   const { data: users, isLoading, error, refetch } = useGetUsersQuery();
   const { data: roles } = useGetRolesQuery();
   const [createUser, { isLoading: isCreating }] = useCreateUserMutation();
   const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
   const [deleteUser] = useDeleteUserMutation();
   const [toggleStatus] = useToggleUserStatusMutation();
+  const [bulkDelete] = useBulkDeleteUsersMutation();
 
   // State
   const [searchTerm, setSearchTerm] = useState('');
+  const [viewMode, setViewMode] = useState('list'); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [formData, setFormData] = useState({
-    name: '', email: '', password: '', role: ''
+    name: '',
+    email: '',
+    password: '',
+    role: 'متدرب'
   });
 
   if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div></div>;
   if (error) return <div className="text-red-500 p-4">Error loading users</div>;
 
   const filteredUsers = users?.filter(user => 
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const toggleSelect = (id) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const handleBulkAction = async (action) => {
+    if (action === 'delete' && selectedIds.length > 0) {
+      if (window.confirm(isRTL ? `حذف ${selectedIds.length} مستخدمين؟` : `Delete ${selectedIds.length} users?`)) {
+        try {
+          await bulkDelete(selectedIds).unwrap();
+          toast.success(isRTL ? 'تم الحذف الجماعي بنجاح' : 'Bulk delete success');
+          setSelectedIds([]);
+        } catch (err) {
+          toast.error('Bulk delete failed');
+        }
+      }
+    }
+  };
+
   const handleOpenCreateModal = () => {
     setEditMode(false);
-    setFormData({ name: '', email: '', password: '', role: '' });
+    setFormData({ name: '', email: '', password: '', role: 'متدرب' });
     setIsModalOpen(true);
   };
 
@@ -63,8 +85,8 @@ const UserList = () => {
     setFormData({
       name: user.name,
       email: user.email,
-      password: '', // Keep empty for security
-      role: user.roles?.[0]?.name || ''
+      password: '', 
+      role: user.roles?.[0]?.name || 'متدرب'
     });
     setIsModalOpen(true);
   };
@@ -74,24 +96,24 @@ const UserList = () => {
     try {
       if (editMode) {
         await updateUser({ id: selectedUserId, ...formData }).unwrap();
-        toast.success(isRTL ? 'تم تحديث البيانات' : 'User updated successfully');
+        toast.success(isRTL ? 'تم التحديث' : 'Updated');
       } else {
         await createUser(formData).unwrap();
-        toast.success(isRTL ? 'تم إضافة المستخدم' : 'User created successfully');
+        toast.success(isRTL ? 'تمت الإضافة' : 'Created');
       }
       setIsModalOpen(false);
     } catch (err) {
-      toast.error(err.data?.message || 'Action failed');
+      toast.error(err.data?.message || 'Error');
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm(isRTL ? 'هل أنت متأكد من الحذف؟' : 'Are you sure you want to delete this user?')) {
+    if (window.confirm(isRTL ? 'هل أنت متأكد؟' : 'Are you sure?')) {
       try {
         await deleteUser(id).unwrap();
-        toast.success(isRTL ? 'تم الحذف' : 'User deleted');
+        toast.success(isRTL ? 'تم الحذف' : 'Deleted');
       } catch (err) {
-        toast.error('Delete failed');
+        toast.error('Failed');
       }
     }
   };
@@ -99,133 +121,202 @@ const UserList = () => {
   const handleToggleStatus = async (id) => {
     try {
       await toggleStatus(id).unwrap();
-      toast.info(isRTL ? 'تم تغيير الحالة' : 'Status changed');
+      toast.success(isRTL ? 'تم تغيير الحالة' : 'Status updated');
     } catch (err) {
-      toast.error('Failed to change status');
+      toast.error('Failed');
     }
   };
 
   const roleOptions = roles?.map(r => ({ value: r.name, label: r.name })) || [];
 
   return (
-    <div className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
       <ResourceHeader 
-        title={t('common.users')} 
-        breadcrumbs={[{ label: t('common.users') }]} 
+        title={isRTL ? 'إدارة المستخدمين' : 'Users Management'} 
         onRefresh={refetch}
         onAdd={handleOpenCreateModal}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatsCard title={isRTL ? 'إجمالي المستخدمين' : 'Total Users'} value={users?.length || 0} icon={faUsers} color="blue" />
-        <StatsCard title={isRTL ? 'نشط الآن' : 'Active'} value={users?.filter(u => u.is_active).length} icon={faUserCheck} color="emerald" />
-        <StatsCard title={isRTL ? 'غير نشط' : 'Inactive'} value={users?.filter(u => !u.is_active).length} icon={faUserClock} color="amber" />
-        <StatsCard title={isRTL ? 'مدراء' : 'Admins'} value={users?.filter(u => u.roles?.some(r => r.name === 'مدير التطبيق')).length} icon={faUserShield} color="purple" />
-      </div>
-
-      <ResourceFilters onSearch={setSearchTerm} />
-
-      <div className="bg-white rounded shadow-sm border border-slate-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-start">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold">
-              <tr>
-                <th className="px-4 py-2 text-start">ID</th>
-                <th className="px-4 py-2 text-start">{isRTL ? 'المستخدم' : 'User'}</th>
-                <th className="px-4 py-2 text-start">{isRTL ? 'الحالة' : 'Status'}</th>
-                <th className="px-4 py-2 text-start">{isRTL ? 'الأدوار' : 'Roles'}</th>
-                <th className="px-4 py-2 text-center">{isRTL ? 'العمليات' : 'Actions'}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {filteredUsers?.map((user) => (
-                <tr key={user.id} className="hover:bg-slate-50 smooth-transition">
-                  <td className="px-4 py-2 text-slate-500 text-xs">#{user.id}</td>
-                  <td className="px-4 py-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-200">
-                        <FontAwesomeIcon icon={faUser} className="text-xs" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-medium">{user.name}</span>
-                        <span className="text-[10px] text-slate-400">{user.email}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-2">
-                    <button 
-                      onClick={() => handleToggleStatus(user.id)}
-                      className={`flex items-center gap-2 text-lg ${user.is_active ? 'text-emerald-500' : 'text-slate-300'} hover:opacity-80 transition-all`}
-                    >
-                      <FontAwesomeIcon icon={user.is_active ? faToggleOn : faToggleOff} />
-                      <span className="text-[10px] font-bold uppercase">{user.is_active ? (isRTL ? 'نشط' : 'Active') : (isRTL ? 'معطل' : 'Disabled')}</span>
-                    </button>
-                  </td>
-                  <td className="px-4 py-2">
-                    <div className="flex flex-wrap gap-1">
-                      {user.roles?.map(role => (
-                        <Badge key={role.id} variant="primary">{role.name}</Badge>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-4 py-2">
-                    <div className="flex justify-center gap-1">
-                      <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-1.5 text-blue-600 hover:bg-blue-50" />
-                      <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-1.5 text-red-600 hover:bg-red-50" />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className="flex gap-4">
+        <div className="flex-1">
+          <StatsCard title={isRTL ? 'إجمالي المستخدمين' : 'Total Users'} value={users?.length || 0} icon={faUsers} color="blue" />
+        </div>
+        <div className="flex-1">
+          <StatsCard title={isRTL ? 'مستخدمين نشطين' : 'Active Users'} value={users?.filter(u => u.is_active).length || 0} icon={faUserCheck} color="emerald" />
+        </div>
+        <div className="flex-1">
+          <StatsCard title={isRTL ? 'حسابات معطلة' : 'Disabled'} value={users?.filter(u => !u.is_active).length || 0} icon={faUserTimes} color="amber" />
         </div>
       </div>
 
-      {/* User Form Modal */}
+      <ResourceFilters 
+        onSearch={setSearchTerm} 
+        onViewChange={setViewMode}
+        currentView={viewMode}
+        onBulkAction={handleBulkAction}
+        selectedCount={selectedIds.length}
+      />
+
+      {viewMode === 'list' ? (
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-start">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[10px]">
+                <tr>
+                  <th className="px-6 py-4 w-10">
+                    <input 
+                      type="checkbox" 
+                      className="rounded border-slate-300 text-blue-600" 
+                      onChange={(e) => {
+                        if (e.target.checked) setSelectedIds(filteredUsers.map(u => u.id));
+                        else setSelectedIds([]);
+                      }}
+                      checked={selectedIds.length === filteredUsers?.length && filteredUsers?.length > 0}
+                    />
+                  </th>
+                  <th className="px-6 py-4 text-start">{isRTL ? 'المستخدم' : 'User'}</th>
+                  <th className="px-6 py-4 text-start">{isRTL ? 'الدور' : 'Role'}</th>
+                  <th className="px-6 py-4 text-center">{isRTL ? 'الحالة' : 'Status'}</th>
+                  <th className="px-6 py-4 text-center">{isRTL ? 'العمليات' : 'Actions'}</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {filteredUsers?.map((user) => (
+                  <tr key={user.id} className={`hover:bg-slate-50 smooth-transition ${selectedIds.includes(user.id) ? 'bg-blue-50/30' : ''}`}>
+                    <td className="px-6 py-4">
+                       <input 
+                        type="checkbox" 
+                        checked={selectedIds.includes(user.id)}
+                        onChange={() => toggleSelect(user.id)}
+                        className="rounded border-slate-300 text-blue-600 cursor-pointer"
+                      />
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold border border-slate-200">
+                          {user.name.charAt(0)}
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-bold text-slate-800">{user.name}</span>
+                          <span className="text-[10px] text-slate-400 flex items-center gap-1">
+                            <FontAwesomeIcon icon={faEnvelope} className="text-[10px]" />
+                            {user.email}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-wrap gap-1">
+                        {user.roles?.map(role => (
+                          <Badge key={role.id} variant="primary" className="text-[9px]">{role.name}</Badge>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <button onClick={() => handleToggleStatus(user.id)} className="focus:outline-none">
+                        <Badge variant={user.is_active ? 'success' : 'danger'}>
+                          <FontAwesomeIcon icon={faCircle} className="text-[6px] me-1.5" />
+                          {user.is_active ? (isRTL ? 'نشط' : 'Active') : (isRTL ? 'معطل' : 'Disabled')}
+                        </Badge>
+                      </button>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex justify-center gap-2">
+                        <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-blue-600 hover:bg-blue-50" />
+                        <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-2 text-red-600 hover:bg-red-50" />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {filteredUsers?.map((user) => {
+            const isSelected = selectedIds.includes(user.id);
+            return (
+              <div key={user.id} className={`bg-white border rounded-xl p-5 shadow-sm hover:shadow-md smooth-transition group relative ${isSelected ? 'border-blue-400 ring-1 ring-blue-100 bg-blue-50/10' : 'border-slate-200'}`}>
+                <div className="absolute top-3 right-3 rtl:left-3 rtl:right-auto">
+                   <input 
+                    type="checkbox" 
+                    checked={isSelected}
+                    onChange={() => toggleSelect(user.id)}
+                    className="rounded border-slate-300 text-blue-600 cursor-pointer"
+                  />
+                </div>
+                <div className="flex justify-between items-start mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black text-lg border border-blue-100">
+                    {user.name.charAt(0)}
+                  </div>
+                </div>
+                <h3 className="font-black text-slate-800 mb-1">{user.name}</h3>
+                <p className="text-[10px] text-slate-400 mb-4 truncate">{user.email}</p>
+                
+                <div className="flex items-center justify-between">
+                   <div className="flex items-center gap-2">
+                    <FontAwesomeIcon icon={faUserShield} className="text-slate-300 text-xs" />
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                       {user.roles?.[0]?.name || 'No Role'}
+                    </span>
+                  </div>
+                  <button onClick={() => handleToggleStatus(user.id)}>
+                     <Badge variant={user.is_active ? 'success' : 'danger'} className="text-[8px]">
+                      {user.is_active ? (isRTL ? 'نشط' : 'Active') : (isRTL ? 'معطل' : 'Disabled')}
+                    </Badge>
+                  </button>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-slate-50 flex justify-end gap-2 opacity-0 group-hover:opacity-100 smooth-transition">
+                   <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" />
+                   <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* User Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editMode ? (isRTL ? 'تعديل بيانات المستخدم' : 'Edit User Data') : (isRTL ? 'إضافة مستخدم جديد' : 'Add New User')}
+        title={editMode ? (isRTL ? 'تعديل بيانات المستخدم' : 'Edit User') : (isRTL ? 'إضافة مستخدم جديد' : 'Add New User')}
         footer={
-          <>
-            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-              {isRTL ? 'إلغاء' : 'Cancel'}
-            </Button>
+          <div className="flex gap-2 justify-end w-full">
+            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>{isRTL ? 'إلغاء' : 'Cancel'}</Button>
             <Button variant="primary" onClick={handleSubmit} disabled={isCreating || isUpdating}>
-              {(isCreating || isUpdating) ? (isRTL ? 'جاري الحفظ...' : 'Saving...') : (isRTL ? 'حفظ التغييرات' : 'Save Changes')}
+              {(isCreating || isUpdating) ? (isRTL ? 'جاري الحفظ...' : 'Saving...') : (isRTL ? 'حفظ البيانات' : 'Save User')}
             </Button>
-          </>
+          </div>
         }
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input 
-            label={isRTL ? 'الاسم بالكامل' : 'Full Name'} 
-            icon={faUser} 
+            label={isRTL ? 'الاسم الكامل' : 'Full Name'} 
             value={formData.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
             required
           />
           <Input 
-            label={isRTL ? 'البريد الإلكتروني' : 'Email Address'} 
-            icon={faEnvelope} 
-            type="email" 
+            label={isRTL ? 'البريد الإلكتروني' : 'Email'} 
+            type="email"
             value={formData.email}
             onChange={(e) => setFormData({...formData, email: e.target.value})}
             required
           />
           <Input 
             label={isRTL ? 'كلمة المرور' : 'Password'} 
-            icon={faLock} 
-            type="password" 
-            placeholder={editMode ? (isRTL ? 'اتركها فارغة لعدم التغيير' : 'Leave blank to keep current') : '••••••••'}
+            type="password"
+            placeholder={editMode ? (isRTL ? 'اتركه فارغاً لعدم التغيير' : 'Leave blank to keep current') : ''}
             value={formData.password}
             onChange={(e) => setFormData({...formData, password: e.target.value})}
             required={!editMode}
           />
           <Select 
-            label={isRTL ? 'الدور الوظيفي' : 'Role'} 
-            icon={faUserShield}
-            options={[{ value: '', label: isRTL ? 'اختر الدور...' : 'Select Role...' }, ...roleOptions]}
+            label={isRTL ? 'دور المستخدم' : 'User Role'} 
+            options={roleOptions}
             value={formData.role}
             onChange={(e) => setFormData({...formData, role: e.target.value})}
             required
