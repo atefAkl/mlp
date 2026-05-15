@@ -30,3 +30,10 @@ back/storage/framework/views/*
 front/build/
 front/dist/
 front/.eslintcache
+
+# Local planning / handoff docs
+BACKEND_SUBSCRIPTIONS_PLAN.md
+BACKEND_TASKS_EXECUTION_PLAN.md
+BACKEND_IMPLEMENTATION_AND_TESTING_GUIDE.md
+BACKEND_IMPLEMENTATION_AND_TESTING_GUIDE_AR.md
+BACKEND_TESTING_METHODS_AR.md

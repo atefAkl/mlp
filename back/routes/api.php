@@ -6,8 +6,14 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\Api\AdminSubscriberController;
+use App\Http\Controllers\Api\ReferenceDataController;
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/subscriptions/meta', [SubscriptionController::class, 'meta']);
+Route::post('/subscriptions', [SubscriptionController::class, 'store'])->middleware('throttle:subscriptions-create');
+Route::get('/subscriptions/public/{publicId}', [SubscriptionController::class, 'showPublic']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
@@ -34,4 +40,22 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/permissions/{permission}', [PermissionController::class, 'update']);
     Route::delete('/permissions/{permission}', [PermissionController::class, 'destroy']);
     Route::post('/permissions/bulk-delete', [PermissionController::class, 'bulkDestroy']);
+
+    // Subscribers Management
+    Route::middleware('manage.subscribers')->group(function () {
+        Route::get('/admin/subscribers', [AdminSubscriberController::class, 'index']);
+        Route::get('/admin/subscribers/grouped', [AdminSubscriberController::class, 'grouped']);
+        Route::post('/admin/subscribers/selection', [AdminSubscriberController::class, 'selection']);
+        Route::get('/admin/subscribers/stats', [AdminSubscriberController::class, 'stats']);
+        Route::get('/admin/subscribers/trends', [AdminSubscriberController::class, 'trends']);
+        Route::get('/admin/subscribers/{type}/{subscription}', [AdminSubscriberController::class, 'show']);
+        Route::patch('/admin/subscribers/{subscription}/status', [AdminSubscriberController::class, 'updateStatus']);
+        Route::patch('/admin/subscribers/bulk-status', [AdminSubscriberController::class, 'bulkUpdateStatus']);
+        Route::post('/admin/subscribers/{subscription}/resend-email', [AdminSubscriberController::class, 'resendEmail']);
+
+        Route::get('/admin/reference-data', [ReferenceDataController::class, 'index']);
+        Route::post('/admin/reference-data/{resource}', [ReferenceDataController::class, 'store']);
+        Route::put('/admin/reference-data/{resource}/{id}', [ReferenceDataController::class, 'update']);
+        Route::delete('/admin/reference-data/{resource}/{id}', [ReferenceDataController::class, 'destroy']);
+    });
 });

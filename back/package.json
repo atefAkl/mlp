@@ -1,5 +1,5 @@
 {
-    "$schema": "https://www.schemastore.org/package.json",
+    "$schema": "vscode://schemas/package",
     "private": true,
     "type": "module",
     "scripts": {

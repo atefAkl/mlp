@@ -20,6 +20,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const { i18n } = useTranslation();
+  const routerBaseName = window.location.pathname.startsWith('/mlp') ? '/mlp' : '/';
 
   // Handle Global Direction Change
   useEffect(() => {
@@ -28,7 +29,7 @@ function App() {
   }, [i18n.language]);
 
   return (
-    <Router>
+    <Router basename={routerBaseName}>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
@@ -42,6 +43,9 @@ function App() {
           <Route path="permissions" element={<PermissionList />} />
           <Route path="profile" element={<div className="p-4">Profile Page</div>} />
         </Route>
+
+        {/* Fallback route for unmatched URLs */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <ToastContainer 
         position={i18n.language === 'ar' ? "top-left" : "top-right"} 
