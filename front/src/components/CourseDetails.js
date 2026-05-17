@@ -14,7 +14,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 
-const CourseDetails = ({ t, lang, onBack }) => {
+const CourseDetails = ({ t, lang, onBack, onNavigate }) => {
   const cd = t.courseDetails;
   const isRtl = lang === "ar";
   const Arrow = isRtl ? ArrowLeft : ArrowRight;
@@ -166,12 +166,12 @@ const CourseDetails = ({ t, lang, onBack }) => {
               </div>
 
               <button 
-                onClick={onBack}
+                onClick={onNavigate}
                 className="w-full py-4 bg-deep-blue text-white rounded-2xl font-bold shadow-lg shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all mb-4"
               >
                 {cd.hero.cta}
               </button>
-              
+                            
               <button className="w-full py-4 border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-50 transition-colors">
                 {cd.hero.secondaryCta}
               </button>

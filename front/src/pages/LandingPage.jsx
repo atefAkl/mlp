@@ -15,6 +15,7 @@ import PartnersSection from "../components/PartnersSection";
 import ContactSection from "../components/ContactSection";
 import CourseDetails from "../components/CourseDetails";
 import Footer from "../components/Footer";
+import SubscriptionSection from "../components/SubscriptionSection";
 
 const LandingPage = () => {
   const [lang, setLang] = useState("ar");
@@ -72,9 +73,12 @@ const LandingPage = () => {
           <SuccessSection t={t} lang={lang} />
           <PartnersSection t={t} />
           <ContactSection t={t} lang={lang} onNavigate={() => setView("course")} />
+           
         </>
+      ) : view === "course" ? (
+        <CourseDetails t={t} lang={lang} onBack={() => setView("landing")} onNavigate={() => setView("subscribe")} />
       ) : (
-        <CourseDetails t={t} lang={lang} onBack={() => setView("landing")} />
+        <SubscriptionSection lang={lang} onBack={() => setView("course")} />
       )}
 
       <Footer t={t} scrollToSection={scrollToSection} />

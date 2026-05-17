@@ -29,6 +29,8 @@ const content = {
       success: "قصص نجاح",
       partners: "شركاء النجاح",
       contact: "تواصل معنا",
+      subscribe: "الاشتراك",
+    
     },
     hero: {
       badge: "التسجيل مفتوح لدفعة مارس 2026",
@@ -626,6 +628,7 @@ const content = {
             highlight: true,
           },
           { label: "تواصل معنا", to: "contact", icon: "chat" },
+          { label: "الاشتراك", to: "subscribe", icon: "zap" },
         ],
       },
     ],
@@ -728,6 +731,7 @@ const content = {
       success: "Success Stories",
       partners: "Partners",
       contact: "Contact",
+      suscribe: "Subscribe",
     },
     hero: {
       badge: "Registration Open for March 2026",
@@ -975,7 +979,7 @@ const content = {
           number: "03",
           title: "Project Kickoff",
           keyEN: "project_kickoff",
-          desc: "Team formation, task breakdown, and kickoff on a simulation project.",
+          desc:"Team formation, task breakdown, and kickoff on a simulation project.",
           longDesc:
             "Forming small teams, breaking tasks into user stories, defining the Definition of Done, and beginning execution of first tasks under a mentor engineer with periodic reviews.",
           descKeyEN: "project_kickoff_desc",
@@ -1315,6 +1319,7 @@ const content = {
         links: [
           { label: "Start Free", to: "contact", icon: "zap", highlight: true },
           { label: "Contact Us", to: "contact", icon: "chat" },
+          { label: "Subscribe", to: "subscribe", icon: "zap" },
         ],
       },
     ],
