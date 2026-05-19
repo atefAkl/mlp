@@ -20,7 +20,8 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
@@ -31,7 +32,25 @@
               "host": ["{{base_url}}"],
               "path": ["api", "login"]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Login returns success', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "if (json && json.token) {",
+                  "  pm.collectionVariables.set('auth_token', json.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -42,6 +61,9 @@
           "name": "Meta",
           "request": {
             "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
             "url": {
               "raw": "{{base_url}}/api/subscriptions/meta",
               "host": ["{{base_url}}"],
@@ -53,6 +75,9 @@
           "name": "Create Trainee",
           "request": {
             "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -73,12 +98,33 @@
               "host": ["{{base_url}}"],
               "path": ["api", "subscriptions"]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create trainee returns created', function () {",
+                  "  pm.expect(pm.response.code).to.eql(201);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "if (json && json.subscription_id) {",
+                  "  pm.collectionVariables.set('subscription_public_id', json.subscription_id);",
+                  "}"
+                ]
+              }
+            }
+            ]
         },
         {
           "name": "Create Trainer",
           "request": {
             "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -98,12 +144,33 @@
               "host": ["{{base_url}}"],
               "path": ["api", "subscriptions"]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create trainer returns created', function () {",
+                  "  pm.expect(pm.response.code).to.eql(201);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "if (json && json.subscription_id) {",
+                  "  pm.collectionVariables.set('subscription_public_id', json.subscription_id);",
+                  "}"
+                ]
+              }
+            }
+            ]
         },
         {
           "name": "Create Company",
           "request": {
             "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -125,12 +192,33 @@
               "host": ["{{base_url}}"],
               "path": ["api", "subscriptions"]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Create company returns created', function () {",
+                  "  pm.expect(pm.response.code).to.eql(201);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "if (json && json.subscription_id) {",
+                  "  pm.collectionVariables.set('subscription_public_id', json.subscription_id);",
+                  "}"
+                ]
+              }
+            }
+            ]
         },
         {
           "name": "Public Summary",
           "request": {
             "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" }
+            ],
             "url": {
               "raw": "{{base_url}}/api/subscriptions/public/{{subscription_public_id}}",
               "host": ["{{base_url}}"],

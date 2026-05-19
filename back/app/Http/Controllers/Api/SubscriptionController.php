@@ -19,6 +19,11 @@ use Illuminate\Validation\Rule;
 
 class SubscriptionController extends Controller
 {
+    private function maxUploadKb(): int
+    {
+        return (int) env('SUBSCRIPTIONS_MAX_UPLOAD_KB', 71680);
+    }
+
     public function meta()
     {
         return response()->json([
@@ -55,7 +60,7 @@ class SubscriptionController extends Controller
                 'round_id' => 'required|exists:rounds,id',
                 'interview_times' => 'required|array|min:1',
                 'interview_times.*' => 'required|string|max:255',
-                'cv' => 'nullable|file|mimes:pdf,md|max:5120',
+                'cv' => 'nullable|file|mimes:pdf,md|max:' . $this->maxUploadKb(),
             ]);
         }
 
@@ -64,7 +69,7 @@ class SubscriptionController extends Controller
                 'position_id' => 'required|exists:positions,id',
                 'interview_times' => 'required|array|min:1',
                 'interview_times.*' => 'required|string|max:255',
-                'cv' => 'required|file|mimes:pdf,md|max:5120',
+                'cv' => 'required|file|mimes:pdf,md|max:' . $this->maxUploadKb(),
             ]);
         }
 
@@ -75,7 +80,7 @@ class SubscriptionController extends Controller
                 'package_range_id' => 'required|exists:package_ranges,id',
                 'cr_number' => 'required|string|max:100',
                 'extra_information' => 'nullable|string',
-                'cr' => 'nullable|file|mimes:pdf,md|max:5120',
+                'cr' => 'nullable|file|mimes:pdf,md|max:' . $this->maxUploadKb(),
             ]);
         }
 
