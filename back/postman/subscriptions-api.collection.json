@@ -8,6 +8,7 @@
     { "key": "base_url", "value": "http://127.0.0.1:8000" },
     { "key": "auth_token", "value": "" },
     { "key": "subscription_id", "value": "1" },
+    { "key": "subscriber_type", "value": "trainee" },
     { "key": "subscription_public_id", "value": "" },
     { "key": "reference_id", "value": "1" }
   ],
@@ -232,7 +233,7 @@
       "name": "Admin Subscribers",
       "item": [
         {
-          "name": "List",
+          "name": "GET /api/admin/subscribers",
           "request": {
             "method": "GET",
             "header": [
@@ -245,6 +246,28 @@
               "query": [
                 { "key": "type", "value": "trainee" },
                 { "key": "status", "value": "pending" },
+                { "key": "per_page", "value": "15" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List (All Filters Example)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/admin/subscribers?type=trainee&status=accepted&name=Test&date=2026-05-19&round_id=1&per_page=15",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "subscribers"],
+              "query": [
+                { "key": "type", "value": "trainee" },
+                { "key": "status", "value": "accepted" },
+                { "key": "name", "value": "Test" },
+                { "key": "date", "value": "2026-05-19" },
+                { "key": "round_id", "value": "1" },
                 { "key": "per_page", "value": "15" }
               ]
             }
@@ -278,6 +301,44 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"action\": \"invert\",\n  \"type\": \"company\",\n  \"selected_ids\": [1, 2]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/subscribers/selection",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "subscribers", "selection"]
+            }
+          }
+        },
+        {
+          "name": "Selection Helper - Select All",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"select_all\",\n  \"type\": \"company\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/subscribers/selection",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "subscribers", "selection"]
+            }
+          }
+        },
+        {
+          "name": "Selection Helper - Select None",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"select_none\",\n  \"type\": \"company\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/admin/subscribers/selection",
@@ -328,9 +389,9 @@
               { "key": "Authorization", "value": "Bearer {{auth_token}}" }
             ],
             "url": {
-              "raw": "{{base_url}}/api/admin/subscribers/company/{{subscription_id}}",
+              "raw": "{{base_url}}/api/admin/subscribers/{{subscriber_type}}/{{subscription_id}}",
               "host": ["{{base_url}}"],
-              "path": ["api", "admin", "subscribers", "company", "{{subscription_id}}"]
+              "path": ["api", "admin", "subscribers", "{{subscriber_type}}", "{{subscription_id}}"]
             }
           }
         },
@@ -373,7 +434,26 @@
           }
         },
         {
-          "name": "Bulk Status",
+          "name": "Update Status Maybe",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"maybe\",\n  \"reason\": \"Missing or unclear data\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/subscribers/{{subscription_id}}/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "subscribers", "{{subscription_id}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Status Maybe",
           "request": {
             "method": "PATCH",
             "header": [
@@ -383,6 +463,25 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"ids\": [1, 2, 3],\n  \"status\": \"maybe\",\n  \"reason\": \"Need additional clarification\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/subscribers/bulk-status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "subscribers", "bulk-status"]
+            }
+          }
+        },
+        {
+          "name": "Bulk Status Rejected",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [1, 2, 3],\n  \"status\": \"rejected\",\n  \"reason\": \"Did not meet minimum requirements\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/admin/subscribers/bulk-status",

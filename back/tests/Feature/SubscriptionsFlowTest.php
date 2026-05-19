@@ -450,6 +450,8 @@ class SubscriptionsFlowTest extends TestCase
     {
         Queue::fake();
 
+        $maxUploadKb = (int) env('SUBSCRIPTIONS_MAX_UPLOAD_KB', 71680);
+
         $country = Country::query()->create(['name' => 'Lebanon']);
         $companyField = CompanyField::query()->create(['name' => 'Healthcare']);
         $packageRange = PackageRange::query()->create(['name' => '11-50']);
@@ -464,7 +466,7 @@ class SubscriptionsFlowTest extends TestCase
             'company_field_id' => $companyField->id,
             'package_range_id' => $packageRange->id,
             'cr_number' => 'CR-002',
-            'cr' => UploadedFile::fake()->create('cr.pdf', 6000, 'application/pdf'),
+            'cr' => UploadedFile::fake()->create('cr.pdf', $maxUploadKb + 1, 'application/pdf'),
         ]);
 
         $response->assertStatus(422)->assertJsonValidationErrors(['cr']);
