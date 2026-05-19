@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,19 +21,25 @@ class DatabaseSeeder extends Seeder
         $mentorPos = \App\Models\Position::firstOrCreate(['name' => 'Mentor']);
         $traineePos = \App\Models\Position::firstOrCreate(['name' => 'Trainee']);
 
-        $mentor = User::factory()->create([
-            'name' => 'أحمد الموجه (Mentor)',
-            'email' => 'mentor@example.com',
-            'password' => bcrypt('password'),
-            'position_id' => $mentorPos->id
-        ]);
+        $mentor = User::query()->updateOrCreate(
+            ['email' => 'mentor@example.com'],
+            [
+                'name' => 'أحمد الموجه (Mentor)',
+                'password' => Hash::make('password'),
+                'position_id' => $mentorPos->id,
+            ]
+        );
 
-        $trainee = User::factory()->create([
-            'name' => 'محمد المتدرب (Trainee)',
-            'email' => 'trainee@example.com',
-            'password' => bcrypt('password'),
-            'position_id' => $traineePos->id
-        ]);
+        $trainee = User::query()->updateOrCreate(
+            ['email' => 'trainee@example.com'],
+            [
+                'name' => 'محمد المتدرب (Trainee)',
+                'password' => Hash::make('password'),
+                'position_id' => $traineePos->id,
+            ]
+        );
+
+        $this->call(AdminSeeder::class);
 
         $this->call([
             RolesAndPermissionsSeeder::class,
