@@ -12,12 +12,15 @@ import {
   BookOpen,
   ChevronDown,
   Clock,
+  Calendar,
+  Info,
+  PhoneCall,
 } from "lucide-react";
 import { trackEvent } from "../utils/analytics";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const ROUND_ID = 3; // hidden field value
+const ROUND_ID = 3;
 
 const TABS = [
   { key: "trainee", Icon: GraduationCap },
@@ -60,43 +63,45 @@ const COMPANY_FIELDS_LIST = [
   "Other",
 ];
 
-const PACKAGES = [
-  "1 – 10",
-  "11 – 50",
-  "51 – 100",
-  "101 – 250",
-  "251+",
-];
+const PACKAGES = ["1 – 10", "11 – 50", "51 – 100", "101 – 250", "251+"];
 
 const COUNTRIES = [
-  "Saudi Arabia",
-  "Jordan",
-  "UAE",
-  "Kuwait",
-  "Qatar",
-  "Bahrain",
-  "Oman",
-  "Egypt",
-  "Palestine",
-  "Iraq",
-  "Yemen",
-  "Lebanon",
-  "Syria",
-  "Morocco",
-  "Tunisia",
-  "Algeria",
-  "Libya",
-  "Sudan",
-  "Other",
+  "Saudi Arabia", "Jordan", "UAE", "Kuwait", "Qatar",
+  "Bahrain", "Oman", "Egypt", "Palestine", "Iraq",
+  "Yemen", "Lebanon", "Syria", "Morocco", "Tunisia",
+  "Algeria", "Libya", "Sudan", "Other",
 ];
 
-const INTERVIEW_TIMES = [
-  { key: "sat_morning", ar: "السبت صباحاً", en: "Saturday Morning" },
-  { key: "sat_evening", ar: "السبت مساءً", en: "Saturday Evening" },
-  { key: "sun_morning", ar: "الأحد صباحاً", en: "Sunday Morning" },
-  { key: "mon_evening", ar: "الاثنين مساءً", en: "Monday Evening" },
-  { key: "wed_morning", ar: "الأربعاء صباحاً", en: "Wednesday Morning" },
-  { key: "fri_afternoon", ar: "الجمعة عصراً", en: "Friday Afternoon" },
+// ─── Interview scheduling data ────────────────────────────────────────────────
+// Trainees: 3–4 days per round, multiple time slots each
+const TRAINEE_INTERVIEW_DAYS = [
+  { key: "sat", ar: "السبت",    en: "Saturday"  },
+  { key: "sun", ar: "الأحد",   en: "Sunday"    },
+  { key: "mon", ar: "الاثنين", en: "Monday"    },
+  { key: "wed", ar: "الأربعاء", en: "Wednesday" },
+];
+
+const TRAINEE_TIME_SLOTS = [
+  { key: "morning",   ar: "صباحاً (9 – 11)",   en: "Morning (9 – 11 AM)"   },
+  { key: "midday",    ar: "ظهراً (12 – 2)",     en: "Midday (12 – 2 PM)"    },
+  { key: "afternoon", ar: "عصراً (3 – 5)",      en: "Afternoon (3 – 5 PM)"  },
+  { key: "evening",   ar: "مساءً (6 – 8)",      en: "Evening (6 – 8 PM)"    },
+];
+
+// Trainers: one day is enough
+const TRAINER_INTERVIEW_DAYS = [
+  { key: "sat", ar: "السبت",    en: "Saturday"  },
+  // { key: "sun", ar: "الأحد",   en: "Sunday"    },
+  // { key: "mon", ar: "الاثنين", en: "Monday"    },
+  // { key: "tue", ar: "الثلاثاء", en: "Tuesday"  },
+  // { key: "wed", ar: "الأربعاء", en: "Wednesday" },
+  // { key: "thu", ar: "الخميس",  en: "Thursday"  },
+];
+
+const TRAINER_TIME_SLOTS = [
+  { key: "morning",   ar: "صباحاً (9 – 11)",   en: "Morning (9 – 11 AM)"   },
+  { key: "afternoon", ar: "عصراً (3 – 5)",      en: "Afternoon (3 – 5 PM)"  },
+  { key: "evening",   ar: "مساءً (6 – 8)",      en: "Evening (6 – 8 PM)"    },
 ];
 
 // ─── i18n content ─────────────────────────────────────────────────────────────
@@ -116,14 +121,22 @@ const CONTENT = {
     trainee: {
       stack: "التقنية / المسار",
       cv: "السيرة الذاتية (اختياري)",
-      interviewTime: "أوقات المقابلة المناسبة",
+      interviewDay: "أيام المقابلة المتاحة",
+      interviewTime: "الأوقات المفضلة",
+      interviewNote: "اختر ما يناسبك من الأيام الأربعة المتاحة للدفعة الحالية",
       cvHint: "PDF أو MD — اختياري",
+      dayRequired: "اختر يوماً واحداً على الأقل",
+      timeRequired: "اختر وقتاً واحداً على الأقل",
     },
     trainer: {
       position: "المسمى الوظيفي",
       cv: "السيرة الذاتية",
-      interviewTime: "أوقات المقابلة المناسبة",
+      interviewDay: "اليوم المناسب للمقابلة",
+      interviewTime: "الوقت المفضل",
+      interviewNote: "اختر يوماً واحداً فقط يناسبك للمقابلة",
       cvHint: "PDF أو MD — إلزامي",
+      dayRequired: "اختر يوم المقابلة",
+      timeRequired: "اختر وقت المقابلة",
     },
     company: {
       brand: "الاسم التجاري / العلامة التجارية",
@@ -134,6 +147,7 @@ const CONTENT = {
       crHint: "PDF أو MD — اختياري",
       extraInfo: "معلومات إضافية",
       extraInfoPlaceholder: "أي تفاصيل أخرى تودّ إضافتها…",
+      contactNote: "سيتواصل معك فريقنا مباشرةً لترتيب موعد المقابلة..",
     },
     submit: "إرسال الطلب",
     submitting: "جارٍ الإرسال…",
@@ -142,10 +156,9 @@ const CONTENT = {
       emailInvalid: "البريد الإلكتروني غير صحيح",
       fullNameShort: "الرجاء إدخال الاسم الكامل (اسمان على الأقل)",
       fileType: "الملف يجب أن يكون PDF أو MD",
-      interviewRequired: "اختر وقتاً واحداً على الأقل",
     },
     success: {
-      title: "تم إرسال طلبك بنجاح! 🎉",
+      title: "تم إرسال طلبك بنجاح! ",
       body: "سيصلك بريد تأكيد على عنوانك الإلكتروني خلال دقائق.",
       idLabel: "رقم الطلب",
       hint: "احتفظ برقم طلبك — ستحتاجه للمتابعة لاحقاً.",
@@ -174,14 +187,22 @@ const CONTENT = {
     trainee: {
       stack: "Tech Stack / Track",
       cv: "CV / Resume (Optional)",
-      interviewTime: "Preferred Interview Times",
+      interviewDay: "Available Interview Days",
+      interviewTime: "Preferred Time Slots",
+      interviewNote: "Select from the 4 available days for the current round",
       cvHint: "PDF or MD — optional",
+      dayRequired: "Select at least one day",
+      timeRequired: "Select at least one time slot",
     },
     trainer: {
       position: "Job Position",
       cv: "CV / Resume",
-      interviewTime: "Preferred Interview Times",
+      interviewDay: "Preferred Interview Day",
+      interviewTime: "Preferred Time",
+      interviewNote: "Select one day that works best for you",
       cvHint: "PDF or MD — required",
+      dayRequired: "Please select your interview day",
+      timeRequired: "Please select your preferred time",
     },
     company: {
       brand: "Brand / Trademark",
@@ -192,6 +213,7 @@ const CONTENT = {
       crHint: "PDF or MD — optional",
       extraInfo: "Extra Information",
       extraInfoPlaceholder: "Any additional details you'd like to share…",
+      contactNote: "Our team will reach out directly to schedule your interview. If you're currently busy, we'll suggest an alternative time that works for you.",
     },
     submit: "Submit Application",
     submitting: "Submitting…",
@@ -200,7 +222,6 @@ const CONTENT = {
       emailInvalid: "Invalid email address",
       fullNameShort: "Please enter your full name (at least 2 words)",
       fileType: "File must be PDF or MD",
-      interviewRequired: "Please select at least one time slot",
     },
     success: {
       title: "Application Submitted Successfully! 🎉",
@@ -265,7 +286,11 @@ const CustomSelect = ({ id, label, value, options, onChange, placeholder, requir
 
   return (
     <div className="relative" ref={ref}>
-      {label && <label htmlFor={id} className={labelBase}>{label}{required && <span className="text-red-400 ms-0.5">*</span>}</label>}
+      {label && (
+        <label htmlFor={id} className={labelBase}>
+          {label}{required && <span className="text-red-400 ms-0.5">*</span>}
+        </label>
+      )}
       <button
         id={id}
         type="button"
@@ -319,9 +344,7 @@ const FileUpload = ({ id, label, hint, value, onChange, error, required }) => {
   const inputRef = useRef(null);
   const [dragging, setDragging] = useState(false);
 
-  const handleFile = (file) => {
-    if (file) onChange(file);
-  };
+  const handleFile = (file) => { if (file) onChange(file); };
 
   return (
     <div>
@@ -371,43 +394,135 @@ const FileUpload = ({ id, label, hint, value, onChange, error, required }) => {
   );
 };
 
-// ── InterviewCheckboxes ───────────────────────────────────────────────────────
-const InterviewCheckboxes = ({ label, selected, onChange, lang, error }) => {
-  const toggle = (key) => {
-    onChange(
-      selected.includes(key) ? selected.filter((k) => k !== key) : [...selected, key]
+// ── InterviewScheduler ────────────────────────────────────────────────────────
+// Handles the two-field (Day + Time) interview scheduling UI
+// multiDay = true for trainees (pick many days), false for trainers (pick one day)
+const InterviewScheduler = ({
+  lang,
+  dayLabel,
+  timeLabel,
+  note,
+  days,
+  times,
+  selectedDays,
+  selectedTimes,
+  onDaysChange,
+  onTimesChange,
+  multiDay = true,
+  dayError,
+  timeError,
+}) => {
+  const isRtl = lang === "ar";
+
+  const toggleDay = (key) => {
+    if (multiDay) {
+      onDaysChange(
+        selectedDays.includes(key)
+          ? selectedDays.filter((k) => k !== key)
+          : [...selectedDays, key]
+      );
+    } else {
+      // single-select for trainer
+      onDaysChange(selectedDays.includes(key) ? [] : [key]);
+    }
+  };
+
+  const toggleTime = (key) => {
+    onTimesChange(
+      selectedTimes.includes(key)
+        ? selectedTimes.filter((k) => k !== key)
+        : [...selectedTimes, key]
     );
   };
+
+  const chipBase =
+    "flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold cursor-pointer select-none transition-all duration-200";
+  const chipActive = "bg-emerald-500/30 border-emerald-400 text-emerald-200";
+  const chipInactive = "bg-white/5 border-white/20 text-white/60 hover:border-emerald-400/50 hover:text-white/80";
+
   return (
-    <div>
-      <p className={labelBase}>{label} <span className="text-red-400">*</span></p>
-      <div className="flex flex-wrap gap-2 mt-1">
-        {INTERVIEW_TIMES.map(({ key, ar, en }) => {
-          const checked = selected.includes(key);
-          return (
-            <label
-              key={key}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold cursor-pointer transition-all duration-200
-                ${checked
-                  ? "bg-emerald-500/30 border-emerald-400 text-emerald-200"
-                  : "bg-white/5 border-white/20 text-white/60 hover:border-emerald-400/50 hover:text-white/80"}`}
-            >
-              <input
-                type="checkbox"
-                className="sr-only"
-                checked={checked}
-                onChange={() => toggle(key)}
-              />
-              <Clock className="w-3 h-3 shrink-0" />
-              {lang === "ar" ? ar : en}
-            </label>
-          );
-        })}
+    <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+      {/* Note banner */}
+      {note && (
+        <div className="flex items-start gap-2 text-xs text-amber-300/80 bg-amber-400/10 border border-amber-400/20 rounded-xl px-3 py-2">
+          <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+          <span>{note}</span>
+        </div>
+      )}
+
+      {/* Day picker */}
+      <div>
+        <p className={labelBase}>
+          <Calendar className="inline w-3.5 h-3.5 me-1 text-emerald-400" />
+          {dayLabel} <span className="text-red-400">*</span>
+        </p>
+        <div className="flex flex-wrap gap-2 mt-1">
+          {days.map(({ key, ar, en }) => {
+            const checked = selectedDays.includes(key);
+            return (
+              <label key={key} className={`${chipBase} ${checked ? chipActive : chipInactive}`}>
+                <input
+                  type={multiDay ? "checkbox" : "radio"}
+                  name="interview_day"
+                  className="sr-only"
+                  checked={checked}
+                  onChange={() => toggleDay(key)}
+                />
+                {isRtl ? ar : en}
+              </label>
+            );
+          })}
+        </div>
+        <FieldError msg={dayError} />
       </div>
-      <FieldError msg={error} />
+
+      {/* Time picker — only shown when at least one day is selected */}
+      <AnimatePresence>
+        {selectedDays.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <p className={labelBase}>
+              <Clock className="inline w-3.5 h-3.5 me-1 text-emerald-400" />
+              {timeLabel} <span className="text-red-400">*</span>
+            </p>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {times.map(({ key, ar, en }) => {
+                const checked = selectedTimes.includes(key);
+                return (
+                  <label key={key} className={`${chipBase} ${checked ? chipActive : chipInactive}`}>
+                    <input
+                      type="checkbox"
+                      className="sr-only"
+                      checked={checked}
+                      onChange={() => toggleTime(key)}
+                    />
+                    {isRtl ? ar : en}
+                  </label>
+                );
+              })}
+            </div>
+            <FieldError msg={timeError} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
+
+// ── CompanyContactNotice ──────────────────────────────────────────────────────
+// Companies don't pick slots — we reach out to them
+const CompanyContactNotice = ({ lang, note }) => (
+  <div className="flex items-start gap-3 rounded-2xl border border-blue-400/25 bg-blue-500/10 px-4 py-4">
+    <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-400/30 flex items-center justify-center shrink-0 mt-0.5">
+      <PhoneCall className="w-4 h-4 text-blue-300" />
+    </div>
+    <p className="text-sm text-blue-200/80 leading-relaxed">{note}</p>
+  </div>
+);
 
 // ─── Success / Confirmation Page ──────────────────────────────────────────────
 const SuccessPage = ({ lang, applicationId, name, email, tab }) => {
@@ -429,16 +544,12 @@ const SuccessPage = ({ lang, applicationId, name, email, tab }) => {
       className="min-h-[60vh] flex items-center justify-center px-4 py-20"
     >
       <div className="max-w-lg w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl text-center space-y-6">
-        {/* Icon */}
         <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center">
           <CheckCircle2 className="w-10 h-10 text-emerald-300" />
         </div>
-
-        {/* Title */}
         <h2 className="text-2xl font-extrabold text-white">{c.title}</h2>
         <p className="text-white/70 text-sm leading-relaxed">{c.body}</p>
 
-        {/* Application ID card */}
         <div className="bg-white/5 border border-white/15 rounded-2xl p-5 space-y-3">
           <p className="text-xs text-white/50 uppercase tracking-widest font-semibold">{c.idLabel}</p>
           <div className="flex items-center justify-center gap-3">
@@ -454,7 +565,6 @@ const SuccessPage = ({ lang, applicationId, name, email, tab }) => {
             </button>
           </div>
 
-          {/* Summary */}
           <div className="mt-3 pt-3 border-t border-white/10 grid grid-cols-2 gap-2 text-start">
             {[
               { label: lang === "ar" ? "الاسم" : "Name", value: name },
@@ -469,7 +579,6 @@ const SuccessPage = ({ lang, applicationId, name, email, tab }) => {
           </div>
         </div>
 
-        {/* Hint */}
         <div className="flex items-start gap-2.5 bg-amber-500/10 border border-amber-400/30 rounded-xl px-4 py-3 text-start">
           <BookOpen className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
           <p className="text-xs text-amber-200/80 leading-relaxed">{c.hint}</p>
@@ -491,34 +600,29 @@ const SubscriptionSection = ({ lang = "ar" }) => {
 
   // ── General fields ──────────────────────────────────────────────
   const [general, setGeneral] = useState({
-    email: "",
-    name: "",
-    country: "",
-    acceptConditions: false,
+    email: "", name: "", country: "", acceptConditions: false,
   });
 
   // ── Trainee fields ──────────────────────────────────────────────
   const [trainee, setTrainee] = useState({
     stack: "",
     cv: null,
-    interviewTimes: [],
+    interviewDays: [],   // multi-select (3–4 days available)
+    interviewTimes: [],  // multi-select
   });
 
   // ── Trainer fields ──────────────────────────────────────────────
   const [trainer, setTrainer] = useState({
     position: "",
     cv: null,
-    interviewTimes: [],
+    interviewDays: [],   // single-select (one day)
+    interviewTimes: [],  // multi-select
   });
 
   // ── Company fields ──────────────────────────────────────────────
+  // No interview scheduling — team contacts them directly
   const [company, setCompany] = useState({
-    brand: "",
-    field: "",
-    package: "",
-    crNumber: "",
-    cr: null,
-    extraInfo: "",
+    brand: "", field: "", package: "", crNumber: "", cr: null, extraInfo: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -540,13 +644,17 @@ const SubscriptionSection = ({ lang = "ar" }) => {
 
     if (activeTab === "trainee") {
       if (!trainee.stack) errs.stack = c.errors.required;
-      if (!trainee.interviewTimes.length) errs.interviewTimes = c.errors.interviewRequired;
+      if (!trainee.interviewDays.length) errs.interviewDays = c.trainee.dayRequired;
+      if (trainee.interviewDays.length && !trainee.interviewTimes.length)
+        errs.interviewTimes = c.trainee.timeRequired;
       if (trainee.cv && !isValidFile(trainee.cv)) errs.cvTrainee = c.errors.fileType;
     }
 
     if (activeTab === "trainer") {
       if (!trainer.position) errs.position = c.errors.required;
-      if (!trainer.interviewTimes.length) errs.interviewTimes = c.errors.interviewRequired;
+      if (!trainer.interviewDays.length) errs.interviewDays = c.trainer.dayRequired;
+      if (trainer.interviewDays.length && !trainer.interviewTimes.length)
+        errs.interviewTimes = c.trainer.timeRequired;
       if (!trainer.cv) errs.cvTrainer = c.errors.required;
       else if (!isValidFile(trainer.cv)) errs.cvTrainer = c.errors.fileType;
     }
@@ -569,7 +677,8 @@ const SubscriptionSection = ({ lang = "ar" }) => {
     setErrors(errs);
     setTouched({
       name: true, email: true, country: true, acceptConditions: true,
-      stack: true, interviewTimes: true, position: true, cvTrainer: true,
+      stack: true, interviewDays: true, interviewTimes: true,
+      position: true, cvTrainer: true,
       brand: true, field: true, package: true, crNumber: true,
     });
 
@@ -581,14 +690,22 @@ const SubscriptionSection = ({ lang = "ar" }) => {
     const id = generateId();
     setLoading(true);
 
+    const interviewPayload =
+      activeTab === "trainee"
+        ? { days: trainee.interviewDays, times: trainee.interviewTimes }
+        : activeTab === "trainer"
+        ? { day: trainer.interviewDays[0] || null, times: trainer.interviewTimes }
+        : { note: "team_will_contact" };
+
     const payload = {
       applicationId: id,
       type: activeTab,
       roundId: ROUND_ID,
       general,
+      interview: interviewPayload,
       specific:
-        activeTab === "trainee" ? trainee
-        : activeTab === "trainer" ? trainer
+        activeTab === "trainee" ? { stack: trainee.stack, cv: trainee.cv?.name }
+        : activeTab === "trainer" ? { position: trainer.position, cv: trainer.cv?.name }
         : company,
     };
 
@@ -615,13 +732,7 @@ const SubscriptionSection = ({ lang = "ar" }) => {
         className="py-10 px-4 bg-gradient-to-br from-deep-blue to-emerald text-white"
         dir={isRtl ? "rtl" : "ltr"}
       >
-        <SuccessPage
-          lang={lang}
-          applicationId={appId}
-          name={general.name}
-          email={general.email}
-          tab={activeTab}
-        />
+        <SuccessPage lang={lang} applicationId={appId} name={general.name} email={general.email} tab={activeTab} />
       </section>
     );
   }
@@ -639,12 +750,8 @@ const SubscriptionSection = ({ lang = "ar" }) => {
 
         {/* ── Header ── */}
         <div className="text-center mb-10" data-aos="fade-up">
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-3 drop-shadow-sm">
-            {c.sectionTitle}
-          </h2>
-          <p className="text-white/65 text-base max-w-xl mx-auto leading-relaxed">
-            {c.sectionSubtitle}
-          </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-3 drop-shadow-sm">{c.sectionTitle}</h2>
+          <p className="text-white/65 text-base max-w-xl mx-auto leading-relaxed">{c.sectionSubtitle}</p>
         </div>
 
         {/* ── Card ── */}
@@ -706,7 +813,6 @@ const SubscriptionSection = ({ lang = "ar" }) => {
                 aria-hidden="true"
                 autoComplete="off"
               />
-              {/* Hidden round id */}
               <input type="hidden" name="round_id" value={ROUND_ID} />
 
               {/* ── General Fields ── */}
@@ -763,6 +869,8 @@ const SubscriptionSection = ({ lang = "ar" }) => {
               <FieldError msg={touched.country && errors.country} />
 
               {/* ── Tab-specific fields ── */}
+
+              {/* TRAINEE */}
               {activeTab === "trainee" && (
                 <div className="space-y-4">
                   <CustomSelect
@@ -775,13 +883,24 @@ const SubscriptionSection = ({ lang = "ar" }) => {
                     required
                   />
                   <FieldError msg={touched.stack && errors.stack} />
-                  <InterviewCheckboxes
-                    label={c.trainee.interviewTime}
-                    selected={trainee.interviewTimes}
-                    onChange={(val) => setTrainee((t) => ({ ...t, interviewTimes: val }))}
+
+                  {/* Interview scheduler — multi-day (3–4 days available per round) */}
+                  <InterviewScheduler
                     lang={lang}
-                    error={touched.interviewTimes && errors.interviewTimes}
+                    dayLabel={c.trainee.interviewDay}
+                    timeLabel={c.trainee.interviewTime}
+                    note={c.trainee.interviewNote}
+                    days={TRAINEE_INTERVIEW_DAYS}
+                    times={TRAINEE_TIME_SLOTS}
+                    selectedDays={trainee.interviewDays}
+                    selectedTimes={trainee.interviewTimes}
+                    onDaysChange={(val) => setTrainee((t) => ({ ...t, interviewDays: val, interviewTimes: [] }))}
+                    onTimesChange={(val) => setTrainee((t) => ({ ...t, interviewTimes: val }))}
+                    multiDay={true}
+                    dayError={touched.interviewDays && errors.interviewDays}
+                    timeError={touched.interviewTimes && errors.interviewTimes}
                   />
+
                   <FileUpload
                     id="sub_cv_trainee"
                     label={c.trainee.cv}
@@ -793,6 +912,7 @@ const SubscriptionSection = ({ lang = "ar" }) => {
                 </div>
               )}
 
+              {/* TRAINER */}
               {activeTab === "trainer" && (
                 <div className="space-y-4">
                   <CustomSelect
@@ -805,13 +925,24 @@ const SubscriptionSection = ({ lang = "ar" }) => {
                     required
                   />
                   <FieldError msg={touched.position && errors.position} />
-                  <InterviewCheckboxes
-                    label={c.trainer.interviewTime}
-                    selected={trainer.interviewTimes}
-                    onChange={(val) => setTrainer((t) => ({ ...t, interviewTimes: val }))}
+
+                  {/* Interview scheduler — single day only */}
+                  <InterviewScheduler
                     lang={lang}
-                    error={touched.interviewTimes && errors.interviewTimes}
+                    dayLabel={c.trainer.interviewDay}
+                    timeLabel={c.trainer.interviewTime}
+                    note={c.trainer.interviewNote}
+                    days={TRAINER_INTERVIEW_DAYS}
+                    times={TRAINER_TIME_SLOTS}
+                    selectedDays={trainer.interviewDays}
+                    selectedTimes={trainer.interviewTimes}
+                    onDaysChange={(val) => setTrainer((t) => ({ ...t, interviewDays: val, interviewTimes: [] }))}
+                    onTimesChange={(val) => setTrainer((t) => ({ ...t, interviewTimes: val }))}
+                    multiDay={false}
+                    dayError={touched.interviewDays && errors.interviewDays}
+                    timeError={touched.interviewTimes && errors.interviewTimes}
                   />
+
                   <FileUpload
                     id="sub_cv_trainer"
                     label={c.trainer.cv}
@@ -824,6 +955,7 @@ const SubscriptionSection = ({ lang = "ar" }) => {
                 </div>
               )}
 
+              {/* COMPANY */}
               {activeTab === "company" && (
                 <div className="space-y-4">
                   <div className="grid sm:grid-cols-2 gap-3">
@@ -911,6 +1043,9 @@ const SubscriptionSection = ({ lang = "ar" }) => {
                     />
                     <span className="text-[10px] text-white/30">{company.extraInfo.length}/3000</span>
                   </div>
+
+                  {/* Contact notice — replaces interview scheduler for companies */}
+                  <CompanyContactNotice lang={lang} note={c.company.contactNote} />
                 </div>
               )}
 
@@ -926,8 +1061,7 @@ const SubscriptionSection = ({ lang = "ar" }) => {
                   }}
                 />
                 <span className="text-xs text-white/65 group-hover:text-white/85 transition-colors leading-relaxed">
-                  {c.general.acceptConditions}{" "}
-                  <span className="text-red-400">*</span>
+                  {c.general.acceptConditions} <span className="text-red-400">*</span>
                 </span>
               </label>
               <FieldError msg={touched.acceptConditions && errors.acceptConditions} />
