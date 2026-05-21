@@ -9,6 +9,8 @@ import LoginPage from './pages/LoginPage';
 import UserList from './pages/UserList';
 import RoleList from './pages/RoleList';
 import PermissionList from './pages/PermissionList';
+import SubscribersPage from './pages/SubscribersPage';
+import SubscriberDetails from './pages/SubscriberDetails';
 
 // Placeholders for now
 const DashboardHome = () => <div className="p-4"><h1 className="text-2xl font-bold">Dashboard Home</h1><p className="text-slate-600">Welcome back!</p></div>;
@@ -40,6 +42,8 @@ function App() {
           <Route path="users" element={<UserList />} />
           <Route path="roles" element={<RoleList />} />
           <Route path="permissions" element={<PermissionList />} />
+          <Route path="subscribers" element={<SubscribersPage />} />
+          <Route path="subscribers/:type/:id" element={<SubscriberDetails />} />
           <Route path="profile" element={<div className="p-4">Profile Page</div>} />
         </Route>
       </Routes>

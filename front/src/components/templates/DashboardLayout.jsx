@@ -3,6 +3,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
+  faEnvelope,
   faGaugeHigh, 
   faUsers, 
   faUser, 
@@ -49,6 +50,12 @@ const DashboardLayout = () => {
       items: [
         { id: 'roles', name: isRTL ? 'الأدوار' : 'Roles', icon: faUserShield, path: '/dashboard/roles' },
         { id: 'permissions', name: isRTL ? 'الصلاحيات' : 'Permissions', icon: faKey, path: '/dashboard/permissions' },
+        { 
+  id: 'subscribers', 
+  name: isRTL ? 'المشتركين' : 'Subscribers', 
+  icon: faEnvelope, 
+  path: '/dashboard/subscribers' 
+},
       ]
     }
   ];
@@ -63,6 +70,7 @@ const DashboardLayout = () => {
         if (part === 'users') return isRTL ? 'المستخدمين' : 'Users';
         if (part === 'roles') return isRTL ? 'الأدوار' : 'Roles';
         if (part === 'permissions') return isRTL ? 'الصلاحيات' : 'Permissions';
+        if (part === 'subscribers') return isRTL ? 'المشتركين' : 'Subscribers';
         return part;
     });
   };

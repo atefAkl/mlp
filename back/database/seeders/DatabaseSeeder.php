@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         $mentor = User::factory()->create([
             'name' => 'أحمد الموجه (Mentor)',
-            'email' => 'mentor@example.com',
+            'email' => 'admin@quest.com',
             'password' => bcrypt('password'),
             'position_id' => $mentorPos->id
         ]);

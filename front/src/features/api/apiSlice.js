@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://www.pmapp.api/api', // Laravel backend URL
+    baseUrl: 'http://127.0.0.1:8000/api', // Laravel backend URL
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
