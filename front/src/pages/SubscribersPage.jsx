@@ -59,7 +59,6 @@ const SubscribersPage = () => {
   }, [filteredSubscribers]);
 
   const allIds = filteredSubscribers.map((item) => item.id);
-  const currentItems = filteredSubscribers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const isSelected = (id) => selectedIds.includes(id);
   const toggleSelect = (id) => {

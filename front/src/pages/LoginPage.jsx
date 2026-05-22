@@ -13,7 +13,7 @@ const LoginPage = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('mentor@example.com');
+  const [email, setEmail] = useState('admin@quest.com');
   const [password, setPassword] = useState('password');
   const isRTL = i18n.language === 'ar';
 

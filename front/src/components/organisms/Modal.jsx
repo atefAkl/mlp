@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import Button from '../atoms/Button';
 
 const Modal = ({ isOpen, onClose, title, children, footer, size = 'md' }) => {
   // Close on Escape key

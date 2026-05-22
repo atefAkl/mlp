@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&family=Almarai:wght@300;400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Almarai:wght@300;400;700;800&family=Inter:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
 @import 'react-toastify/dist/ReactToastify.css';
 
 @tailwind base;
@@ -12,16 +12,17 @@
   --theme-primary-light: #eff6ff;
   --theme-shadow: rgba(30, 58, 138, 0.1);
   --theme-border-accent: rgba(30, 58, 138, 0.15);
+  --theme-font: 'Cairo', sans-serif;
 }
 
 /* Custom CSS for RTL/LTR support */
 body {
-  font-family: "Cairo", sans-serif;
+  font-family: var(--theme-font), 'Cairo', sans-serif;
   @apply text-slate-800 bg-theme-bg-page transition-colors duration-500;
 }
 
 body.ltr {
-  font-family: "Almarai", sans-serif;
+  font-family: var(--theme-font), 'Almarai', sans-serif;
 }
 
 /* Compact layout utilities */

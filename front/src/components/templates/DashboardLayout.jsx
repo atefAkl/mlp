@@ -19,86 +19,27 @@ import {
 import Button from '../atoms/Button';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/auth/authSlice';
+import { getGeneralSettings } from '../../utils/themeHelper';
 
 const DashboardLayout = () => {
   const { t, i18n } = useTranslation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [openMenus, setOpenMenus] = useState(['settings']);
+  const [appName, setAppName] = useState(() => getGeneralSettings().appName);
   const location = useLocation();
   const dispatch = useDispatch();
   const isRTL = i18n.language === 'ar';
 
-  const [activeTheme, setActiveTheme] = useState('beige');
-
-  const themes = {
-    beige: {
-      name: isRTL ? 'بيج كلاسيكي' : 'Classic Beige',
-      bgPage: '#f6f4eb',
-      primary: '#1e3a8a',
-      primaryHover: '#172554',
-      primaryLight: '#eff6ff',
-      shadow: 'rgba(30, 58, 138, 0.1)',
-      borderAccent: 'rgba(30, 58, 138, 0.15)',
-    },
-    sand: {
-      name: isRTL ? 'رمل ذهبي' : 'Golden Sand',
-      bgPage: '#f2eae1',
-      primary: '#b45309',
-      primaryHover: '#78350f',
-      primaryLight: '#fef3c7',
-      shadow: 'rgba(180, 83, 9, 0.1)',
-      borderAccent: 'rgba(180, 83, 9, 0.15)',
-    },
-    sage: {
-      name: isRTL ? 'زيتون هادئ' : 'Nordic Sage',
-      bgPage: '#e9ece6',
-      primary: '#0f766e',
-      primaryHover: '#115e59',
-      primaryLight: '#f0fdfa',
-      shadow: 'rgba(15, 118, 110, 0.1)',
-      borderAccent: 'rgba(15, 118, 110, 0.15)',
-    },
-    terracotta: {
-      name: isRTL ? 'آجر دافئ' : 'Warm Terracotta',
-      bgPage: '#f5ece9',
-      primary: '#c2410c',
-      primaryHover: '#9a3412',
-      primaryLight: '#fff7ed',
-      shadow: 'rgba(194, 65, 12, 0.1)',
-      borderAccent: 'rgba(194, 65, 12, 0.15)',
-    },
-    parchment: {
-      name: isRTL ? 'بردي عتيق' : 'Vintage Parchment',
-      bgPage: '#f0ede4',
-      primary: '#4b5320',
-      primaryHover: '#3b401a',
-      primaryLight: '#f6f5f0',
-      shadow: 'rgba(75, 83, 32, 0.1)',
-      borderAccent: 'rgba(75, 83, 32, 0.15)',
-    }
-  };
-
-  const changeTheme = (themeKey) => {
-    const theme = themes[themeKey] || themes.beige;
-    setActiveTheme(themeKey);
-    const root = document.documentElement;
-    root.style.setProperty('--theme-bg-page', theme.bgPage);
-    root.style.setProperty('--theme-primary', theme.primary);
-    root.style.setProperty('--theme-primary-hover', theme.primaryHover);
-    root.style.setProperty('--theme-primary-light', theme.primaryLight);
-    root.style.setProperty('--theme-shadow', theme.shadow);
-    root.style.setProperty('--theme-border-accent', theme.borderAccent);
-    localStorage.setItem('active-theme', themeKey);
-  };
-
   useEffect(() => {
-    const savedTheme = localStorage.getItem('active-theme');
-    if (savedTheme && themes[savedTheme]) {
-      changeTheme(savedTheme);
-    } else {
-      changeTheme('beige');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const handleSettingsUpdate = (e) => {
+      if (e.detail?.appName) {
+        setAppName(e.detail.appName);
+      }
+    };
+    window.addEventListener('app-settings-updated', handleSettingsUpdate);
+    return () => {
+      window.removeEventListener('app-settings-updated', handleSettingsUpdate);
+    };
   }, []);
 
   const toggleMenu = (menuId) => {
@@ -121,6 +62,7 @@ const DashboardLayout = () => {
       label: isRTL ? 'الإعدادات' : 'Settings',
       icon: faGear,
       items: [
+        { id: 'settings', name: isRTL ? 'إعدادات النظام' : 'App Settings', icon: faGear, path: '/dashboard/settings' },
         { id: 'roles', name: isRTL ? 'الأدوار' : 'Roles', icon: faUserShield, path: '/dashboard/roles' },
         { id: 'permissions', name: isRTL ? 'الصلاحيات' : 'Permissions', icon: faKey, path: '/dashboard/permissions' },
         { 
@@ -144,6 +86,8 @@ const DashboardLayout = () => {
         if (part === 'roles') return isRTL ? 'الأدوار' : 'Roles';
         if (part === 'permissions') return isRTL ? 'الصلاحيات' : 'Permissions';
         if (part === 'subscribers') return isRTL ? 'المشتركين' : 'Subscribers';
+        if (part === 'settings') return isRTL ? 'إعدادات النظام' : 'App Settings';
+        if (part === 'profile') return isRTL ? 'الملف الشخصي' : 'Profile';
         return part;
     });
   };
@@ -157,7 +101,7 @@ const DashboardLayout = () => {
         className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-e border-slate-200 smooth-transition flex flex-col h-screen sticky top-0 z-50`}
       >
         <div className="h-16 flex-shrink-0 p-4 border-b border-slate-200 flex items-center justify-between">
-          {sidebarOpen && <span className="font-black text-2xl text-theme-primary tracking-tighter transition-colors duration-500">MAWTHIQ</span>}
+          {sidebarOpen && <span className="font-black text-2xl text-theme-primary tracking-tighter transition-colors duration-500 uppercase">{appName}</span>}
           <Button 
             variant="ghost" 
             icon={sidebarOpen ? (isRTL ? faChevronRight : faChevronLeft) : (isRTL ? faChevronLeft : faChevronRight)} 
@@ -250,29 +194,6 @@ const DashboardLayout = () => {
           </div>
           
           <div className="flex items-center gap-4">
-            {/* Dynamic Theme Picker */}
-            <div className="flex items-center gap-1.5 bg-slate-100/80 p-1 rounded-xl border border-slate-200 shadow-inner">
-              {Object.entries(themes).map(([key, theme]) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => changeTheme(key)}
-                  className={`w-5 h-5 rounded-full border-2 transition-all duration-300 relative group flex items-center justify-center ${
-                    activeTheme === key 
-                      ? 'border-slate-800 scale-110 shadow-sm' 
-                      : 'border-white hover:scale-105 hover:shadow-xs'
-                  }`}
-                  style={{ backgroundColor: theme.bgPage }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: theme.primary }} />
-                  {/* Tooltip */}
-                  <span className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[9px] font-bold py-0.5 px-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 shadow-sm">
-                    {theme.name}
-                  </span>
-                </button>
-              ))}
-            </div>
-
             <button 
               onClick={() => i18n.changeLanguage(isRTL ? 'en' : 'ar')}
               className="text-[10px] font-black text-slate-500 hover:text-theme-primary border border-slate-200 px-3 py-1.5 rounded-lg bg-slate-50 smooth-transition uppercase tracking-tighter"

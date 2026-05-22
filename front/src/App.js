@@ -12,6 +12,10 @@ import PermissionList from './pages/PermissionList';
 import SubscribersPage from './pages/SubscribersPage';
 import SubscriberDetails from './pages/SubscriberDetails';
 
+import { getThemeSettings, applyThemeSettings } from './utils/themeHelper';
+import GeneralSettings from './pages/GeneralSettings';
+import ProfileSettings from './pages/ProfileSettings';
+
 // Placeholders for now
 const DashboardHome = () => <div className="p-4"><h1 className="text-2xl font-bold">Dashboard Home</h1><p className="text-slate-600">Welcome back!</p></div>;
 
@@ -22,6 +26,12 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const { i18n } = useTranslation();
+
+  // Initialize Theme Settings
+  useEffect(() => {
+    const { brand, background, font } = getThemeSettings();
+    applyThemeSettings(brand, background, font);
+  }, []);
 
   // Handle Global Direction Change
   useEffect(() => {
@@ -44,7 +54,8 @@ function App() {
           <Route path="permissions" element={<PermissionList />} />
           <Route path="subscribers" element={<SubscribersPage />} />
           <Route path="subscribers/:type/:id" element={<SubscriberDetails />} />
-          <Route path="profile" element={<div className="p-4">Profile Page</div>} />
+          <Route path="profile" element={<ProfileSettings />} />
+          <Route path="settings" element={<GeneralSettings />} />
         </Route>
       </Routes>
       <ToastContainer 
