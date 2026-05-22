@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logout } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.REACT_APP_API_URL || 'http://www.mawthiq.loc/api', // Laravel backend URL
+  baseUrl: process.env.REACT_APP_API_URL ||'http://127.0.0.1:8000/api', // Laravel backend URL 'http://www.mawthiq.loc/api'
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
     if (token) {

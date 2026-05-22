@@ -2,113 +2,181 @@ import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faEnvelope, faCheckCircle, faTimesCircle, faQuestion, faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { 
+   faEnvelope, faCheckCircle, faTimesCircle, 
+  faQuestion, faChevronDown, faChevronUp, faEye, 
+  faUserCheck, faUserTimes, faQuestionCircle 
+} from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/atoms/Button';
-import { Input, Select } from '../components/atoms/FormElements';
-import Modal from '../components/organisms/Modal';
 import StatsCard from '../components/molecules/StatsCard';
 import Pagination from '../components/molecules/Pagination';
+import ResourceHeader from '../components/organisms/ResourceHeader';
+import ResourceFilters from '../components/organisms/ResourceFilters';
+import SelectionBanner from '../components/molecules/SelectionBanner';
+import Modal from '../components/organisms/Modal';
+import { Input, Select } from '../components/atoms/FormElements';
 import { subscribers as sampleSubscribers, subscriberTypes, subscriberRounds, subscriberStatuses, typeLabels, statusLabels } from '../data/subscribers';
 import { toast } from 'react-toastify';
 
 const typeOptions = [{ value: '', label: 'All Types' }, ...subscriberTypes];
 
 const SubscribersPage = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
-  const [filters, setFilters] = useState({ type: '', round: '', date: '', name: '', status: '' });
+  // State
+  const [subscribers, setSubscribers] = useState(sampleSubscribers);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filters, setFilters] = useState({ type: '', round: '', date: '', status: '' });
   const [viewMode, setViewMode] = useState('list');
   const [selectedIds, setSelectedIds] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState('');
+  const [activeGroup, setActiveGroup] = useState(null);
+  
+  // Modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState(''); 
   const [activeSubscriber, setActiveSubscriber] = useState(null);
   const [actionDate, setActionDate] = useState('');
   const [actionMessage, setActionMessage] = useState('');
-  const [subscribers, setSubscribers] = useState(sampleSubscribers);
+
+  // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const filteredSubscribers = useMemo(() => {
-    return subscribers.filter((item) => {
-      const sameType = filters.type ? item.type === filters.type : true;
-      const sameRound = filters.round ? item.round === filters.round : true;
-      const sameStatus = filters.status ? item.status === filters.status : true;
-      const sameName = filters.name ? item.name.toLowerCase().includes(filters.name.toLowerCase()) : true;
-      const sameDate = filters.date ? item.date.startsWith(filters.date) : true;
-      return sameType && sameRound && sameStatus && sameName && sameDate;
-    });
-  }, [filters, subscribers]);
-
-  const grouped = useMemo(() => {
-    return filteredSubscribers.reduce((groups, subscriber) => {
-      const key = subscriber.type;
-      if (!groups[key]) groups[key] = [];
-      groups[key].push(subscriber);
-      return groups;
+ 
+  const groupedSubscribers = useMemo(() => {
+    return subscribers.reduce((acc, item) => {
+      const group = item.type || 'General';
+      if (!acc[group]) acc[group] = [];
+      acc[group].push(item);
+      return acc;
     }, {});
-  }, [filteredSubscribers]);
+  }, [subscribers]);
 
+
+  const filteredGroups = useMemo(() => {
+    return Object.entries(groupedSubscribers).reduce((acc, [group, items]) => {
+      const filteredItems = items.filter((item) => {
+        const matchesSearch = searchTerm === '' || 
+          item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+          item.email.toLowerCase().includes(searchTerm.toLowerCase());
+          
+        const matchesType = filters.type === '' || item.type === filters.type;
+        const matchesRound = filters.round === '' || item.round === filters.round;
+        const matchesStatus = filters.status === '' || item.status === filters.status;
+        const matchesDate = filters.date === '' || item.date.startsWith(filters.date);
+
+        return matchesSearch && matchesType && matchesRound && matchesStatus && matchesDate;
+      });
+
+      if (filteredItems.length > 0) {
+        acc[group] = filteredItems;
+      }
+      return acc;
+    }, {});
+  }, [groupedSubscribers, searchTerm, filters]);
+
+ 
   const stats = useMemo(() => {
-    const total = filteredSubscribers.length;
-    const accepted = filteredSubscribers.filter((item) => item.status === 'accepted').length;
-    const rejected = filteredSubscribers.filter((item) => item.status === 'rejected').length;
-    const maybe = filteredSubscribers.filter((item) => item.status === 'maybe').length;
-    const pending = filteredSubscribers.filter((item) => item.status === 'pending').length;
-    return { total, accepted, rejected, maybe, pending };
-  }, [filteredSubscribers]);
+    const allFilteredItems = Object.values(filteredGroups).flat();
+    return {
+      total: allFilteredItems.length,
+      accepted: allFilteredItems.filter((item) => item.status === 'accepted').length,
+      rejected: allFilteredItems.filter((item) => item.status === 'rejected').length,
+      maybe: allFilteredItems.filter((item) => item.status === 'maybe').length,
+    };
+  }, [filteredGroups]);
 
-  const allIds = filteredSubscribers.map((item) => item.id);
+ 
+  const groupEntries = Object.entries(filteredGroups);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentGroups = groupEntries.slice(indexOfFirstItem, indexOfLastItem);
 
-  const isSelected = (id) => selectedIds.includes(id);
-  const toggleSelect = (id) => {
-    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((value) => value !== id) : [...prev, id]));
+  if (activeGroup === null && currentGroups.length > 0) {
+    setActiveGroup(currentGroups[0][0]);
+  }
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleBulkAction = (mode) => {
-    if (!selectedIds.length) {
-      toast.warning('Select at least one subscriber first');
-      return;
-    }
+  // Selection Handlers
+  const toggleSelect = (id) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const selectAllInGroup = (items) => {
+    const itemIds = items.map(p => p.id);
+    setSelectedIds(prev => [...new Set([...prev, ...itemIds])]);
+  };
+
+  const selectNoneInGroup = (items) => {
+    const itemIds = items.map(p => p.id);
+    setSelectedIds(prev => prev.filter(id => !itemIds.includes(id)));
+  };
+
+  const invertSelectionInGroup = (items) => {
+    const itemIds = items.map(p => p.id);
+    setSelectedIds(prev => {
+      const unselectedInGroup = itemIds.filter(id => !prev.includes(id));
+      return [...prev.filter(id => !itemIds.includes(id)), ...unselectedInGroup];
+    });
+  };
+
+  const toggleAccordion = (group) => {
+    setActiveGroup(prev => prev === group ? null : group);
+  };
+
+  const handleOpenModal = (mode, subscriber = null) => {
     setModalMode(mode);
-    setModalOpen(true);
+    setActiveSubscriber(subscriber);
+    setActionMessage('');
+    setActionDate(subscriber?.date || '');
+    setIsModalOpen(true);
+  };
+
+  const handleBulkDelete = () => {
+    if (window.confirm(isRTL ? `هل تريد حذف ${selectedIds.length} من المشتركين المحددين؟` : `Delete ${selectedIds.length} selected subscribers?`)) {
+      setSubscribers(prev => prev.filter(item => !selectedIds.includes(item.id)));
+      toast.success(isRTL ? 'تم حذف المشتركين بنجاح' : 'Selected subscribers deleted');
+      setSelectedIds([]);
+    }
+  };
+
+  const handleGroupBulkAction = (mode, groupItems) => {
+    const groupItemIds = groupItems.map(p => p.id);
+    const selectedInGroup = selectedIds.filter(id => groupItemIds.includes(id));
+    if (!selectedInGroup.length) return;
+
+    setModalMode(`bulk-${mode}`);
+    setIsModalOpen(true);
     setActionMessage('');
     setActionDate('');
   };
 
-  const handleAction = (mode, subscriber = null) => {
-    setModalMode(mode);
-    setActiveSubscriber(subscriber);
-    setModalOpen(true);
-    setActionMessage('');
-    setActionDate(subscriber?.date || '');
-  };
-
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (modalMode === 'accept' || modalMode === 'bulk-accept') {
-      const ids = modalMode === 'bulk-accept' ? selectedIds : [activeSubscriber.id];
-      setSubscribers((prev) => prev.map((item) => ids.includes(item.id) ? { ...item, status: 'accepted', date: actionDate || item.date } : item));
-      toast.success(`Invitation scheduled for ${ids.length} subscriber(s)`);
-      if (modalMode === 'bulk-accept') setSelectedIds([]);
-    } else if (modalMode === 'reject' || modalMode === 'bulk-reject') {
-      const ids = modalMode === 'bulk-reject' ? selectedIds : [activeSubscriber.id];
-      setSubscribers((prev) => prev.map((item) => ids.includes(item.id) ? { ...item, status: 'rejected' } : item));
-      toast.info(`Rejected ${ids.length} subscriber(s)`);
-      if (modalMode === 'bulk-reject') setSelectedIds([]);
-    } else if (modalMode === 'maybe' || modalMode === 'bulk-maybe') {
-      const ids = modalMode === 'bulk-maybe' ? selectedIds : [activeSubscriber.id];
-      setSubscribers((prev) => prev.map((item) => ids.includes(item.id) ? { ...item, status: 'maybe' } : item));
-      toast.info(`Marked ${ids.length} subscriber(s) as maybe`);
-      if (modalMode === 'bulk-maybe') setSelectedIds([]);
-    }
-    setModalOpen(false);
-  };
+    if (e && e.preventDefault) e.preventDefault();
+    const ids = modalMode.startsWith('bulk-') ? selectedIds : [activeSubscriber.id];
+    const currentStatus = modalMode.includes('accept') ? 'accepted' : modalMode.includes('reject') ? 'rejected' : 'maybe';
 
-  const handleSelection = (type) => {
-    if (type === 'all') setSelectedIds(allIds);
-    if (type === 'none') setSelectedIds([]);
-    if (type === 'invert') setSelectedIds(allIds.filter((id) => !selectedIds.includes(id)));
+    setSubscribers((prev) => prev.map((item) => {
+      if (ids.includes(item.id)) {
+        return { 
+          ...item, 
+          status: currentStatus, 
+          date: currentStatus === 'accepted' ? (actionDate || item.date) : item.date 
+        };
+      }
+      return item;
+    }));
+
+    toast.success(isRTL ? 'تم تحديث الحالة بنجاح' : 'Status updated successfully');
+    if (modalMode.startsWith('bulk-')) {
+      setSelectedIds(prev => prev.filter(id => !ids.includes(id)));
+    }
+    setIsModalOpen(false);
   };
 
   const renderStatusBadge = (status) => {
@@ -119,203 +187,307 @@ const SubscribersPage = () => {
       pending: 'bg-slate-100 text-slate-600',
     };
     return (
-      <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold ${classes[status]}`}>
-        <FontAwesomeIcon icon={status === 'accepted' ? faCheckCircle : status === 'rejected' ? faTimesCircle : status === 'maybe' ? faQuestion : faEnvelope} className="text-[10px]" />
-        {statusLabels[status]}
+      <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold ${classes[status] || classes.pending}`}>
+        {statusLabels[status] || status}
       </span>
     );
   };
 
-  const resetFilters = () => {
-    setFilters({ type: '', round: '', date: '', name: '', status: '' });
+  const renderGroupToolbar = (group, items) => {
+    const groupItemIds = items.map(p => p.id);
+    const selectedInGroup = selectedIds.filter(id => groupItemIds.includes(id));
+    const selectedCount = selectedInGroup.length;
+
+    return (
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 bg-slate-50/70 p-2.5 px-3 rounded-xl border border-slate-100 animate-in fade-in-50 duration-200">
+        <span className="text-[10px] font-bold text-slate-500">
+          {isRTL 
+            ? `تم تحديد ${selectedCount} من أصل ${items.length} مشتركين` 
+            : `${selectedCount} of ${items.length} subscribers selected`}
+        </span>
+        
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 bg-white p-0.5 px-1 rounded-lg border border-slate-200 shadow-sm">
+            <button type="button" onClick={() => selectAllInGroup(items)} className="px-2 py-1 rounded text-[9px] font-black hover:bg-slate-50 text-theme-primary smooth-transition">{isRTL ? "الكل" : "All"}</button>
+            <span className="text-slate-200 text-[9px]">|</span>
+            <button type="button" onClick={() => selectNoneInGroup(items)} className="px-2 py-1 rounded text-[9px] font-black hover:bg-slate-50 text-slate-500 smooth-transition">{isRTL ? "لا شيء" : "None"}</button>
+            <span className="text-slate-200 text-[9px]">|</span>
+            <button type="button" onClick={() => invertSelectionInGroup(items)} className="px-2 py-1 rounded text-[9px] font-black hover:bg-slate-50 text-amber-600 smooth-transition">{isRTL ? "عكس" : "Invert"}</button>
+          </div>
+          
+          {selectedCount > 0 && (
+            <div className="flex gap-1.5">
+              <button type="button" onClick={() => handleGroupBulkAction('accept', items)} className="flex items-center gap-1 text-[9px] font-black bg-emerald-50 hover:bg-emerald-100 text-emerald-600 px-2.5 py-1.5 rounded-lg border border-emerald-100 smooth-transition shadow-sm">
+                {isRTL ? "قبول المحدد" : "Accept Selected"}
+              </button>
+              <button type="button" onClick={() => handleGroupBulkAction('reject', items)} className="flex items-center gap-1 text-[9px] font-black bg-red-50 hover:bg-red-100 text-red-600 px-2.5 py-1.5 rounded-lg border border-red-100 smooth-transition shadow-sm">
+                {isRTL ? "رفض المحدد" : "Reject Selected"}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
   };
 
   const titleDirection = isRTL ? 'rtl' : 'ltr';
+  const allFilteredItemsFlat = Object.values(filteredGroups).flat();
 
   return (
     <div className="space-y-6 pb-10" dir={titleDirection}>
-      {/* Title Box */}
-      <div className="bg-white border border-slate-200 p-4 flex items-start justify-between mb-2">
-        <div className="space-y-1">
-          <h1 className="text-xl font-black text-slate-900">Subscribers Management</h1>
-          <p className="text-xs text-slate-500 max-w-2xl">View, filter, and manage trainer/trainee interviews plus company demo subscriptions from one dashboard.</p>
-        </div>
-        <div className="flex flex-wrap gap-2 justify-start sm:justify-end">
-          <Button variant="secondary" icon={faRotateRight} onClick={resetFilters} className="uppercase text-[10px] font-bold">Reset Filters</Button>
-          <Button variant="primary" icon={faFilter} onClick={() => setViewMode(viewMode === 'list' ? 'grid' : 'list')} className="uppercase text-[10px] font-bold">
-            {viewMode === 'list' ? 'Grid View' : 'List View'}
-          </Button>
-        </div>
-      </div>
+      
+      <ResourceHeader 
+        title={isRTL ? "إدارة المشتركين" : "Subscribers Management"}
+        description={isRTL ? "عرض وتصفية المقابلات والاشتراكات التجريبية للمدربين والطلاب والشركات." : "View, filter, and manage trainer/trainee interviews plus company demo subscriptions."}
+        onAddNew={null} 
+      />
 
+   
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <StatsCard title="Total Subscribers" value={stats.total} icon={faEnvelope} color="blue" />
-        <StatsCard title="Accepted" value={stats.accepted} icon={faCheckCircle} color="emerald" />
-        <StatsCard title="Rejected" value={stats.rejected} icon={faTimesCircle} color="red" />
-        <StatsCard title="Maybe" value={stats.maybe} icon={faQuestion} color="amber" />
+        <StatsCard title={isRTL ? "إجمالي المشتركين" : "Total Subscribers"} value={stats.total} icon={faEnvelope} color="blue" />
+        <StatsCard title={isRTL ? "مقبول" : "Accepted"} value={stats.accepted} icon={faCheckCircle} color="emerald" />
+        <StatsCard title={isRTL ? "مرفوض" : "Rejected"} value={stats.rejected} icon={faTimesCircle} color="red" />
+        <StatsCard title={isRTL ? "محتمل" : "Maybe"} value={stats.maybe} icon={faQuestion} color="amber" />
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+      <ResourceFilters 
+        searchTerm={searchTerm}
+        onSearch={(value) => { setSearchTerm(value); setCurrentPage(1); }}
+        searchPlaceholder={isRTL ? "البحث عن اسم أو إيميل..." : "Search name or email..."}
+        onViewChange={setViewMode}
+        currentView={viewMode}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 w-full">
           <Select
-            label="Type"
-            options={typeOptions}
+            label={isRTL ? "النوع" : "Type"}
+            options={typeOptions.map(opt => ({ ...opt, label: isRTL && opt.value === '' ? 'كل الأنواع' : opt.label }))}
             value={filters.type}
             onChange={(e) => { setFilters({ ...filters, type: e.target.value }); setCurrentPage(1); }}
           />
           <Select
-            label="Round"
-            options={subscriberRounds.filter((item) => item.value)}
+            label={isRTL ? "الجولة" : "Round"}
+            options={[
+              { value: '', label: isRTL ? 'كل الجولات' : 'All Rounds' },
+              ...subscriberRounds.filter(item => item && item.value !== '').map(r => typeof r === 'object' ? r : { value: r, label: r })
+            ]}
             value={filters.round}
             onChange={(e) => { setFilters({ ...filters, round: e.target.value }); setCurrentPage(1); }}
           />
           <Input
-            label="Date"
+            label={isRTL ? "التاريخ" : "Date"}
             type="date"
             value={filters.date}
             onChange={(e) => { setFilters({ ...filters, date: e.target.value }); setCurrentPage(1); }}
           />
-          <Input
-            label="Name"
-            type="text"
-            value={filters.name}
-            onChange={(e) => { setFilters({ ...filters, name: e.target.value }); setCurrentPage(1); }}
-            placeholder="Search name..."
-          />
           <Select
-            label="Status"
-            options={subscriberStatuses}
+            label={isRTL ? "الحالة" : "Status"}
+            options={[
+              { value: '', label: isRTL ? 'كل الحالات' : 'All Statuses' },
+              ...subscriberStatuses.filter(item => item && item.value !== '').map(s => typeof s === 'object' ? s : { value: s, label: s })
+            ]}
             value={filters.status}
             onChange={(e) => { setFilters({ ...filters, status: e.target.value }); setCurrentPage(1); }}
           />
         </div>
-      </div>
+      </ResourceFilters>
 
-      <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-5">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div className="flex flex-wrap gap-2 items-center">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Bulk actions:</span>
-            <Button variant="secondary" className="text-[11px] px-3" onClick={() => handleSelection('all')}>Select All</Button>
-            <Button variant="secondary" className="text-[11px] px-3" onClick={() => handleSelection('none')}>Select None</Button>
-            <Button variant="secondary" className="text-[11px] px-3" onClick={() => handleSelection('invert')}>Invert</Button>
-          </div>
-          <div className="flex flex-wrap gap-2 items-center">
-            <span className="text-[11px] text-slate-500">{selectedIds.length} selected</span>
-            <Button variant="danger" className="text-[11px] px-3" onClick={() => handleBulkAction('bulk-reject')} disabled={!selectedIds.length}>Reject</Button>
-            <Button variant="secondary" className="text-[11px] px-3" onClick={() => handleBulkAction('bulk-maybe')} disabled={!selectedIds.length}>Maybe</Button>
-            <Button variant="primary" className="text-[11px] px-3" onClick={() => handleBulkAction('bulk-accept')} disabled={!selectedIds.length}>Accept</Button>
-          </div>
-        </div>
-      </div>
+      <SelectionBanner 
+        selectedCount={selectedIds.length}
+        onClear={() => setSelectedIds([])}
+        actions={[
+          {
+            label: isRTL ? 'حذف من النظام' : 'Delete From System',
+            onClick: handleBulkDelete,
+            variant: 'danger'
+          }
+        ]}
+      />
 
       {viewMode === 'list' ? (
-        Object.entries(grouped).map(([groupType, items]) => (
-          <div key={groupType} className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-            <div className="px-5 py-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div>
-                <h2 className="text-lg font-bold text-slate-900">{typeLabels[groupType]} Subscribers</h2>
-                <p className="text-sm text-slate-500">Manage interview/demo details for {typeLabels[groupType].toLowerCase()} subscriptions.</p>
-              </div>
-              <div className="text-xs uppercase tracking-widest text-slate-500">{items.length} items</div>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-slate-700 min-w-[900px]">
-                <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-b border-slate-200">
-                  <tr>
-                    <th className="px-5 py-3 w-12"><input type="checkbox" className="rounded border-slate-300 text-blue-600" onChange={(e) => {
-                      const ids = items.map((item) => item.id);
-                      setSelectedIds((prev) => e.target.checked ? Array.from(new Set([...prev, ...ids])) : prev.filter((id) => !ids.includes(id)));
-                    }} checked={items.every((item) => selectedIds.includes(item.id))} /></th>
-                    <th className="px-5 py-3 text-start">Name</th>
-                    <th className="px-5 py-3 text-start">Round</th>
-                    <th className="px-5 py-3 text-start">Meeting</th>
-                    <th className="px-5 py-3 text-start">Date</th>
-                    <th className="px-5 py-3 text-start">Status</th>
-                    <th className="px-5 py-3 text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {items.map((subscriber) => (
-                    <tr key={subscriber.id} className={`${isSelected(subscriber.id) ? 'bg-blue-50/40' : 'hover:bg-slate-50'} transition-colors`}>
-                      <td className="px-5 py-4"><input type="checkbox" checked={isSelected(subscriber.id)} onChange={() => toggleSelect(subscriber.id)} className="rounded border-slate-300 text-blue-600" /></td>
-                      <td className="px-5 py-4">
-                        <div className="flex flex-col gap-1">
-                          <span className="font-semibold text-slate-900">{subscriber.name}</span>
-                          <span className="text-[11px] text-slate-500">{subscriber.email}</span>
-                        </div>
-                      </td>
-                      <td className="px-5 py-4">{subscriber.round}</td>
-                      <td className="px-5 py-4">{subscriber.meeting}</td>
-                      <td className="px-5 py-4">{new Date(subscriber.date).toLocaleString()}</td>
-                      <td className="px-5 py-4">{renderStatusBadge(subscriber.status)}</td>
-                      <td className="px-5 py-4 text-end space-x-1 rtl:space-x-reverse flex flex-wrap justify-end gap-2">
-                        <Link to={`/dashboard/subscribers/${subscriber.type}/${subscriber.id}`} className="text-slate-600 hover:text-blue-600 text-xs font-black uppercase tracking-widest">View</Link>
-                        <Button variant="primary" className="text-[11px] px-3" onClick={() => handleAction('accept', subscriber)}>Accept</Button>
-                        <Button variant="danger" className="text-[11px] px-3" onClick={() => handleAction('reject', subscriber)}>Reject</Button>
-                        <Button variant="secondary" className="text-[11px] px-3" onClick={() => handleAction('maybe', subscriber)}>Maybe</Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ))
-      ) : (
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-          {Object.entries(grouped).map(([groupType, items]) => (
-            <div key={groupType} className="bg-white border border-slate-200 rounded-3xl shadow-sm p-5">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-lg font-bold text-slate-900">{typeLabels[groupType]}</h2>
-                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{items.length} subscribers</p>
-                </div>
-                <span className="text-xs rounded-full bg-slate-100 px-3 py-1 text-slate-600">{groupType}</span>
-              </div>
-              <div className="space-y-4">
-                {items.slice(0, 4).map((subscriber) => (
-                  <div key={subscriber.id} className="border border-slate-200 rounded-3xl p-4 hover:shadow-lg transition-colors">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <h3 className="font-bold text-slate-900">{subscriber.name}</h3>
-                        <p className="text-[11px] text-slate-500">{subscriber.meeting} • {subscriber.round}</p>
+        <div className="space-y-4">
+          {currentGroups.length > 0 ? (
+            currentGroups.map(([groupType, items]) => {
+              const isOpen = activeGroup === groupType;
+              const currentGroupName = typeLabels[groupType] || groupType;
+              return (
+                <div key={groupType} className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden smooth-transition">
+                  <div 
+                    onClick={() => toggleAccordion(groupType)}
+                    className="p-4 px-5 bg-slate-50/60 hover:bg-slate-50 flex items-center justify-between cursor-pointer smooth-transition select-none"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-theme-primary/10 flex items-center justify-center text-theme-primary">
+                        <FontAwesomeIcon icon={faEnvelope} className="text-sm" />
                       </div>
-                      <div>{renderStatusBadge(subscriber.status)}</div>
+                      <div>
+                        <h3 className="text-sm font-black text-slate-800 uppercase tracking-wide">
+                          {isRTL ? `مشتركي ${currentGroupName}` : `${currentGroupName} Subscribers`}
+                        </h3>
+                        <p className="text-[11px] text-slate-400 mt-0.5">
+                          {isRTL ? `إدارة تفاصيل ${currentGroupName}` : `Manage details for ${currentGroupName.toLowerCase()}`}
+                        </p>
+                      </div>
                     </div>
-                    <div className="mt-4 text-[12px] text-slate-600 space-y-2">
-                      <p><span className="font-semibold">Email:</span> {subscriber.email}</p>
-                      <p><span className="font-semibold">Date:</span> {new Date(subscriber.date).toLocaleString()}</p>
-                      <p><span className="font-semibold">Note:</span> {subscriber.note}</p>
-                    </div>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <Link to={`/dashboard/subscribers/${subscriber.type}/${subscriber.id}`} className="text-blue-600 text-xs font-black uppercase tracking-widest">View</Link>
-                      <Button variant="primary" className="text-[11px] px-3" onClick={() => handleAction('accept', subscriber)}>Accept</Button>
-                      <Button variant="danger" className="text-[11px] px-3" onClick={() => handleAction('reject', subscriber)}>Reject</Button>
-                      <Button variant="secondary" className="text-[11px] px-3" onClick={() => handleAction('maybe', subscriber)}>Maybe</Button>
+                    <div className="flex items-center gap-4">
+                      <span className="text-[10px] font-bold bg-slate-200/70 text-slate-600 px-2.5 py-1 rounded-md">
+                        {items.length} {isRTL ? "عناصر" : "items"}
+                      </span>
+                      <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} className="text-xs text-slate-400" />
                     </div>
                   </div>
-                ))}
-              </div>
+
+                  {isOpen && (
+                    <div className="p-4 border-t border-slate-100 animate-in slide-in-from-top-2 duration-200">
+                      {renderGroupToolbar(groupType, items)}
+                      
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-slate-700 min-w-[800px]">
+                          <thead className="bg-slate-50/50 text-slate-400 uppercase tracking-wider text-[9px] border-b border-slate-100">
+                            <tr>
+                              <th className="px-4 py-2.5 w-10 text-center">
+                                <input 
+                                  type="checkbox" 
+                                  className="w-3.5 h-3.5 rounded border-slate-300 text-theme-primary focus:ring-theme-primary"
+                                  onChange={(e) => {
+                                    const ids = items.map((i) => i.id);
+                                    setSelectedIds(prev => e.target.checked ? Array.from(new Set([...prev, ...ids])) : prev.filter((id) => !ids.includes(id)));
+                                  }}
+                                  checked={items.every((i) => selectedIds.includes(i.id))}
+                                />
+                              </th>
+                              <th className="px-4 py-2.5 text-start">{isRTL ? "الاسم" : "Name"}</th>
+                              <th className="px-4 py-2.5 text-start">{isRTL ? "الجولة" : "Round"}</th>
+                              <th className="px-4 py-2.5 text-start">{isRTL ? "الاجتماع" : "Meeting"}</th>
+                              <th className="px-4 py-2.5 text-start">{isRTL ? "التاريخ" : "Date"}</th>
+                              <th className="px-4 py-2.5 text-start">{isRTL ? "الحالة" : "Status"}</th>
+                              <th className="px-4 py-2.5 text-end">{isRTL ? "الإجراءات" : "Actions"}</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-50">
+                            {items.map((subscriber) => {
+                              const isRowSelected = selectedIds.includes(subscriber.id);
+                              return (
+                                <tr key={subscriber.id} className={`${isRowSelected ? 'bg-theme-primary-light/5' : 'hover:bg-slate-50/50'} smooth-transition`}>
+                                  <td className="px-4 py-3 text-center">
+                                    <input 
+                                      type="checkbox" 
+                                      checked={isRowSelected}
+                                      onChange={() => toggleSelect(subscriber.id)}
+                                      className="w-3.5 h-3.5 rounded border-slate-300 text-theme-primary focus:ring-theme-primary"
+                                    />
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    <div className="flex flex-col">
+                                      <span className="font-bold text-slate-800 text-[12px]">{subscriber.name}</span>
+                                      <span className="text-[10px] text-slate-400">{subscriber.email}</span>
+                                    </div>
+                                  </td>
+                                  <td className="px-4 py-3 text-[11px] font-semibold text-slate-600">{subscriber.round}</td>
+                                  <td className="px-4 py-3 text-[11px] text-slate-500">{subscriber.meeting}</td>
+                                  <td className="px-4 py-3 text-[11px] text-slate-500">{new Date(subscriber.date).toLocaleString(isRTL ? 'ar-EG' : 'en-US')}</td>
+                                  <td className="px-4 py-3">{renderStatusBadge(subscriber.status)}</td>
+                                  <td className="px-4 py-3 text-end">
+                                    <div className="flex justify-end items-center gap-1.5">
+                                      <Link to={`/dashboard/subscribers/${subscriber.type}/${subscriber.id}`} className="p-1.5 text-slate-400 hover:text-blue-600 rounded-lg hover:bg-blue-50 smooth-transition" title={isRTL ? "عرض" : "View"}>
+                                        <FontAwesomeIcon icon={faEye} className="text-[11px]" />
+                                      </Link>
+                                      <button onClick={() => handleOpenModal('accept', subscriber)} className="p-1.5 text-slate-400 hover:text-emerald-600 rounded-lg hover:bg-emerald-50 smooth-transition" title={isRTL ? "قبول" : "Accept"}>
+                                        <FontAwesomeIcon icon={faUserCheck} className="text-[11px]" />
+                                      </button>
+                                      <button onClick={() => handleOpenModal('reject', subscriber)} className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 smooth-transition" title={isRTL ? "رفض" : "Reject"}>
+                                        <FontAwesomeIcon icon={faUserTimes} className="text-[11px]" />
+                                      </button>
+                                      <button onClick={() => handleOpenModal('maybe', subscriber)} className="p-1.5 text-slate-400 hover:text-amber-600 rounded-lg hover:bg-amber-50 smooth-transition" title={isRTL ? "محتمل" : "Maybe"}>
+                                        <FontAwesomeIcon icon={faQuestionCircle} className="text-[11px]" />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          ) : (
+            <div className="text-center p-10 bg-white border rounded-2xl text-slate-400 text-sm">
+              {isRTL ? "لا توجد نتائج مطابقة للبحث" : "No matching results found"}
             </div>
-          ))}
+          )}
+        </div>
+      ) : (
+       
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {allFilteredItemsFlat.length > 0 ? (
+            allFilteredItemsFlat.map((subscriber) => {
+              const isCardSelected = selectedIds.includes(subscriber.id);
+              return (
+                <div 
+                  key={subscriber.id} 
+                  className={`bg-white border p-4 rounded-xl shadow-sm hover:shadow-md smooth-transition flex flex-col justify-between ${isCardSelected ? 'border-theme-primary ring-1 ring-theme-primary bg-theme-primary-light/5' : 'border-slate-100'}`}
+                >
+                  <div>
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2">
+                        <input type="checkbox" checked={isCardSelected} onChange={() => toggleSelect(subscriber.id)} className="w-3.5 h-3.5 rounded border-slate-300 text-theme-primary focus:ring-theme-primary" />
+                        <div>
+                          <h4 className="text-[12px] font-black text-slate-800 uppercase">{subscriber.name}</h4>
+                          <p className="text-[10px] text-slate-400">{subscriber.email}</p>
+                        </div>
+                      </div>
+                      {renderStatusBadge(subscriber.status)}
+                    </div>
+                    <div className="bg-slate-50 rounded-lg p-2.5 text-[11px] text-slate-600 space-y-1">
+                      <p><span className="font-bold text-slate-400 uppercase text-[9px] block">{isRTL ? "الاجتماع / الجولة" : "Meeting / Round"}</span> {subscriber.meeting} • {subscriber.round}</p>
+                      <p><span className="font-bold text-slate-400 uppercase text-[9px] block mt-1">{isRTL ? "التاريخ" : "Date"}</span> {new Date(subscriber.date).toLocaleString(isRTL ? 'ar-EG' : 'en-US')}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-[9px] font-bold text-slate-400 uppercase">{typeLabels[subscriber.type] || subscriber.type}</span>
+                    <div className="flex gap-1">
+                      <Link to={`/dashboard/subscribers/${subscriber.type}/${subscriber.id}`} className="p-1.5 text-slate-400 hover:text-blue-600 rounded-md hover:bg-blue-50 smooth-transition"><FontAwesomeIcon icon={faEye} className="text-[10px]" /></Link>
+                      <button onClick={() => handleOpenModal('accept', subscriber)} className="p-1.5 text-slate-400 hover:text-emerald-600 rounded-md hover:bg-emerald-50 smooth-transition"><FontAwesomeIcon icon={faUserCheck} className="text-[10px]" /></button>
+                      <button onClick={() => handleOpenModal('reject', subscriber)} className="p-1.5 text-slate-400 hover:text-red-600 rounded-md hover:bg-red-50 smooth-transition"><FontAwesomeIcon icon={faUserTimes} className="text-[10px]" /></button>
+                      <button onClick={() => handleOpenModal('maybe', subscriber)} className="p-1.5 text-slate-400 hover:text-amber-600 rounded-md hover:bg-amber-50 smooth-transition"><FontAwesomeIcon icon={faQuestionCircle} className="text-[10px]" /></button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="col-span-full text-center p-10 bg-white border rounded-2xl text-slate-400 text-sm">
+              {isRTL ? "لا توجد نتائج مطابقة للبحث" : "No matching results found"}
+            </div>
+          )}
         </div>
       )}
 
       <Pagination
-        totalItems={filteredSubscribers.length}
+        totalItems={groupEntries.length}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={handlePageChange}
       />
 
       <Modal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title={modalMode.includes('accept') ? 'Schedule Interview / Demo' : modalMode.includes('reject') ? 'Reject Subscriber' : 'Mark Maybe'}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={
+          modalMode.includes('accept') 
+            ? (isRTL ? 'تفاصيل الموعد والجدولة' : 'Schedule Details') 
+            : modalMode.includes('reject') 
+            ? (isRTL ? 'إجراء الرفض' : 'Reject Action') 
+            : (isRTL ? 'حالة نقص المعلومات' : 'Missing Info Status')
+        }
         footer={(
           <>
-            <Button variant="secondary" onClick={() => setModalOpen(false)}>Cancel</Button>
-            <Button variant="primary" onClick={handleSubmit}>Submit</Button>
+            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>{isRTL ? "إلغاء" : "Cancel"}</Button>
+            <Button variant="primary" onClick={handleSubmit}>{isRTL ? "تأكيد" : "Submit"}</Button>
           </>
         )}
         size="lg"
@@ -324,21 +496,21 @@ const SubscribersPage = () => {
           {modalMode.includes('accept') && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Meeting Date & Time</label>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">{isRTL ? "تاريخ ووقت الاجتماع" : "Meeting Date & Time"}</label>
                 <input
                   type="datetime-local"
                   value={actionDate}
                   onChange={(e) => setActionDate(e.target.value)}
-                  className="mt-2 block w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-2 block w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Email</label>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">{isRTL ? "البريد الإلكتروني المستهدف" : "Target Email"}</label>
                 <input
                   type="email"
                   readOnly
-                  value={activeSubscriber?.email || ''}
-                  className="mt-2 block w-full px-3 py-2 border border-slate-200 rounded-lg bg-slate-50"
+                  value={modalMode.startsWith('bulk-') ? (isRTL ? `تم تحديد ${selectedIds.length} من المستخدمين` : `${selectedIds.length} users selected`) : (activeSubscriber?.email || '')}
+                  className="mt-2 block w-full px-3 py-2 border border-slate-200 rounded-lg bg-slate-50 text-sm text-slate-500"
                 />
               </div>
             </div>
@@ -346,24 +518,24 @@ const SubscribersPage = () => {
 
           {(modalMode.includes('reject') || modalMode.includes('maybe')) && (
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Message</label>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500">{isRTL ? "ملاحظات / رسالة داخلية" : "Internal Message / Notes"}</label>
               <textarea
                 value={actionMessage}
                 onChange={(e) => setActionMessage(e.target.value)}
-                rows={5}
-                className="mt-2 block w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Write a reason or instruction for the subscriber"
+                rows={4}
+                className="mt-2 block w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder={isRTL ? "اكتب السجلات أو تعليمات الرد هنا..." : "Type the logs or response instructions..."}
               />
             </div>
           )}
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-[12px] text-slate-500 leading-relaxed">
             {modalMode.includes('accept') ? (
-              <>Submitting this form will mark the subscription as <b>Accepted</b> and schedule the selected interview/demo slot.</>
+              isRTL ? <>هذا الإجراء يحول حالة السجل في النظام إلى <b>مقبول</b> ويقوم بجدولة موعد للمقابلة.</> : <>This execution marks the system records as <b>Accepted</b> and triggers a meeting schedule.</>
             ) : modalMode.includes('reject') ? (
-              <>This will update the status to <b>Rejected</b> and send the subscriber a rejection reason.</>
+              isRTL ? <>هذا الإجراء يحول حالة السجل إلى <b>مرفوض</b> ويقوم بتحديث إحصائيات لوحة التحكم فوراً.</> : <>Executing this process logs the status as <b>Rejected</b> and updates the dashboard statistics instantly.</>
             ) : (
-              <>This will update the status to <b>Maybe</b> and notify the subscriber about missing data or next steps.</>
+              isRTL ? <>هذا الإجراء يحول حالة السجل إلى <b>محتمل</b> لدراسته لاحقاً في خطة العمل.</> : <>Executing this process logs the status as <b>Maybe</b> for pipeline consideration.</>
             )}
           </div>
         </form>
