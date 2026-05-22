@@ -43,6 +43,15 @@ export const BRANDS = {
     light: '#fefce8',
     shadow: 'rgba(133, 77, 14, 0.1)',
     border: 'rgba(133, 77, 14, 0.15)',
+  },
+  'custom': {
+    name: 'لون مخصص',
+    nameEn: 'Custom Color',
+    primary: '#4f46e5',
+    hover: '#4338ca',
+    light: 'rgba(79, 70, 229, 0.05)',
+    shadow: 'rgba(79, 70, 229, 0.1)',
+    border: 'rgba(79, 70, 229, 0.15)',
   }
 };
 
@@ -53,7 +62,8 @@ export const BACKGROUNDS = {
   'terracotta-light': { name: 'طين فاتح', nameEn: 'Terracotta Light', bg: '#faf6f0' },
   'vintage-parchment': { name: 'ورق عتيق', nameEn: 'Vintage Parchment', bg: '#faf8f5' },
   'cool-gray': { name: 'رمادي بارد', nameEn: 'Cool Gray', bg: '#f1f5f9' },
-  'pure-white': { name: 'أبيض ناصع', nameEn: 'Pure White', bg: '#ffffff' }
+  'pure-white': { name: 'أبيض ناصع', nameEn: 'Pure White', bg: '#ffffff' },
+  'custom-bg': { name: 'خلفية مخصصة', nameEn: 'Custom Background', bg: '#f5f5f5' }
 };
 
 export const FONTS = {
@@ -123,3 +133,134 @@ export const saveGeneralSettings = (settings) => {
     detail: settings
   }));
 };
+
+// --- Custom Brand Colors Logic ---
+
+export const generateBrandColors = (hexColor, name = 'مخصص', nameEn = 'Custom') => {
+  const hex = hexColor.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16) || 0;
+  const g = parseInt(hex.substring(2, 4), 16) || 0;
+  const b = parseInt(hex.substring(4, 6), 16) || 0;
+
+  // Darken for hover (multiply rgb by 0.8)
+  const hr = Math.max(0, Math.floor(r * 0.8));
+  const hg = Math.max(0, Math.floor(g * 0.8));
+  const hb = Math.max(0, Math.floor(b * 0.8));
+  const toHex = (c) => c.toString(16).padStart(2, '0');
+  const hoverHex = `#${toHex(hr)}${toHex(hg)}${toHex(hb)}`;
+
+  return {
+    name,
+    nameEn,
+    primary: hexColor,
+    hover: hoverHex,
+    light: `rgba(${r}, ${g}, ${b}, 0.05)`,
+    shadow: `rgba(${r}, ${g}, ${b}, 0.1)`,
+    border: `rgba(${r}, ${g}, ${b}, 0.15)`
+  };
+};
+
+export const loadCustomBrands = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('custom-brands')) || {};
+    Object.assign(BRANDS, saved);
+
+    const activeCustom = JSON.parse(localStorage.getItem('theme-custom-active-details'));
+    if (activeCustom) {
+      BRANDS['custom'] = activeCustom;
+    }
+  } catch (e) {
+    console.error("Failed to load custom brands", e);
+  }
+};
+
+export const saveCustomBrandToList = (key, name, nameEn, hexColor) => {
+  const brand = generateBrandColors(hexColor, name, nameEn);
+  try {
+    const saved = JSON.parse(localStorage.getItem('custom-brands')) || {};
+    saved[key] = brand;
+    localStorage.setItem('custom-brands', JSON.stringify(saved));
+    BRANDS[key] = brand;
+    return brand;
+  } catch (e) {
+    console.error("Failed to save custom brand to list", e);
+    return null;
+  }
+};
+
+export const setActiveCustomBrand = (hexColor, name = 'مخصص', nameEn = 'Custom') => {
+  const brand = generateBrandColors(hexColor, name, nameEn);
+  try {
+    localStorage.setItem('theme-custom-active-details', JSON.stringify(brand));
+    BRANDS['custom'] = brand;
+    return brand;
+  } catch (e) {
+    console.error("Failed to set active custom brand", e);
+    return null;
+  }
+};
+
+export const loadCustomBackgrounds = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('custom-backgrounds')) || {};
+    Object.assign(BACKGROUNDS, saved);
+    const activeCustomBg = JSON.parse(localStorage.getItem('theme-custom-bg-active'));
+    if (activeCustomBg) {
+      BACKGROUNDS['custom-bg'] = activeCustomBg;
+    }
+  } catch (e) {
+    console.error('Failed to load custom backgrounds', e);
+  }
+};
+
+export const saveCustomBackgroundToList = (key, name, nameEn, bgColor) => {
+  const bgObj = { name, nameEn, bg: bgColor };
+  try {
+    const saved = JSON.parse(localStorage.getItem('custom-backgrounds')) || {};
+    saved[key] = bgObj;
+    localStorage.setItem('custom-backgrounds', JSON.stringify(saved));
+    BACKGROUNDS[key] = bgObj;
+    return bgObj;
+  } catch (e) {
+    console.error('Failed to save custom background to list', e);
+    return null;
+  }
+};
+
+export const setActiveCustomBackground = (bgColor, name = 'مخصصة', nameEn = 'Custom') => {
+  const bgObj = { name, nameEn, bg: bgColor };
+  try {
+    localStorage.setItem('theme-custom-bg-active', JSON.stringify(bgObj));
+    BACKGROUNDS['custom-bg'] = bgObj;
+    return bgObj;
+  } catch (e) {
+    console.error('Failed to set active custom background', e);
+    return null;
+  }
+};
+
+export const deleteCustomBrand = (key) => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('custom-brands')) || {};
+    delete saved[key];
+    localStorage.setItem('custom-brands', JSON.stringify(saved));
+    delete BRANDS[key];
+  } catch (e) {
+    console.error('Failed to delete custom brand', e);
+  }
+};
+
+export const deleteCustomBackground = (key) => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('custom-backgrounds')) || {};
+    delete saved[key];
+    localStorage.setItem('custom-backgrounds', JSON.stringify(saved));
+    delete BACKGROUNDS[key];
+  } catch (e) {
+    console.error('Failed to delete custom background', e);
+  }
+};
+
+// Execute immediately to merge existing custom themes
+loadCustomBrands();
+loadCustomBackgrounds();
