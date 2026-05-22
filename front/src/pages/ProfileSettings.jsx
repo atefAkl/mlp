@@ -12,7 +12,16 @@ import {
   faSignature 
 } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/atoms/Button';
-import { BRANDS, BACKGROUNDS, FONTS, getThemeSettings, applyThemeSettings } from '../utils/themeHelper';
+import { 
+  BRANDS, 
+  BACKGROUNDS, 
+  FONTS, 
+  getThemeSettings, 
+  applyThemeSettings,
+  generateBrandColors,
+  saveCustomBrandToList,
+  setActiveCustomBrand
+} from '../utils/themeHelper';
 import { setCredentials } from '../features/auth/authSlice';
 import { toast } from 'react-toastify';
 
@@ -41,6 +50,11 @@ const ProfileSettings = () => {
     font: 'cairo'
   });
 
+  // Custom Color State
+  const [customName, setCustomName] = useState('');
+  const [customHex, setCustomHex] = useState('#4f46e5');
+  const [saveToList, setSaveToList] = useState(false);
+
   useEffect(() => {
     if (user) {
       setAccountForm(prev => ({
@@ -49,8 +63,16 @@ const ProfileSettings = () => {
         email: user.email || ''
       }));
     }
-    setThemeState(getThemeSettings());
-  }, [user]);
+    const settings = getThemeSettings();
+    setThemeState(settings);
+    if (settings.brand) {
+      const activeBrandObj = BRANDS[settings.brand] || BRANDS['custom'];
+      if (activeBrandObj) {
+        setCustomName(isRTL ? (activeBrandObj.name || '') : (activeBrandObj.nameEn || ''));
+        setCustomHex(activeBrandObj.primary || '#4f46e5');
+      }
+    }
+  }, [user, isRTL]);
 
   const handleAccountChange = (e) => {
     const { name, value } = e.target;
@@ -101,10 +123,67 @@ const ProfileSettings = () => {
     };
     setThemeState(nextState);
     applyThemeSettings(nextState.brand, nextState.background, nextState.font);
+
+    // If it's a custom color, update custom input fields
+    if (type === 'brand' && (key === 'custom' || key.startsWith('custom-'))) {
+      const brandObj = BRANDS[key];
+      if (brandObj) {
+        setCustomName(isRTL ? brandObj.name : brandObj.nameEn);
+        setCustomHex(brandObj.primary);
+      }
+    }
+
     toast.info(isRTL ? 'تم تطبيق المظهر المختار' : 'Selected theme applied');
   };
 
+  const handleApplyCustomColor = () => {
+    if (!customName.trim()) {
+      toast.error(isRTL ? 'يرجى إدخال اسم للون المخصص' : 'Please enter a name for the custom color');
+      return;
+    }
 
+    let shouldSave = saveToList;
+
+    if (!shouldSave) {
+      const confirmSave = window.confirm(
+        isRTL 
+          ? 'هل تحب إضافة هذا اللون المخصص للقائمة الموجودة وحفظه بشكل دائم؟' 
+          : 'Would you like to add this custom color to the existing list and save it permanently?'
+      );
+      if (confirmSave) {
+        shouldSave = true;
+      }
+    }
+
+    if (shouldSave) {
+      const uniqueKey = `custom-${Date.now()}`;
+      saveCustomBrandToList(uniqueKey, customName, customName, customHex);
+      
+      const nextState = {
+        ...themeState,
+        brand: uniqueKey
+      };
+      setThemeState(nextState);
+      applyThemeSettings(uniqueKey, nextState.background, nextState.font);
+      toast.success(isRTL ? 'تم حفظ اللون وإضافته للقائمة بنجاح!' : 'Custom color saved and added to the list successfully!');
+      setSaveToList(false); // Reset checkbox
+    } else {
+      setActiveCustomBrand(customHex, customName, customName);
+      
+      const nextState = {
+        ...themeState,
+        brand: 'custom'
+      };
+      setThemeState(nextState);
+      applyThemeSettings('custom', nextState.background, nextState.font);
+      toast.success(isRTL ? 'تم تطبيق اللون المخصص بنجاح!' : 'Custom color applied successfully!');
+    }
+  };
+
+  const isCustomBrandActive = themeState.brand === 'custom' || themeState.brand.startsWith('custom-');
+  const previewBrand = isCustomBrandActive
+    ? generateBrandColors(customHex, customName || (isRTL ? 'لون مخصص' : 'Custom Color'), customName || 'Custom Color')
+    : (BRANDS[themeState.brand] || BRANDS['royal-blue']);
 
   return (
     <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -308,6 +387,90 @@ const ProfileSettings = () => {
                   );
                 })}
               </div>
+
+              {/* Custom Color Settings Panel */}
+              {(themeState.brand === 'custom' || themeState.brand.startsWith('custom-')) && (
+                <div className="mt-6 pt-6 border-t border-slate-100 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <h3 className="text-xs font-black text-slate-800 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-theme-primary animate-pulse" />
+                    {isRTL ? 'إعدادات اللون المخصص' : 'Custom Color Configuration'}
+                  </h3>
+                  
+                  <div className="flex flex-col gap-4">
+                    {/* Name Input - above the color picker */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">
+                        {isRTL ? 'اسم اللون المخصص' : 'Color Name'}
+                      </label>
+                      <input
+                        type="text"
+                        value={customName}
+                        onChange={(e) => setCustomName(e.target.value)}
+                        className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-theme-primary/30 focus:border-theme-primary smooth-transition"
+                        placeholder={isRTL ? 'مثال: أزرق فيروزي، برتقالي دافئ' : 'e.g., Turquoise, Warm Amber'}
+                        required
+                      />
+                    </div>
+
+                    {/* Color Picker */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">
+                        {isRTL ? 'قيمة اللون' : 'Color Value'}
+                      </label>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="color"
+                          value={customHex}
+                          onChange={(e) => setCustomHex(e.target.value)}
+                          className="w-12 h-10 border border-slate-200 rounded-xl cursor-pointer p-1 shadow-sm smooth-transition hover:scale-105"
+                        />
+                        <input
+                          type="text"
+                          value={customHex}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            if (val.startsWith('#')) {
+                              if (val.length <= 7) setCustomHex(val);
+                            } else {
+                              if (val.length <= 6) setCustomHex('#' + val);
+                            }
+                          }}
+                          placeholder="#ffffff"
+                          className="w-28 px-3 py-2 text-xs font-mono border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-theme-primary/30 focus:border-theme-primary uppercase"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                    {/* Ask to save checkbox */}
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        id="save-to-list"
+                        checked={saveToList}
+                        onChange={(e) => setSaveToList(e.target.checked)}
+                        className="rounded border-slate-300 text-theme-primary focus:ring-theme-primary/30 h-4 w-4 cursor-pointer"
+                      />
+                      <label htmlFor="save-to-list" className="text-xs text-slate-600 font-bold select-none cursor-pointer">
+                        {isRTL 
+                          ? 'هل تحب إضافته للقائمة الموجودة؟' 
+                          : 'Would you like to add it to the existing list?'}
+                      </label>
+                    </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={handleApplyCustomColor}
+                      className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-black rounded-xl shadow-xs transition-all flex items-center gap-1.5 self-end sm:self-auto"
+                    >
+                      <FontAwesomeIcon icon={faSave} />
+                      {isRTL ? 'تطبيق وحفظ اللون' : 'Apply & Save Color'}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Page Background Colors */}
@@ -419,7 +582,7 @@ const ProfileSettings = () => {
                 <div className="flex items-center gap-2">
                   <span 
                     className="w-2.5 h-2.5 rounded-full" 
-                    style={{ backgroundColor: BRANDS[themeState.brand]?.primary }}
+                    style={{ backgroundColor: previewBrand?.primary }}
                   />
                   <h4 className="text-xs font-black text-slate-800 uppercase">
                     {isRTL ? 'عنوان تجريبي رئيسي' : 'Sample Component'}
@@ -437,16 +600,16 @@ const ProfileSettings = () => {
                 <div className="pt-2 flex gap-2">
                   <span 
                     className="px-2.5 py-1 text-[9px] font-black rounded-lg text-white"
-                    style={{ backgroundColor: BRANDS[themeState.brand]?.primary }}
+                    style={{ backgroundColor: previewBrand?.primary }}
                   >
                     {isRTL ? 'زر نشط' : 'Accent Button'}
                   </span>
                   <span 
                     className="px-2.5 py-1 text-[9px] font-bold rounded-lg border"
                     style={{ 
-                      color: BRANDS[themeState.brand]?.primary,
-                      borderColor: BRANDS[themeState.brand]?.border,
-                      backgroundColor: BRANDS[themeState.brand]?.light 
+                      color: previewBrand?.primary,
+                      borderColor: previewBrand?.border,
+                      backgroundColor: previewBrand?.light 
                     }}
                   >
                     {isRTL ? 'رابط خفيف' : 'Light Tag'}
@@ -458,7 +621,7 @@ const ProfileSettings = () => {
               <div className="text-[10px] text-slate-400 space-y-1 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                 <div>
                   <span className="font-bold">{isRTL ? 'البراند النشط: ' : 'Active Brand: '}</span>
-                  {BRANDS[themeState.brand]?.nameEn}
+                  {isRTL ? previewBrand?.name : previewBrand?.nameEn}
                 </div>
                 <div>
                   <span className="font-bold">{isRTL ? 'الخلفية النشطة: ' : 'Active Background: '}</span>

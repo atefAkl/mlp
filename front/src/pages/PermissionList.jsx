@@ -51,7 +51,14 @@ const PermissionList = () => {
   const itemsPerPage = 6; // Fewer per page because permissions are grouped/nested
 
   if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-theme-primary"></div></div>;
-  if (error) return <div className="text-red-500 p-4">Error loading permissions</div>;
+  if (error) {
+    console.error('Error loading permissions:', error);
+    return (
+      <div className="text-red-500 p-4 bg-red-50 rounded-xl border border-red-200 m-6 font-semibold text-center" dir={isRTL ? 'rtl' : 'ltr'}>
+        {isRTL ? 'حدث خطأ أثناء تحميل الصلاحيات:' : 'Error loading permissions:'} {error.status || ''} - {error.data?.message || error.error || JSON.stringify(error)}
+      </div>
+    );
+  }
 
   const formatName = (name) => name.replace(/_/g, ' ').toUpperCase();
 

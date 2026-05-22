@@ -57,7 +57,14 @@ const RoleList = () => {
   });
 
   if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-theme-primary"></div></div>;
-  if (error) return <div className="text-red-500 p-4">Error loading roles</div>;
+  if (error) {
+    console.error('Error loading roles:', error);
+    return (
+      <div className="text-red-500 p-4 bg-red-50 rounded-xl border border-red-200 m-6 font-semibold text-center" dir={isRTL ? 'rtl' : 'ltr'}>
+        {isRTL ? 'حدث خطأ أثناء تحميل الأدوار:' : 'Error loading roles:'} {error.status || ''} - {error.data?.message || error.error || JSON.stringify(error)}
+      </div>
+    );
+  }
 
   const groupedPermissions = permissions?.reduce((acc, perm) => {
     const group = perm.group || (isRTL ? 'غير مصنف' : 'Uncategorized');
