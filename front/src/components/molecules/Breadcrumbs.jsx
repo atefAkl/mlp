@@ -11,7 +11,7 @@ const Breadcrumbs = ({ items = [] }) => {
 
   return (
     <nav className="flex items-center space-x-1 rtl:space-x-reverse text-xs text-slate-500 mb-1">
-      <Link to="/dashboard" className="hover:text-blue-600 smooth-transition">
+      <Link to="/dashboard" className="hover:text-theme-primary smooth-transition">
         <FontAwesomeIcon icon={faHome} className="mr-1 rtl:ml-1" />
       </Link>
       
@@ -19,7 +19,7 @@ const Breadcrumbs = ({ items = [] }) => {
         <React.Fragment key={index}>
           <FontAwesomeIcon icon={ChevronIcon} className="text-[10px] opacity-50" />
           {item.path ? (
-            <Link to={item.path} className="hover:text-blue-600 smooth-transition">
+            <Link to={item.path} className="hover:text-theme-primary smooth-transition">
               {item.label}
             </Link>
           ) : (

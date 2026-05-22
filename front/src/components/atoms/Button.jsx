@@ -14,7 +14,7 @@ const Button = ({
   const baseStyles = 'inline-flex items-center justify-center px-3 py-1.5 text-sm font-medium rounded transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2';
   
   const variants = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    primary: 'bg-theme-primary text-white hover:bg-theme-primary-hover focus:ring-theme-primary transition-all duration-300',
     secondary: 'bg-slate-200 text-slate-800 hover:bg-slate-300 focus:ring-slate-400',
     danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
     ghost: 'bg-transparent text-slate-600 hover:bg-slate-100 focus:ring-slate-200',

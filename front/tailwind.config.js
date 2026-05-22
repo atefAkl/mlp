@@ -10,6 +10,12 @@ module.exports = {
         'deep-blue': '#1E3A8A',
         'emerald': '#10B981',
         'soft-gray': '#F9FAFB',
+        'theme-bg-page': 'var(--theme-bg-page)',
+        'theme-primary': 'var(--theme-primary)',
+        'theme-primary-hover': 'var(--theme-primary-hover)',
+        'theme-primary-light': 'var(--theme-primary-light)',
+        'theme-shadow': 'var(--theme-shadow)',
+        'theme-border-accent': 'var(--theme-border-accent)',
       },
       fontFamily: {
         'cairo': ['Cairo', 'sans-serif'],

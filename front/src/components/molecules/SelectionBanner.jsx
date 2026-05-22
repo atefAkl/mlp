@@ -27,11 +27,11 @@ const SelectionBanner = ({
 
   return (
     <div 
-      className="bg-blue-50/80 backdrop-blur-sm border border-blue-100 p-2.5 px-4 rounded-xl text-xs flex flex-col sm:flex-row items-center justify-center gap-2 text-blue-700 animate-in fade-in slide-in-from-top-1 smooth-transition"
+      className="bg-theme-primary-light/80 backdrop-blur-sm border border-theme-border-accent p-2.5 px-4 rounded-xl text-xs flex flex-col sm:flex-row items-center justify-center gap-2 text-theme-primary animate-in fade-in slide-in-from-top-1 smooth-transition"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       <div className="flex items-center gap-2">
-        <FontAwesomeIcon icon={isAllFilteredSelected ? faCheckCircle : faInfoCircle} className="text-blue-500" />
+        <FontAwesomeIcon icon={isAllFilteredSelected ? faCheckCircle : faInfoCircle} className="text-theme-primary" />
         <span>
           {isAllFilteredSelected ? (
             isRTL 
@@ -49,7 +49,7 @@ const SelectionBanner = ({
         <button
           type="button"
           onClick={onSelectAllFiltered}
-          className="font-bold underline hover:text-blue-900 transition-all ml-1 rtl:mr-1 rtl:ml-0"
+          className="font-bold underline hover:text-theme-primary-hover transition-all ml-1 rtl:mr-1 rtl:ml-0"
         >
           {isRTL 
             ? `تحديد جميع الـ ${totalFilteredCount} عناصر المطابقة لهذا البحث` 
@@ -59,7 +59,7 @@ const SelectionBanner = ({
         <button
           type="button"
           onClick={onClearSelection}
-          className="font-bold underline hover:text-blue-900 transition-all ml-1 rtl:mr-1 rtl:ml-0"
+          className="font-bold underline hover:text-theme-primary-hover transition-all ml-1 rtl:mr-1 rtl:ml-0"
         >
           {isRTL ? "إلغاء التحديد" : "Clear selection"}
         </button>

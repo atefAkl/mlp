@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StatsCard = ({ title, value, icon, color = 'blue', trend = null }) => {
   const colors = {
-    blue: 'bg-blue-50 text-blue-600 border-blue-100',
+    blue: 'bg-theme-primary-light text-theme-primary border-theme-border-accent',
     emerald: 'bg-emerald-50 text-emerald-600 border-emerald-100',
     amber: 'bg-amber-50 text-amber-600 border-amber-100',
     purple: 'bg-purple-50 text-purple-600 border-purple-100',

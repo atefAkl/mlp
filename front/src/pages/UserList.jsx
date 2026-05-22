@@ -54,7 +54,7 @@ const UserList = () => {
     role: 'متدرب'
   });
 
-  if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div></div>;
+  if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-theme-primary"></div></div>;
   if (error) return <div className="text-red-500 p-4">Error loading users</div>;
 
   const filteredUsers = users?.filter(user => 
@@ -199,7 +199,7 @@ const UserList = () => {
                   <th className="px-6 py-4 w-10">
                     <input 
                       type="checkbox" 
-                      className="rounded border-slate-300 text-blue-600 cursor-pointer" 
+                      className="rounded border-slate-300 text-theme-primary cursor-pointer" 
                       onChange={(e) => {
                         if (e.target.checked) {
                           setSelectedIds(prev => {
@@ -224,13 +224,13 @@ const UserList = () => {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {currentItems?.map((user) => (
-                  <tr key={user.id} className={`hover:bg-slate-50 smooth-transition ${selectedIds.includes(user.id) ? 'bg-blue-50/30' : ''}`}>
+                  <tr key={user.id} className={`hover:bg-slate-50 smooth-transition ${selectedIds.includes(user.id) ? 'bg-theme-primary-light/40' : ''}`}>
                     <td className="px-6 py-4">
                        <input 
                         type="checkbox" 
                         checked={selectedIds.includes(user.id)}
                         onChange={() => toggleSelect(user.id)}
-                        className="rounded border-slate-300 text-blue-600 cursor-pointer"
+                        className="rounded border-slate-300 text-theme-primary cursor-pointer"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -264,7 +264,7 @@ const UserList = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-2">
-                        <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-blue-600 hover:bg-blue-50" />
+                        <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-theme-primary hover:bg-theme-primary-light" />
                         <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-2 text-red-600 hover:bg-red-50" />
                       </div>
                     </td>
@@ -279,17 +279,17 @@ const UserList = () => {
           {currentItems?.map((user) => {
             const isSelected = selectedIds.includes(user.id);
             return (
-              <div key={user.id} className={`bg-white border rounded-xl p-5 shadow-sm hover:shadow-md smooth-transition group relative ${isSelected ? 'border-blue-400 ring-1 ring-blue-100 bg-blue-50/10' : 'border-slate-200'}`}>
+              <div key={user.id} className={`bg-white border rounded-xl p-5 shadow-sm hover:shadow-md smooth-transition group relative ${isSelected ? 'border-theme-primary ring-1 ring-theme-primary-light bg-theme-primary-light/10' : 'border-slate-200'}`}>
                 <div className="absolute top-3 right-3 rtl:left-3 rtl:right-auto">
                    <input 
                     type="checkbox" 
                     checked={isSelected}
                     onChange={() => toggleSelect(user.id)}
-                    className="rounded border-slate-300 text-blue-600 cursor-pointer"
+                    className="rounded border-slate-300 text-theme-primary cursor-pointer"
                   />
                 </div>
                 <div className="flex justify-between items-start mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black text-lg border border-blue-100">
+                  <div className="w-12 h-12 rounded-2xl bg-theme-primary-light text-theme-primary flex items-center justify-center font-black text-lg border border-theme-primary-light/50">
                     {user.name.charAt(0)}
                   </div>
                 </div>
@@ -311,7 +311,7 @@ const UserList = () => {
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-slate-50 flex justify-end gap-2 opacity-0 group-hover:opacity-100 smooth-transition">
-                   <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" />
+                   <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-theme-primary hover:bg-theme-primary-light rounded-lg" />
                    <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg" />
                 </div>
               </div>

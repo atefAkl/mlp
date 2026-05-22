@@ -50,7 +50,7 @@ const PermissionList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6; // Fewer per page because permissions are grouped/nested
 
-  if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div></div>;
+  if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-theme-primary"></div></div>;
   if (error) return <div className="text-red-500 p-4">Error loading permissions</div>;
 
   const formatName = (name) => name.replace(/_/g, ' ').toUpperCase();
@@ -178,7 +178,7 @@ const PermissionList = () => {
             <button
               type="button"
               onClick={() => selectAllInGroup(perms)}
-              className="px-2 py-1 rounded text-[9px] font-black hover:bg-slate-50 text-blue-600 smooth-transition"
+              className="px-2 py-1 rounded text-[9px] font-black hover:bg-slate-50 text-theme-primary smooth-transition"
             >
               {isRTL ? "الكل" : "All"}
             </button>
@@ -254,7 +254,7 @@ const PermissionList = () => {
     const isSelected = selectedIds.includes(perm.id);
     return (
       <div 
-        className={`group relative bg-white border p-3 rounded-lg shadow-sm hover:shadow-md smooth-transition flex items-start gap-3 ${isSelected ? 'border-blue-400 ring-1 ring-blue-400 bg-blue-50/10' : 'border-slate-100 hover:border-blue-200'}`}
+        className={`group relative bg-white border p-3 rounded-lg shadow-sm hover:shadow-md smooth-transition flex items-start gap-3 ${isSelected ? 'border-theme-primary ring-1 ring-theme-primary bg-theme-primary-light/10' : 'border-slate-100 hover:border-theme-primary-light'}`}
       >
         <div className="pt-1">
           <input 
@@ -264,7 +264,7 @@ const PermissionList = () => {
                 e.stopPropagation();
                 toggleSelect(perm.id);
             }}
-            className="w-3.5 h-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+            className="w-3.5 h-3.5 rounded border-slate-300 text-theme-primary focus:ring-theme-primary cursor-pointer"
           />
         </div>
         <div className="cursor-pointer flex-1 min-w-0" onClick={() => handleOpenEditModal(perm)}>
@@ -276,7 +276,7 @@ const PermissionList = () => {
           </p>
         </div>
         <div className="opacity-0 group-hover:opacity-100 smooth-transition pt-0.5">
-            <FontAwesomeIcon icon={faEditAlt} className="text-[10px] text-blue-400" />
+            <FontAwesomeIcon icon={faEditAlt} className="text-[10px] text-theme-primary" />
         </div>
       </div>
     );
@@ -350,7 +350,7 @@ const PermissionList = () => {
               <div key={group} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm smooth-transition">
                 <button 
                   onClick={() => toggleAccordion(group)}
-                  className={`w-full flex items-center justify-between p-4 text-sm font-bold smooth-transition ${isOpen ? 'bg-slate-50 text-blue-600' : 'text-slate-700 hover:bg-slate-50'}`}
+                  className={`w-full flex items-center justify-between p-4 text-sm font-bold smooth-transition ${isOpen ? 'bg-slate-50 text-theme-primary' : 'text-slate-700 hover:bg-slate-50'}`}
                 >
                   <div className="flex items-center gap-2">
                     <FontAwesomeIcon icon={faLayerGroup} className="text-xs opacity-50" />
@@ -419,7 +419,7 @@ const PermissionList = () => {
               <button 
                 type="button" 
                 onClick={() => setIsAddingNewGroup(!isAddingNewGroup)}
-                className="text-[10px] font-bold text-blue-600 hover:underline"
+                className="text-[10px] font-bold text-theme-primary hover:underline"
               >
                 {isAddingNewGroup ? (isRTL ? 'اختر من القائمة' : 'Select from list') : (isRTL ? '+ مجموعة جديدة' : '+ New Group')}
               </button>
@@ -445,7 +445,7 @@ const PermissionList = () => {
           <div className="space-y-1">
              <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">{isRTL ? 'الوصف' : 'Description'}</label>
              <textarea 
-               className="block w-full px-3 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 smooth-transition"
+               className="block w-full px-3 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary smooth-transition"
                rows="3"
                value={formData.description}
                onChange={(e) => setFormData({ ...formData, description: e.target.value })}

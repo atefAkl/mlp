@@ -5,10 +5,19 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --theme-bg-page: #f6f4eb;
+  --theme-primary: #1e3a8a;
+  --theme-primary-hover: #172554;
+  --theme-primary-light: #eff6ff;
+  --theme-shadow: rgba(30, 58, 138, 0.1);
+  --theme-border-accent: rgba(30, 58, 138, 0.15);
+}
+
 /* Custom CSS for RTL/LTR support */
 body {
   font-family: "Cairo", sans-serif;
-  @apply text-slate-800 bg-slate-50;
+  @apply text-slate-800 bg-theme-bg-page transition-colors duration-500;
 }
 
 body.ltr {

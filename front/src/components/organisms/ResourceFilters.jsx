@@ -36,7 +36,7 @@ const ResourceFilters = ({
           </span>
           <input
             type="text"
-            className={`block w-full py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-slate-50/50 ${isRTL ? 'pr-9 pl-3' : 'pl-9 pr-3'}`}
+            className={`block w-full py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary bg-slate-50/50 ${isRTL ? 'pr-9 pl-3' : 'pl-9 pr-3'}`}
             placeholder={isRTL ? 'بحث...' : 'Search...'}
             onChange={(e) => onSearch(e.target.value)}
           />
@@ -55,7 +55,7 @@ const ResourceFilters = ({
             className="flex items-center gap-1.5 text-[10px] font-bold py-1 px-2 rounded-md hover:bg-white hover:shadow-sm text-slate-600 smooth-transition"
             title={isRTL ? "تحديد الكل" : "Select All"}
           >
-            <FontAwesomeIcon icon={faCheckDouble} className="text-blue-500" />
+            <FontAwesomeIcon icon={faCheckDouble} className="text-theme-primary" />
             <span>{isRTL ? "الكل" : "All"}</span>
           </button>
           <div className="h-3 w-px bg-slate-200 mx-0.5" />
@@ -87,13 +87,13 @@ const ResourceFilters = ({
         <div className="flex bg-slate-50 p-1 rounded-lg border border-slate-200">
           <button 
             onClick={() => onViewChange('list')}
-            className={`p-1.5 px-2.5 rounded-md transition-all ${currentView === 'list' ? 'bg-white shadow-sm text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+            className={`p-1.5 px-2.5 rounded-md transition-all ${currentView === 'list' ? 'bg-white shadow-sm text-theme-primary' : 'text-slate-400 hover:text-slate-600'}`}
           >
             <FontAwesomeIcon icon={faListUl} className="text-xs" />
           </button>
           <button 
             onClick={() => onViewChange('grid')}
-            className={`p-1.5 px-2.5 rounded-md transition-all ${currentView === 'grid' ? 'bg-white shadow-sm text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+            className={`p-1.5 px-2.5 rounded-md transition-all ${currentView === 'grid' ? 'bg-white shadow-sm text-theme-primary' : 'text-slate-400 hover:text-slate-600'}`}
           >
             <FontAwesomeIcon icon={faThLarge} className="text-xs" />
           </button>
@@ -104,7 +104,7 @@ const ResourceFilters = ({
           <div className="relative">
             <select 
               disabled={selectedCount === 0}
-              className={`appearance-none bg-white border border-slate-200 rounded-lg text-[10px] font-bold py-2 px-4 pr-8 outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:bg-slate-50 smooth-transition uppercase tracking-wider cursor-pointer`}
+              className={`appearance-none bg-white border border-slate-200 rounded-lg text-[10px] font-bold py-2 px-4 pr-8 outline-none focus:ring-1 focus:ring-theme-primary disabled:opacity-50 disabled:bg-slate-50 smooth-transition uppercase tracking-wider cursor-pointer`}
               onChange={(e) => onBulkAction(e.target.value)}
               value=""
             >

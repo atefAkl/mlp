@@ -37,11 +37,11 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen flex items-center justify-center bg-theme-bg-page p-4" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="w-full max-w-md bg-white rounded-lg shadow-xl overflow-hidden border border-slate-200">
         <div className="p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-blue-600 mb-2">STITCH</h1>
+            <h1 className="text-3xl font-bold text-theme-primary mb-2">STITCH</h1>
             <p className="text-slate-500">{t('common.login')}</p>
           </div>
 
@@ -58,7 +58,7 @@ const LoginPage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 rtl:pr-10 pr-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent smooth-transition"
+                  className="block w-full pl-10 rtl:pr-10 pr-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent smooth-transition"
                   placeholder="admin@quest.com"
                   required
                 />
@@ -77,7 +77,7 @@ const LoginPage = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 rtl:pr-10 pr-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent smooth-transition"
+                  className="block w-full pl-10 rtl:pr-10 pr-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent smooth-transition"
                   placeholder="••••••••"
                   required
                 />
@@ -99,7 +99,7 @@ const LoginPage = () => {
         <div className="bg-slate-50 px-8 py-4 border-t border-slate-200 text-center">
           <p className="text-sm text-slate-500">
             {isRTL ? 'نسيت كلمة المرور؟' : 'Forgot your password?'} 
-            <a href="#" className="text-blue-600 font-semibold hover:underline ml-1 rtl:mr-1">
+            <a href="#" className="text-theme-primary font-semibold hover:underline ml-1 rtl:mr-1">
               {isRTL ? 'استعادة' : 'Reset'}
             </a>
           </p>

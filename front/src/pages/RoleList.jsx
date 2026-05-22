@@ -56,7 +56,7 @@ const RoleList = () => {
     permissions: []
   });
 
-  if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div></div>;
+  if (isLoading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-theme-primary"></div></div>;
   if (error) return <div className="text-red-500 p-4">Error loading roles</div>;
 
   const groupedPermissions = permissions?.reduce((acc, perm) => {
@@ -231,7 +231,7 @@ const RoleList = () => {
                   <th className="px-6 py-4 w-10">
                     <input 
                       type="checkbox" 
-                      className="rounded border-slate-300 text-blue-600 cursor-pointer" 
+                      className="rounded border-slate-300 text-theme-primary cursor-pointer" 
                       onChange={(e) => {
                         if (e.target.checked) {
                           setSelectedIds(prev => {
@@ -255,13 +255,13 @@ const RoleList = () => {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {currentItems?.map((role) => (
-                  <tr key={role.id} className={`hover:bg-slate-50 smooth-transition ${selectedIds.includes(role.id) ? 'bg-blue-50/30' : ''}`}>
+                  <tr key={role.id} className={`hover:bg-slate-50 smooth-transition ${selectedIds.includes(role.id) ? 'bg-theme-primary-light/40' : ''}`}>
                     <td className="px-6 py-4">
                        <input 
                         type="checkbox" 
                         checked={selectedIds.includes(role.id)}
                         onChange={() => toggleSelect(role.id)}
-                        className="rounded border-slate-300 text-blue-600 cursor-pointer"
+                        className="rounded border-slate-300 text-theme-primary cursor-pointer"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -282,7 +282,7 @@ const RoleList = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-2">
-                        <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(role)} className="p-2 text-blue-600 hover:bg-blue-50" />
+                        <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(role)} className="p-2 text-theme-primary hover:bg-theme-primary-light" />
                         <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(role.id)} className="p-2 text-red-600 hover:bg-red-50" />
                       </div>
                     </td>
@@ -297,13 +297,13 @@ const RoleList = () => {
           {currentItems?.map((role) => {
             const isSelected = selectedIds.includes(role.id);
             return (
-              <div key={role.id} className={`bg-white border rounded-xl p-5 shadow-sm hover:shadow-md smooth-transition group relative ${isSelected ? 'border-blue-400 ring-1 ring-blue-100 bg-blue-50/10' : 'border-slate-200'}`}>
+              <div key={role.id} className={`bg-white border rounded-xl p-5 shadow-sm hover:shadow-md smooth-transition group relative ${isSelected ? 'border-theme-primary ring-1 ring-theme-primary-light bg-theme-primary-light/10' : 'border-slate-200'}`}>
                 <div className="absolute top-3 right-3 rtl:left-3 rtl:right-auto">
                    <input 
                     type="checkbox" 
                     checked={isSelected}
                     onChange={() => toggleSelect(role.id)}
-                    className="rounded border-slate-300 text-blue-600 cursor-pointer"
+                    className="rounded border-slate-300 text-theme-primary cursor-pointer"
                   />
                 </div>
                 <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-black text-lg border border-purple-100 mb-4">
@@ -318,7 +318,7 @@ const RoleList = () => {
                     <span className="text-[11px] font-black">{role.permissions?.length || 0}</span>
                   </div>
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 smooth-transition">
-                     <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(role)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" />
+                     <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(role)} className="p-2 text-theme-primary hover:bg-theme-primary-light rounded-lg" />
                      <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(role.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg" />
                   </div>
                 </div>
@@ -381,7 +381,7 @@ const RoleList = () => {
                     <button
                       type="button"
                       onClick={() => setActiveGroupModal(isOpen ? null : group)}
-                      className={`w-full flex items-center justify-between p-3.5 text-xs font-bold smooth-transition ${isOpen ? 'bg-slate-50 text-blue-600' : 'bg-white text-slate-700 hover:bg-slate-50'}`}
+                      className={`w-full flex items-center justify-between p-3.5 text-xs font-bold smooth-transition ${isOpen ? 'bg-slate-50 text-theme-primary' : 'bg-white text-slate-700 hover:bg-slate-50'}`}
                     >
                       <div className="flex items-center gap-2">
                         <span>{group}</span>
@@ -404,7 +404,7 @@ const RoleList = () => {
                             <button
                               type="button"
                               onClick={() => handleSelectAllInGroup(perms)}
-                              className="px-2 py-1 rounded hover:bg-white hover:shadow-sm text-blue-600 smooth-transition"
+                              className="px-2 py-1 rounded hover:bg-white hover:shadow-sm text-theme-primary smooth-transition"
                             >
                               {isRTL ? "الكل" : "All"}
                             </button>
@@ -436,16 +436,16 @@ const RoleList = () => {
                                 type="button"
                                 onClick={() => togglePermission(perm.name)}
                                 className={`group relative flex items-start gap-3 p-3 rounded-xl border smooth-transition text-start ${
-                                  isSelected ? 'bg-blue-50 border-blue-200 ring-1 ring-blue-100' : 'bg-white border-slate-100 hover:border-slate-200 shadow-sm'
+                                  isSelected ? 'bg-theme-primary-light border-theme-border-accent ring-1 ring-theme-primary-light/50' : 'bg-white border-slate-100 hover:border-slate-200 shadow-sm'
                                 }`}
                               >
                                 <FontAwesomeIcon 
                                   icon={isSelected ? faCheckSquare : faSquare} 
-                                  className={`mt-0.5 text-sm ${isSelected ? 'text-blue-600' : 'text-slate-300'}`} 
+                                  className={`mt-0.5 text-sm ${isSelected ? 'text-theme-primary' : 'text-slate-300'}`} 
                                   key={perm.id + "-icon"}
                                 />
                                 <div className="flex flex-col min-w-0">
-                                  <span className={`text-[11px] font-black truncate uppercase ${isSelected ? 'text-blue-700' : 'text-slate-700'}`}>
+                                  <span className={`text-[11px] font-black truncate uppercase ${isSelected ? 'text-theme-primary-hover' : 'text-slate-700'}`}>
                                     {perm.name.replace(/_/g, ' ')}
                                   </span>
                                   <span className="text-[9px] text-slate-400 line-clamp-1">

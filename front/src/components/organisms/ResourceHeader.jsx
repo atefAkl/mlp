@@ -19,7 +19,7 @@ const ResourceHeader = ({ title, onAdd, onRefresh }) => {
           {isRTL ? 'تصدير' : 'Export'}
         </Button>
         {onAdd && (
-          <Button variant="primary" icon={faPlus} onClick={onAdd} className="text-[10px] font-black uppercase tracking-wider px-5 py-2.5 rounded-xl shadow-lg shadow-blue-100">
+          <Button variant="primary" icon={faPlus} onClick={onAdd} className="text-[10px] font-black uppercase tracking-wider px-5 py-2.5 rounded-xl shadow-lg shadow-theme-shadow">
             {isRTL ? 'إضافة جديد' : 'Add New'}
           </Button>
         )}

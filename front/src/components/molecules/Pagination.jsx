@@ -9,7 +9,7 @@ const Pagination = ({
   currentPage, 
   onPageChange 
 }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -52,7 +52,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(1)}
           disabled={currentPage === 1}
-          className="p-2 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-blue-600 disabled:opacity-30 disabled:hover:bg-transparent smooth-transition"
+          className="p-2 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-theme-primary disabled:opacity-30 disabled:hover:bg-transparent smooth-transition"
         >
           <FontAwesomeIcon icon={isRTL ? faAnglesRight : faAnglesLeft} className="text-[10px]" />
         </button>
@@ -61,7 +61,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="p-2 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-blue-600 disabled:opacity-30 smooth-transition"
+          className="p-2 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-theme-primary disabled:opacity-30 smooth-transition"
         >
           <FontAwesomeIcon icon={isRTL ? faChevronRight : faChevronLeft} className="text-[10px]" />
         </button>
@@ -74,8 +74,8 @@ const Pagination = ({
               onClick={() => onPageChange(number)}
               className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-black smooth-transition ${
                 currentPage === number 
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-100 border-blue-600' 
-                  : 'border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-blue-300'
+                  ? 'bg-theme-primary text-white shadow-lg shadow-theme-shadow border-theme-primary' 
+                  : 'border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-theme-border-accent'
               }`}
             >
               {number}
@@ -87,7 +87,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="p-2 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-blue-600 disabled:opacity-30 smooth-transition"
+          className="p-2 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-theme-primary disabled:opacity-30 smooth-transition"
         >
           <FontAwesomeIcon icon={isRTL ? faChevronLeft : faChevronRight} className="text-[10px]" />
         </button>
@@ -96,7 +96,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(totalPages)}
           disabled={currentPage === totalPages}
-          className="p-2 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-blue-600 disabled:opacity-30 smooth-transition"
+          className="p-2 w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-theme-primary disabled:opacity-30 smooth-transition"
         >
           <FontAwesomeIcon icon={isRTL ? faAnglesLeft : faAnglesRight} className="text-[10px]" />
         </button>

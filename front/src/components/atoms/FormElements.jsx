@@ -13,7 +13,7 @@ export const Input = ({ label, icon, error, ...props }) => {
         )}
         <input
           {...props}
-          className={`block w-full ${icon ? 'pl-9 rtl:pr-9' : 'px-3'} pr-3 rtl:pl-3 py-1.5 text-sm border ${error ? 'border-red-500' : 'border-slate-300'} rounded focus:outline-none focus:ring-1 focus:ring-blue-500 smooth-transition`}
+          className={`block w-full ${icon ? 'pl-9 rtl:pr-9' : 'px-3'} pr-3 rtl:pl-3 py-1.5 text-sm border ${error ? 'border-red-500' : 'border-slate-300'} rounded focus:outline-none focus:ring-1 focus:ring-theme-primary smooth-transition`}
         />
       </div>
       {error && <p className="text-[10px] text-red-500 mt-1">{error}</p>}
@@ -33,7 +33,7 @@ export const Select = ({ label, icon, options = [], error, ...props }) => {
         )}
         <select
           {...props}
-          className={`block w-full ${icon ? 'pl-9 rtl:pr-9' : 'px-3'} pr-3 rtl:pl-3 py-1.5 text-sm border ${error ? 'border-red-500' : 'border-slate-300'} rounded focus:outline-none focus:ring-1 focus:ring-blue-500 smooth-transition appearance-none bg-white`}
+          className={`block w-full ${icon ? 'pl-9 rtl:pr-9' : 'px-3'} pr-3 rtl:pl-3 py-1.5 text-sm border ${error ? 'border-red-500' : 'border-slate-300'} rounded focus:outline-none focus:ring-1 focus:ring-theme-primary smooth-transition appearance-none bg-white`}
         >
           {options.map((opt) => (
             <option key={opt.value} value={opt.value}>
