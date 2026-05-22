@@ -129,6 +129,31 @@ const RoleList = () => {
     });
   };
 
+  const handleSelectAllInGroup = (groupPerms) => {
+    setFormData(prev => {
+      const permNames = groupPerms.map(p => p.name);
+      const newPerms = [...new Set([...prev.permissions, ...permNames])];
+      return { ...prev, permissions: newPerms };
+    });
+  };
+
+  const handleSelectNoneInGroup = (groupPerms) => {
+    setFormData(prev => {
+      const permNames = groupPerms.map(p => p.name);
+      const newPerms = prev.permissions.filter(p => !permNames.includes(p));
+      return { ...prev, permissions: newPerms };
+    });
+  };
+
+  const handleInvertInGroup = (groupPerms) => {
+    setFormData(prev => {
+      const permNames = groupPerms.map(p => p.name);
+      const remainingPerms = prev.permissions.filter(p => !permNames.includes(p));
+      const inactiveInGroup = permNames.filter(name => !prev.permissions.includes(name));
+      return { ...prev, permissions: [...remainingPerms, ...inactiveInGroup] };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -366,33 +391,71 @@ const RoleList = () => {
                     </button>
                     
                     {isOpen && (
-                      <div className="p-4 bg-white grid grid-cols-1 md:grid-cols-2 gap-3 border-t border-slate-100">
-                        {perms.map(perm => {
-                          const isSelected = formData.permissions.includes(perm.name);
-                          return (
+                      <div className="p-4 bg-white border-t border-slate-100 space-y-3 animate-in fade-in-50 duration-200">
+                        {/* Local Selection Toolbar */}
+                        <div className="flex items-center justify-between bg-slate-50 p-2 rounded-lg border border-slate-100 text-[10px] font-bold text-slate-500">
+                          <span className="text-slate-600 font-medium">
+                            {isRTL 
+                              ? `تم اختيار ${selectedCount} من أصل ${perms.length}` 
+                              : `${selectedCount} of ${perms.length} selected`}
+                          </span>
+                          
+                          <div className="flex items-center gap-1.5">
                             <button
-                              key={perm.id}
                               type="button"
-                              onClick={() => togglePermission(perm.name)}
-                              className={`group relative flex items-start gap-3 p-3 rounded-xl border smooth-transition text-start ${
-                                isSelected ? 'bg-blue-50 border-blue-200 ring-1 ring-blue-100' : 'bg-white border-slate-100 hover:border-slate-200 shadow-sm'
-                              }`}
+                              onClick={() => handleSelectAllInGroup(perms)}
+                              className="px-2 py-1 rounded hover:bg-white hover:shadow-sm text-blue-600 smooth-transition"
                             >
-                              <FontAwesomeIcon 
-                                icon={isSelected ? faCheckSquare : faSquare} 
-                                className={`mt-0.5 text-sm ${isSelected ? 'text-blue-600' : 'text-slate-300'}`} 
-                              />
-                              <div className="flex flex-col min-w-0">
-                                <span className={`text-[11px] font-black truncate uppercase ${isSelected ? 'text-blue-700' : 'text-slate-700'}`}>
-                                  {perm.name.replace(/_/g, ' ')}
-                                </span>
-                                <span className="text-[9px] text-slate-400 line-clamp-1">
-                                  {perm.description || 'No description'}
-                                </span>
-                              </div>
+                              {isRTL ? "الكل" : "All"}
                             </button>
-                          );
-                        })}
+                            <span className="text-slate-200">|</span>
+                            <button
+                              type="button"
+                              onClick={() => handleSelectNoneInGroup(perms)}
+                              className="px-2 py-1 rounded hover:bg-white hover:shadow-sm text-slate-500 smooth-transition"
+                            >
+                              {isRTL ? "لا شيء" : "None"}
+                            </button>
+                            <span className="text-slate-200">|</span>
+                            <button
+                              type="button"
+                              onClick={() => handleInvertInGroup(perms)}
+                              className="px-2 py-1 rounded hover:bg-white hover:shadow-sm text-amber-600 smooth-transition"
+                            >
+                              {isRTL ? "عكس" : "Invert"}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {perms.map(perm => {
+                            const isSelected = formData.permissions.includes(perm.name);
+                            return (
+                              <button
+                                key={perm.id}
+                                type="button"
+                                onClick={() => togglePermission(perm.name)}
+                                className={`group relative flex items-start gap-3 p-3 rounded-xl border smooth-transition text-start ${
+                                  isSelected ? 'bg-blue-50 border-blue-200 ring-1 ring-blue-100' : 'bg-white border-slate-100 hover:border-slate-200 shadow-sm'
+                                }`}
+                              >
+                                <FontAwesomeIcon 
+                                  icon={isSelected ? faCheckSquare : faSquare} 
+                                  className={`mt-0.5 text-sm ${isSelected ? 'text-blue-600' : 'text-slate-300'}`} 
+                                  key={perm.id + "-icon"}
+                                />
+                                <div className="flex flex-col min-w-0">
+                                  <span className={`text-[11px] font-black truncate uppercase ${isSelected ? 'text-blue-700' : 'text-slate-700'}`}>
+                                    {perm.name.replace(/_/g, ' ')}
+                                  </span>
+                                  <span className="text-[9px] text-slate-400 line-clamp-1">
+                                    {perm.description || 'No description'}
+                                  </span>
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
                     )}
                   </div>

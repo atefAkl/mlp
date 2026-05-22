@@ -123,6 +123,98 @@ const PermissionList = () => {
     }
   };
 
+  const selectAllInGroup = (perms) => {
+    const permIds = perms.map(p => p.id);
+    setSelectedIds(prev => [...new Set([...prev, ...permIds])]);
+  };
+
+  const selectNoneInGroup = (perms) => {
+    const permIds = perms.map(p => p.id);
+    setSelectedIds(prev => prev.filter(id => !permIds.includes(id)));
+  };
+
+  const invertSelectionInGroup = (perms) => {
+    const permIds = perms.map(p => p.id);
+    setSelectedIds(prev => {
+      const unselectedInGroup = permIds.filter(id => !prev.includes(id));
+      return [...prev.filter(id => !permIds.includes(id)), ...unselectedInGroup];
+    });
+  };
+
+  const handleGroupBulkDelete = async (groupPerms) => {
+    const groupPermIds = groupPerms.map(p => p.id);
+    const selectedInGroup = selectedIds.filter(id => groupPermIds.includes(id));
+    if (selectedInGroup.length === 0) return;
+    
+    if (window.confirm(isRTL 
+      ? `هل أنت متأكد من حذف الصلاحيات المحددة (${selectedInGroup.length}) في هذه المجموعة؟` 
+      : `Are you sure you want to delete the selected permissions (${selectedInGroup.length}) in this group?`
+    )) {
+      try {
+        await bulkDelete(selectedInGroup).unwrap();
+        toast.success(isRTL ? 'تم حذف الصلاحيات بنجاح' : 'Deleted successfully');
+        setSelectedIds(prev => prev.filter(id => !selectedInGroup.includes(id)));
+      } catch (err) {
+        toast.error('Failed');
+      }
+    }
+  };
+
+  const renderGroupToolbar = (group, perms) => {
+    const groupPermIds = perms.map(p => p.id);
+    const selectedInGroup = selectedIds.filter(id => groupPermIds.includes(id));
+    const selectedCount = selectedInGroup.length;
+
+    return (
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 bg-slate-50/70 p-2.5 px-3 rounded-xl border border-slate-100 animate-in fade-in-50 duration-200">
+        <span className="text-[10px] font-bold text-slate-500">
+          {isRTL 
+            ? `تم تحديد ${selectedCount} من أصل ${perms.length} صلاحيات` 
+            : `${selectedCount} of ${perms.length} permissions selected`}
+        </span>
+        
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 bg-white p-0.5 px-1 rounded-lg border border-slate-200 shadow-sm">
+            <button
+              type="button"
+              onClick={() => selectAllInGroup(perms)}
+              className="px-2 py-1 rounded text-[9px] font-black hover:bg-slate-50 text-blue-600 smooth-transition"
+            >
+              {isRTL ? "الكل" : "All"}
+            </button>
+            <span className="text-slate-200 text-[9px]">|</span>
+            <button
+              type="button"
+              onClick={() => selectNoneInGroup(perms)}
+              className="px-2 py-1 rounded text-[9px] font-black hover:bg-slate-50 text-slate-500 smooth-transition"
+            >
+              {isRTL ? "لا شيء" : "None"}
+            </button>
+            <span className="text-slate-200 text-[9px]">|</span>
+            <button
+              type="button"
+              onClick={() => invertSelectionInGroup(perms)}
+              className="px-2 py-1 rounded text-[9px] font-black hover:bg-slate-50 text-amber-600 smooth-transition"
+            >
+              {isRTL ? "عكس" : "Invert"}
+            </button>
+          </div>
+          
+          {selectedCount > 0 && (
+            <button
+              type="button"
+              onClick={() => handleGroupBulkDelete(perms)}
+              className="flex items-center gap-1.5 text-[9px] font-black bg-red-50 hover:bg-red-100 text-red-600 px-2.5 py-1.5 rounded-lg border border-red-100 smooth-transition shadow-sm"
+            >
+              <FontAwesomeIcon icon={faTrash} className="text-[8px]" />
+              <span>{isRTL ? "حذف المحدد" : "Delete Selected"}</span>
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   const toggleAccordion = (group) => {
     setActiveGroup(prev => prev === group ? null : group);
   };
@@ -241,6 +333,9 @@ const PermissionList = () => {
               <legend className="px-5 py-1.5 bg-slate-800 text-white rounded-full text-xs font-black shadow-lg">
                 {group}
               </legend>
+              
+              {renderGroupToolbar(group, perms)}
+              
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {perms.map(perm => <PermissionCard key={perm.id} perm={perm} />)}
               </div>
@@ -265,7 +360,8 @@ const PermissionList = () => {
                   <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} className="text-[10px]" />
                 </button>
                 {isOpen && (
-                  <div className="p-4 bg-white border-t border-slate-100">
+                  <div className="p-4 bg-white border-t border-slate-100 space-y-4">
+                    {renderGroupToolbar(group, perms)}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                         {perms.map(perm => <PermissionCard key={perm.id} perm={perm} />)}
                     </div>

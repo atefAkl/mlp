@@ -100,21 +100,23 @@ const ResourceFilters = ({
         </div>
         
         {/* Bulk Actions Dropdown */}
-        <div className="relative">
-          <select 
-            disabled={selectedCount === 0}
-            className={`appearance-none bg-white border border-slate-200 rounded-lg text-[10px] font-bold py-2 px-4 pr-8 outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:bg-slate-50 smooth-transition uppercase tracking-wider cursor-pointer`}
-            onChange={(e) => onBulkAction(e.target.value)}
-            value=""
-          >
-            <option value="" disabled>{isRTL ? 'العمليات الجماعية' : 'Bulk Actions'}</option>
-            <option value="delete" className="text-red-600">{isRTL ? 'حذف المحدد' : 'Delete Selected'}</option>
-            <option value="activate">{isRTL ? 'تنشيط' : 'Activate'}</option>
-          </select>
-          <div className={`pointer-events-none absolute inset-y-0 flex items-center px-2 text-slate-400 ${isRTL ? 'left-1' : 'right-1'}`}>
-            <FontAwesomeIcon icon={faChevronDown} className="text-[8px]" />
+        {onBulkAction && (
+          <div className="relative">
+            <select 
+              disabled={selectedCount === 0}
+              className={`appearance-none bg-white border border-slate-200 rounded-lg text-[10px] font-bold py-2 px-4 pr-8 outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:bg-slate-50 smooth-transition uppercase tracking-wider cursor-pointer`}
+              onChange={(e) => onBulkAction(e.target.value)}
+              value=""
+            >
+              <option value="" disabled>{isRTL ? 'العمليات الجماعية' : 'Bulk Actions'}</option>
+              <option value="delete" className="text-red-600">{isRTL ? 'حذف المحدد' : 'Delete Selected'}</option>
+              <option value="activate">{isRTL ? 'تنشيط' : 'Activate'}</option>
+            </select>
+            <div className={`pointer-events-none absolute inset-y-0 flex items-center px-2 text-slate-400 ${isRTL ? 'left-1' : 'right-1'}`}>
+              <FontAwesomeIcon icon={faChevronDown} className="text-[8px]" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
