@@ -10,9 +10,9 @@ import {
 } from '../features/api/apiSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faEdit, faTrash, faUserShield, faShieldHalved, 
+  faEdit, faTrash, faUserShield, 
   faUsersGear, faKey, faCheckSquare, faSquare, 
-  faChevronDown, faChevronUp, faInfoCircle, faPlus, faEdit as faEditAlt 
+  faChevronDown, faChevronUp
 } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/atoms/Button';
 import Badge from '../components/atoms/Badge';
@@ -20,12 +20,13 @@ import StatsCard from '../components/molecules/StatsCard';
 import Pagination from '../components/molecules/Pagination';
 import ResourceHeader from '../components/organisms/ResourceHeader';
 import ResourceFilters from '../components/organisms/ResourceFilters';
+import SelectionBanner from '../components/molecules/SelectionBanner';
 import Modal from '../components/organisms/Modal';
 import { Input } from '../components/atoms/FormElements';
 import { toast } from 'react-toastify';
 
 const RoleList = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   
   // API Queries
@@ -173,11 +174,27 @@ const RoleList = () => {
       </div>
 
       <ResourceFilters 
-        onSearch={(val) => { setSearchTerm(val); setCurrentPage(1); }} 
+        onSearch={(val) => { setSearchTerm(val); setCurrentPage(1); setSelectedIds([]); }} 
         onViewChange={setViewMode}
         currentView={viewMode}
         onBulkAction={handleBulkAction}
         selectedCount={selectedIds.length}
+        onSelectAll={() => setSelectedIds(currentItems.map(r => r.id))}
+        onSelectNone={() => setSelectedIds([])}
+        onSelectInvert={() => {
+          setSelectedIds(prev => {
+            const filteredIds = filteredRoles.map(r => r.id);
+            return filteredIds.filter(id => !prev.includes(id));
+          });
+        }}
+      />
+
+      <SelectionBanner
+        selectedCount={selectedIds.length}
+        currentPageCount={currentItems?.length || 0}
+        totalFilteredCount={filteredRoles?.length || 0}
+        onSelectAllFiltered={() => setSelectedIds(filteredRoles.map(r => r.id))}
+        onClearSelection={() => setSelectedIds([])}
       />
 
       {viewMode === 'list' ? (
@@ -189,12 +206,21 @@ const RoleList = () => {
                   <th className="px-6 py-4 w-10">
                     <input 
                       type="checkbox" 
-                      className="rounded border-slate-300 text-blue-600" 
+                      className="rounded border-slate-300 text-blue-600 cursor-pointer" 
                       onChange={(e) => {
-                        if (e.target.checked) setSelectedIds(currentItems.map(r => r.id));
-                        else setSelectedIds([]);
+                        if (e.target.checked) {
+                          setSelectedIds(prev => {
+                            const newIds = [...prev];
+                            currentItems.forEach(r => {
+                              if (!newIds.includes(r.id)) newIds.push(r.id);
+                            });
+                            return newIds;
+                          });
+                        } else {
+                          setSelectedIds(prev => prev.filter(id => !currentItems.some(r => r.id === id)));
+                        }
                       }}
-                      checked={selectedIds.length > 0 && selectedIds.length === currentItems?.length}
+                      checked={currentItems?.length > 0 && currentItems.every(r => selectedIds.includes(r.id))}
                     />
                   </th>
                   <th className="px-6 py-4 text-start">{isRTL ? 'الدور والوصف' : 'Role & Description'}</th>

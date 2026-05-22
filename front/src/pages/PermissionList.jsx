@@ -9,7 +9,7 @@ import {
 } from '../features/api/apiSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faEdit, faTrash, faKey, faLayerGroup, 
+  faTrash, faKey, faLayerGroup, 
   faChevronDown, faChevronUp, faEdit as faEditAlt 
 } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/atoms/Button';
@@ -18,12 +18,13 @@ import StatsCard from '../components/molecules/StatsCard';
 import Pagination from '../components/molecules/Pagination';
 import ResourceHeader from '../components/organisms/ResourceHeader';
 import ResourceFilters from '../components/organisms/ResourceFilters';
+import SelectionBanner from '../components/molecules/SelectionBanner';
 import Modal from '../components/organisms/Modal';
 import { Input, Select } from '../components/atoms/FormElements';
 import { toast } from 'react-toastify';
 
 const PermissionList = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   
   // API Queries
@@ -207,11 +208,30 @@ const PermissionList = () => {
       </div>
 
       <ResourceFilters 
-        onSearch={(val) => { setSearchTerm(val); setCurrentPage(1); }} 
+        onSearch={(val) => { setSearchTerm(val); setCurrentPage(1); setSelectedIds([]); }} 
         onViewChange={setViewMode}
         currentView={viewMode}
         onBulkAction={handleBulkAction}
         selectedCount={selectedIds.length}
+        onSelectAll={() => {
+          const currentPermsIds = currentGroups.flatMap(([, perms]) => perms.map(p => p.id));
+          setSelectedIds(prev => [...new Set([...prev, ...currentPermsIds])]);
+        }}
+        onSelectNone={() => setSelectedIds([])}
+        onSelectInvert={() => {
+          setSelectedIds(prev => {
+            const allFilteredIds = Object.values(filteredGroups).flat().map(p => p.id);
+            return allFilteredIds.filter(id => !prev.includes(id));
+          });
+        }}
+      />
+
+      <SelectionBanner
+        selectedCount={selectedIds.length}
+        currentPageCount={currentGroups.flatMap(([, perms]) => perms).length}
+        totalFilteredCount={Object.values(filteredGroups).flat().length}
+        onSelectAllFiltered={() => setSelectedIds(Object.values(filteredGroups).flat().map(p => p.id))}
+        onClearSelection={() => setSelectedIds([])}
       />
 
       {viewMode === 'grid' ? (

@@ -1,159 +1,159 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
-  reducerPath: 'api',
+  reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://www.pmapp.api/api', // Laravel backend URL
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
-        headers.set('authorization', `Bearer ${token}`);
+        headers.set("authorization", `Bearer ${token}`);
       }
-      headers.set('Accept', 'application/json');
+      headers.set("Accept", "application/json");
       return headers;
     },
   }),
-  tagTypes: ['User', 'Permission', 'Role'],
+  tagTypes: ["User", "Permission", "Role"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
-        url: '/login',
-        method: 'POST',
+        url: "/login",
+        method: "POST",
         body: credentials,
       }),
     }),
     logout: builder.mutation({
       query: () => ({
-        url: '/logout',
-        method: 'POST',
+        url: "/logout",
+        method: "POST",
       }),
     }),
     getProfile: builder.query({
-      query: () => '/user',
-      providesTags: ['User'],
+      query: () => "/user",
+      providesTags: ["User"],
     }),
     getUsers: builder.query({
-      query: () => '/users',
-      providesTags: ['User'],
+      query: () => "/users",
+      providesTags: ["User"],
     }),
     createUser: builder.mutation({
       query: (userData) => ({
-        url: '/users',
-        method: 'POST',
+        url: "/users",
+        method: "POST",
         body: userData,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
     }),
     updateUser: builder.mutation({
       query: ({ id, ...userData }) => ({
         url: `/users/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: userData,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
         url: `/users/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
     }),
     toggleUserStatus: builder.mutation({
       query: (id) => ({
         url: `/users/${id}/toggle-status`,
-        method: 'PATCH',
+        method: "PATCH",
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
     }),
     bulkDeleteUsers: builder.mutation({
       query: (ids) => ({
-        url: '/users/bulk-delete',
-        method: 'POST',
+        url: "/users/bulk-delete",
+        method: "POST",
         body: { ids },
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
     }),
 
     // Roles
     getRoles: builder.query({
-      query: () => '/roles',
-      providesTags: ['Role'],
+      query: () => "/roles",
+      providesTags: ["Role"],
     }),
     createRole: builder.mutation({
       query: (roleData) => ({
-        url: '/roles',
-        method: 'POST',
+        url: "/roles",
+        method: "POST",
         body: roleData,
       }),
-      invalidatesTags: ['Role'],
+      invalidatesTags: ["Role"],
     }),
     updateRole: builder.mutation({
       query: ({ id, ...roleData }) => ({
         url: `/roles/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: roleData,
       }),
-      invalidatesTags: ['Role', 'User'],
+      invalidatesTags: ["Role", "User"],
     }),
     deleteRole: builder.mutation({
       query: (id) => ({
         url: `/roles/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: ['Role'],
+      invalidatesTags: ["Role"],
     }),
     bulkDeleteRoles: builder.mutation({
       query: (ids) => ({
-        url: '/roles/bulk-delete',
-        method: 'POST',
+        url: "/roles/bulk-delete",
+        method: "POST",
         body: { ids },
       }),
-      invalidatesTags: ['Role'],
+      invalidatesTags: ["Role"],
     }),
 
     // Permissions
     getPermissions: builder.query({
-      query: () => '/permissions',
-      providesTags: ['Permission'],
+      query: () => "/permissions",
+      providesTags: ["Permission"],
     }),
     createPermission: builder.mutation({
       query: (permissionData) => ({
-        url: '/permissions',
-        method: 'POST',
+        url: "/permissions",
+        method: "POST",
         body: permissionData,
       }),
-      invalidatesTags: ['Permission'],
+      invalidatesTags: ["Permission"],
     }),
     updatePermission: builder.mutation({
       query: ({ id, ...permissionData }) => ({
         url: `/permissions/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: permissionData,
       }),
-      invalidatesTags: ['Permission', 'Role'],
+      invalidatesTags: ["Permission", "Role"],
     }),
     deletePermission: builder.mutation({
       query: (id) => ({
         url: `/permissions/${id}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: ['Permission'],
+      invalidatesTags: ["Permission"],
     }),
     bulkDeletePermissions: builder.mutation({
       query: (ids) => ({
-        url: '/permissions/bulk-delete',
-        method: 'POST',
+        url: "/permissions/bulk-delete",
+        method: "POST",
         body: { ids },
       }),
-      invalidatesTags: ['Permission'],
+      invalidatesTags: ["Permission"],
     }),
   }),
 });
 
-export const { 
-  useLoginMutation, 
-  useLogoutMutation, 
+export const {
+  useLoginMutation,
+  useLogoutMutation,
   useGetProfileQuery,
   useGetUsersQuery,
   useCreateUserMutation,
@@ -170,5 +170,5 @@ export const {
   useCreatePermissionMutation,
   useUpdatePermissionMutation,
   useDeletePermissionMutation,
-  useBulkDeletePermissionsMutation
+  useBulkDeletePermissionsMutation,
 } = apiSlice;

@@ -1,6 +1,15 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilter, faTableList, faGrip, faThLarge, faListUl, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faSearch, 
+  faFilter, 
+  faThLarge, 
+  faListUl, 
+  faChevronDown,
+  faCheckDouble,
+  faSquare,
+  faSync
+} from '@fortawesome/free-solid-svg-icons';
 import Button from '../atoms/Button';
 import { useTranslation } from 'react-i18next';
 
@@ -9,16 +18,19 @@ const ResourceFilters = ({
   onViewChange, 
   currentView, 
   onBulkAction, 
-  selectedCount 
+  selectedCount,
+  onSelectAll,
+  onSelectNone,
+  onSelectInvert
 }) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   return (
     <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3">
       {/* Search & Bulk */}
-      <div className="flex items-center gap-2 w-full md:w-auto">
-        <div className="relative flex-1 md:w-64">
+      <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+        <div className="relative flex-1 md:w-64 min-w-[150px]">
           <span className={`absolute inset-y-0 flex items-center text-slate-400 ${isRTL ? 'right-3' : 'left-3'}`}>
             <FontAwesomeIcon icon={faSearch} className="text-xs" />
           </span>
@@ -33,6 +45,41 @@ const ResourceFilters = ({
           {isRTL ? 'تصفية' : 'Filters'}
         </Button>
       </div>
+
+      {/* Selection Controls */}
+      {onSelectAll && (
+        <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-lg border border-slate-200 w-full md:w-auto justify-center md:justify-start">
+          <button
+            type="button"
+            onClick={onSelectAll}
+            className="flex items-center gap-1.5 text-[10px] font-bold py-1 px-2 rounded-md hover:bg-white hover:shadow-sm text-slate-600 smooth-transition"
+            title={isRTL ? "تحديد الكل" : "Select All"}
+          >
+            <FontAwesomeIcon icon={faCheckDouble} className="text-blue-500" />
+            <span>{isRTL ? "الكل" : "All"}</span>
+          </button>
+          <div className="h-3 w-px bg-slate-200 mx-0.5" />
+          <button
+            type="button"
+            onClick={onSelectNone}
+            className="flex items-center gap-1.5 text-[10px] font-bold py-1 px-2 rounded-md hover:bg-white hover:shadow-sm text-slate-600 smooth-transition"
+            title={isRTL ? "إلغاء التحديد" : "Deselect All"}
+          >
+            <FontAwesomeIcon icon={faSquare} className="text-slate-400 text-[9px]" />
+            <span>{isRTL ? "لا شيء" : "None"}</span>
+          </button>
+          <div className="h-3 w-px bg-slate-200 mx-0.5" />
+          <button
+            type="button"
+            onClick={onSelectInvert}
+            className="flex items-center gap-1.5 text-[10px] font-bold py-1 px-2 rounded-md hover:bg-white hover:shadow-sm text-slate-600 smooth-transition"
+            title={isRTL ? "عكس التحديد" : "Invert Selection"}
+          >
+            <FontAwesomeIcon icon={faSync} className="text-amber-500 text-[8px]" />
+            <span>{isRTL ? "عكس" : "Invert"}</span>
+          </button>
+        </div>
+      )}
 
       {/* Display Tools & Bulk Actions */}
       <div className="flex items-center gap-3 w-full md:w-auto justify-end">
@@ -74,3 +121,4 @@ const ResourceFilters = ({
 };
 
 export default ResourceFilters;
+
