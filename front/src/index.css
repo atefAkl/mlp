@@ -5,17 +5,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   DESIGN SYSTEM TOKENS
+   ============================================ */
 :root {
-  --theme-bg-page: #f6f4eb;
-  --theme-primary: #1e3a8a;
-  --theme-primary-hover: #172554;
-  --theme-primary-light: #eff6ff;
-  --theme-shadow: rgba(30, 58, 138, 0.1);
-  --theme-border-accent: rgba(30, 58, 138, 0.15);
-  --theme-font: 'Cairo', sans-serif;
+  --theme-bg-page:          #f6f4eb;
+  --theme-primary:          #1e3a8a;
+  --theme-primary-hover:    #172554;
+  --theme-primary-light:    #eff6ff;
+  --theme-shadow:           rgba(30, 58, 138, 0.1);
+  --theme-border-accent:    rgba(30, 58, 138, 0.15);
+  --theme-font:             'Cairo', sans-serif;
 }
 
-/* Custom CSS for RTL/LTR support */
+/* ============================================
+   BASE RESET — DESIGN CONSTRAINTS
+   ============================================ */
+
+/* 1. Border radius = 0 for all structural components */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-radius: 0 !important;
+  }
+
+  /* Keep circle/pill shapes for avatars, badges, status dots */
+  .rounded-full,
+  .rounded-full *  { border-radius: 9999px !important; }
+
+  /* Headings: max 20px */
+  h1 { font-size: clamp(1rem, 2vw, 1.25rem) !important; }  /* max 20px */
+  h2 { font-size: clamp(0.875rem, 1.5vw, 1.125rem) !important; }
+  h3 { font-size: clamp(0.8rem, 1.2vw, 1rem) !important; }
+  h4, h5, h6 { font-size: 0.8rem !important; }
+
+  /* Vertical spacing: max 8px between direct siblings */
+  .space-y-1  > * + * { margin-top: 0.25rem !important; }
+  .space-y-2  > * + * { margin-top: 0.5rem  !important; }
+  .space-y-3  > * + * { margin-top: 0.5rem  !important; } /* capped 8px */
+  .space-y-4  > * + * { margin-top: 0.5rem  !important; } /* capped 8px */
+  .space-y-6  > * + * { margin-top: 0.5rem  !important; } /* capped 8px */
+  .space-y-8  > * + * { margin-top: 0.5rem  !important; } /* capped 8px */
+
+  /* Section-level gap (between page sections) */
+  .gap-6 { gap: 0.75rem !important; }
+  .gap-8 { gap: 0.75rem !important; }
+}
+
+/* ============================================
+   BODY
+   ============================================ */
 body {
   font-family: var(--theme-font), 'Cairo', sans-serif;
   @apply text-slate-800 bg-theme-bg-page transition-colors duration-500;
@@ -25,35 +65,47 @@ body.ltr {
   font-family: var(--theme-font), 'Almarai', sans-serif;
 }
 
-/* Compact layout utilities */
-.compact-grid {
-  @apply gap-2;
+/* ============================================
+   TOOLTIP SYSTEM (CSS-only, on [data-tooltip] / title)
+   ============================================ */
+[title]:not([title=""]) {
+  position: relative;
 }
 
-.compact-padding {
-  @apply p-2;
+[title]:not([title=""])::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #1e293b;
+  color: #f8fafc;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 0 !important;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 9999;
+  letter-spacing: 0.02em;
 }
 
-/* Smooth transitions */
-.smooth-transition {
-  @apply transition-all duration-300 ease-in-out;
+[title]:not([title=""]):hover::after {
+  opacity: 1;
 }
 
-.hover-lift {
-  @apply hover:-translate-y-1 hover:shadow-lg;
-}
+/* ============================================
+   UTILITIES
+   ============================================ */
+.compact-grid    { @apply gap-2; }
+.compact-padding { @apply p-2; }
+.smooth-transition { @apply transition-all duration-300 ease-in-out; }
+.hover-lift      { @apply hover:-translate-y-1 hover:shadow-lg; }
 
-/* RTL Support for FontAwesome Icons if needed */
-[dir="rtl"] .fa-rotate-rtl {
-  @apply rotate-180;
-}
-
-/* Existing styles below */
-/* ... (preserving user's existing animations if needed, but the user said "dashbaord فارغة") ... */
+/* RTL Support for FontAwesome Icons */
+[dir="rtl"] .fa-rotate-rtl { @apply rotate-180; }
 
 /* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* ... rest of the file ... */
+html { scroll-behavior: smooth; }

@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RolesAndPermissionsSeeder::class,
+            UserSeeder::class,
         ]);
 
         $epic = \App\Models\Task::create([

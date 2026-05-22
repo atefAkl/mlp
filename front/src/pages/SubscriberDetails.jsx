@@ -29,10 +29,11 @@ const SubscriberDetails = () => {
 
   return (
     <div className="space-y-6 pb-10" dir={isRTL ? 'rtl' : 'ltr'}>
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-black text-slate-900">Subscriber Details</h1>
-          <p className="mt-2 text-sm text-slate-500">Detailed view for {typeLabels[subscriber.type]} subscription and interview/demo scheduling.</p>
+      {/* Title Box */}
+      <div className="bg-white border border-slate-200 p-4 flex items-start justify-between mb-2">
+        <div className="space-y-1">
+          <h1 className="text-xl font-black text-slate-900">Subscriber Details</h1>
+          <p className="text-xs text-slate-500">Detailed view for {typeLabels[subscriber.type]} subscription and interview/demo scheduling.</p>
         </div>
         <Link to="/dashboard/subscribers">
           <Button variant="secondary" icon={faArrowLeft} className="text-[11px] px-4">Back to list</Button>

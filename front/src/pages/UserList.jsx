@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { 
   useGetUsersQuery, 
   useCreateUserMutation, 
@@ -25,6 +26,7 @@ import { toast } from 'react-toastify';
 const UserList = () => {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
+  const currentUser = useSelector((state) => state.auth.user);
   
   // API Queries
   const { data: users, isLoading, error, refetch } = useGetUsersQuery();
@@ -65,8 +67,9 @@ const UserList = () => {
   }
 
   const filteredUsers = users?.filter(user => 
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    user.id !== currentUser?.id &&
+    (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   // Pagination Logic
@@ -157,6 +160,7 @@ const UserList = () => {
     <div className="space-y-6 pb-10" dir={isRTL ? 'rtl' : 'ltr'}>
       <ResourceHeader 
         title={isRTL ? 'إدارة المستخدمين' : 'Users Management'} 
+        description={isRTL ? 'إدارة حسابات مستخدمي النظام وتخصيص الأدوار وتفعيل أو تعطيل الحسابات.' : 'Manage user accounts, roles assignment, and account activation status.'}
         onRefresh={refetch}
         onAdd={handleOpenCreateModal}
       />
@@ -271,8 +275,8 @@ const UserList = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-2">
-                        <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-theme-primary hover:bg-theme-primary-light" />
-                        <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-2 text-red-600 hover:bg-red-50" />
+                        <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-theme-primary hover:bg-theme-primary-light" tooltip={isRTL ? 'تعديل' : 'Edit'} />
+                        <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-2 text-red-600 hover:bg-red-50" tooltip={isRTL ? 'حذف' : 'Delete'} />
                       </div>
                     </td>
                   </tr>
@@ -318,8 +322,8 @@ const UserList = () => {
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-slate-50 flex justify-end gap-2 opacity-0 group-hover:opacity-100 smooth-transition">
-                   <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-theme-primary hover:bg-theme-primary-light rounded-lg" />
-                   <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg" />
+                   <Button variant="ghost" icon={faEdit} onClick={() => handleOpenEditModal(user)} className="p-2 text-theme-primary hover:bg-theme-primary-light rounded-lg" tooltip={isRTL ? 'تعديل' : 'Edit'} />
+                   <Button variant="ghost" icon={faTrash} onClick={() => handleDelete(user.id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg" tooltip={isRTL ? 'حذف' : 'Delete'} />
                 </div>
               </div>
             );

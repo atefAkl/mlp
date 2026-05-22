@@ -44,23 +44,32 @@ const GeneralSettings = () => {
   };
 
   return (
-    <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
+    <form onSubmit={handleSave} className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Header / Title Box */}
+      <div className="bg-white border border-slate-200 p-4 flex items-start justify-between mb-2">
+        <div className="space-y-1">
+          <h1 className="text-xl font-black text-slate-900 flex items-center gap-2">
             <FontAwesomeIcon icon={faGear} className="text-theme-primary" />
             {isRTL ? 'إعدادات النظام العامة' : 'General System Settings'}
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-500">
             {isRTL ? 'تخصيص الإعدادات العامة لاسم المنصة، التواصل، وإعدادات التسجيل والصيانة.' : 'Configure default system branding, emails, user registrations, and maintenance.'}
           </p>
         </div>
+        <Button
+          type="submit"
+          variant="primary"
+          className="px-4 py-2 text-xs font-black uppercase tracking-wider"
+          icon={faSave}
+          tooltip={isRTL ? 'حفظ التعديلات' : 'Save Settings'}
+        >
+          {isRTL ? 'حفظ' : 'Save'}
+        </Button>
       </div>
 
-      <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left/Main Settings Pane */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className={settings.maintenanceMode ? "lg:col-span-2 space-y-6" : "lg:col-span-3 space-y-6"}>
           <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-6">
             <h2 className="text-sm font-black text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">
               {isRTL ? 'معلومات الهوية والتواصل' : 'Identity & Contact Info'}
@@ -168,28 +177,9 @@ const GeneralSettings = () => {
           </div>
         </div>
 
-        {/* Right Info Sidebar / Save Action */}
-        <div className="space-y-6">
-          {/* Action Card */}
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4">
-            <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider">
-              {isRTL ? 'إجراءات الحفظ' : 'Save Changes'}
-            </h2>
-            <p className="text-xs text-slate-500">
-              {isRTL ? 'سيتم تطبيق كافة التعديلات في النظام فور النقر على زر الحفظ.' : 'All system modifications take effect immediately upon clicking save.'}
-            </p>
-            <Button
-              type="submit"
-              variant="primary"
-              className="w-full py-2.5 text-xs font-black uppercase tracking-wider"
-              icon={faSave}
-            >
-              {isRTL ? 'حفظ التعديلات' : 'Save Settings'}
-            </Button>
-          </div>
-
-          {/* Alert/Caution Card */}
-          {settings.maintenanceMode && (
+        {/* Right Info Sidebar (Alert/Caution Card) */}
+        {settings.maintenanceMode && (
+          <div className="space-y-6">
             <div className="bg-red-50 rounded-3xl border border-red-200/50 p-6 space-y-3">
               <div className="flex items-center gap-2 text-red-700 font-bold text-xs">
                 <FontAwesomeIcon icon={faTriangleExclamation} />
@@ -201,10 +191,10 @@ const GeneralSettings = () => {
                   : 'Warning: Users and trainees will not be able to log in or use the platform until maintenance mode is turned off.'}
               </p>
             </div>
-          )}
-        </div>
-      </form>
-    </div>
+          </div>
+        )}
+      </div>
+    </form>
   );
 };
 

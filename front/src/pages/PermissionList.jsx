@@ -293,6 +293,7 @@ const PermissionList = () => {
     <div className="space-y-6 pb-10" dir={isRTL ? 'rtl' : 'ltr'}>
       <ResourceHeader 
         title={isRTL ? 'إدارة الصلاحيات' : 'Permissions Management'} 
+        description={isRTL ? 'إدارة وتخصيص صلاحيات الوصول للنظام للمجموعات والأدوار المختلفة.' : 'Manage and assign system access permissions for different roles and groups.'}
         onRefresh={refetch}
         onAdd={handleOpenCreateModal}
       />

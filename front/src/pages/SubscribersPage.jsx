@@ -134,10 +134,11 @@ const SubscribersPage = () => {
 
   return (
     <div className="space-y-6 pb-10" dir={titleDirection}>
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-black text-slate-900">Subscribers Management</h1>
-          <p className="mt-2 text-sm text-slate-500 max-w-2xl">View, filter, and manage trainer/trainee interviews plus company demo subscriptions from one dashboard.</p>
+      {/* Title Box */}
+      <div className="bg-white border border-slate-200 p-4 flex items-start justify-between mb-2">
+        <div className="space-y-1">
+          <h1 className="text-xl font-black text-slate-900">Subscribers Management</h1>
+          <p className="text-xs text-slate-500 max-w-2xl">View, filter, and manage trainer/trainee interviews plus company demo subscriptions from one dashboard.</p>
         </div>
         <div className="flex flex-wrap gap-2 justify-start sm:justify-end">
           <Button variant="secondary" icon={faRotateRight} onClick={resetFilters} className="uppercase text-[10px] font-bold">Reset Filters</Button>

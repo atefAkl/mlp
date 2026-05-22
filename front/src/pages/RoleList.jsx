@@ -192,6 +192,7 @@ const RoleList = () => {
     <div className="space-y-6 pb-10" dir={isRTL ? 'rtl' : 'ltr'}>
       <ResourceHeader 
         title={isRTL ? 'إدارة الأدوار' : 'Roles Management'} 
+        description={isRTL ? 'إدارة أدوار المستخدمين وتخصيص الصلاحيات المناسبة لكل دور.' : 'Manage user roles and assign their respective permissions.'}
         onRefresh={refetch}
         onAdd={handleOpenCreateModal}
       />

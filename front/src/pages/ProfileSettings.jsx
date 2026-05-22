@@ -245,46 +245,57 @@ const ProfileSettings = () => {
   return (
     <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
-          <FontAwesomeIcon icon={faUser} className="text-theme-primary" />
-          {isRTL ? 'الملف الشخصي والإعدادات الخاصة' : 'Profile & Personal Settings'}
-        </h1>
-        <p className="text-xs text-slate-500 mt-1">
-          {isRTL ? 'إدارة تفاصيل حسابك الشخصي وكلمة المرور وتخصيص تجربة التصفح والمظهر الخاص بك.' : 'Manage your personal account details, passwords, and personalize your theme and fonts.'}
-        </p>
+      <div className="bg-white border border-slate-200 p-4 flex items-start justify-between mb-2">
+        <div className="space-y-1">
+          <h1 className="text-xl font-black text-slate-900 flex items-center gap-2">
+            <FontAwesomeIcon icon={faUser} className="text-theme-primary" />
+            {isRTL ? 'الملف الشخصي والإعدادات الخاصة' : 'Profile & Personal Settings'}
+          </h1>
+          <p className="text-xs text-slate-500">
+            {isRTL ? 'إدارة تفاصيل حسابك الشخصي وكلمة المرور وتخصيص تجربة التصفح والمظهر الخاص بك.' : 'Manage your personal account details, passwords, and personalize your theme and fonts.'}
+          </p>
+        </div>
+        {activeTab === 'account' && (
+          <Button
+            variant="primary"
+            onClick={handleSaveAccount}
+            className="px-4 py-2 text-xs font-black uppercase tracking-wider"
+            tooltip={isRTL ? 'حفظ' : 'Save'}
+          >
+            {isRTL ? 'حفظ' : 'Save'}
+          </Button>
+        )}
       </div>
 
       {/* Tabs Switcher */}
-      <div className="flex border-b border-slate-200">
+      <div className="bg-white border border-slate-200 flex items-stretch px-4 gap-2 mb-2 relative">
         <button
           onClick={() => setActiveTab('account')}
-          className={`px-6 py-3 text-xs font-black uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 ${
+          className={`px-4 py-3.5 text-xs font-bold transition-all flex items-center gap-2 -mb-[1px] border-b-2 ${
             activeTab === 'account'
               ? 'border-theme-primary text-theme-primary font-black'
-              : 'border-transparent text-slate-400 hover:text-slate-600'
+              : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
-          <FontAwesomeIcon icon={faSignature} />
+          <FontAwesomeIcon icon={faSignature} className={activeTab === 'account' ? 'text-theme-primary' : 'text-slate-400'} />
           {isRTL ? 'معلومات الحساب' : 'Account Info'}
         </button>
         <button
           onClick={() => setActiveTab('appearance')}
-          className={`px-6 py-3 text-xs font-black uppercase tracking-wider border-b-2 transition-all flex items-center gap-2 ${
+          className={`px-4 py-3.5 text-xs font-bold transition-all flex items-center gap-2 -mb-[1px] border-b-2 ${
             activeTab === 'appearance'
               ? 'border-theme-primary text-theme-primary font-black'
-              : 'border-transparent text-slate-400 hover:text-slate-600'
+              : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
-          <FontAwesomeIcon icon={faPalette} />
+          <FontAwesomeIcon icon={faPalette} className={activeTab === 'appearance' ? 'text-theme-primary' : 'text-slate-400'} />
           {isRTL ? 'تخصيص المظهر' : 'Appearance'}
         </button>
       </div>
 
       {/* Tab 1: Account Info */}
       {activeTab === 'account' && (
-        <form onSubmit={handleSaveAccount} className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
-          <div className="lg:col-span-2 space-y-6">
+        <form onSubmit={handleSaveAccount} className="space-y-6 animate-fade-in">
             {/* Basic Details */}
             <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4">
               <h2 className="text-sm font-black text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">
@@ -380,28 +391,7 @@ const ProfileSettings = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Action sidebar */}
-          <div>
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4">
-              <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider">
-                {isRTL ? 'حفظ الحساب' : 'Account Actions'}
-              </h2>
-              <p className="text-xs text-slate-500">
-                {isRTL ? 'يرجى مراجعة المدخلات جيداً والتأكد من تطابق كلمة المرور الجديدة.' : 'Ensure passwords match and email is valid before saving your updates.'}
-              </p>
-              <Button
-                type="submit"
-                variant="primary"
-                className="w-full py-2.5 text-xs font-black uppercase tracking-wider"
-                icon={faSave}
-              >
-                {isRTL ? 'حفظ البيانات' : 'Save Details'}
-              </Button>
-            </div>
-          </div>
-        </form>
+          </form>
       )}
 
       {/* Tab 2: Appearance Customize */}
