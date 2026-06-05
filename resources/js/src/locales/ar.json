@@ -1,0 +1,1150 @@
+{
+  "common": {
+    "dashboard": "لوحة التحكم",
+    "users": "المستخدمين",
+    "roles": "الأدوار",
+    "permissions": "الصلاحيات",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "search": "بحث...",
+    "add": "إضافة",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "actions": "العمليات",
+    "status": "الحالة",
+    "active": "نشط",
+    "disabled": "معطل",
+    "deleted": "تم الحذف بنجاح",
+    "updated": "تم التحديث",
+    "created": "تمت الإضافة",
+    "failed": "فشلت العملية",
+    "are_you_sure": "هل أنت متأكد؟",
+    "saving": "جاري الحفظ..."
+  },
+  "admin": {
+    "users": {
+      "title": "إدارة المستخدمين",
+      "total_users": "إجمالي المستخدمين",
+      "active_users": "مستخدمين نشطين",
+      "disabled_accounts": "حسابات معطلة",
+      "delete_users_confirm": "حذف {{count}} مستخدمين؟",
+      "add_new_user": "إضافة مستخدم جديد",
+      "edit_user": "تعديل بيانات المستخدم",
+      "save_user": "حفظ البيانات",
+      "status_updated": "تم تغيير الحالة",
+      "user": "المستخدم",
+      "role": "الدور",
+      "no_role": "لا يوجد دور",
+      "full_name": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "leave_blank": "اتركه فارغاً لعدم التغيير",
+      "user_role": "دور المستخدم"
+    },
+    "roles": {
+      "title": "إدارة الأدوار",
+      "total_roles": "إجمالي الأدوار",
+      "total_permissions": "إجمالي الصلاحيات",
+      "delete_roles_confirm": "حذف {{count}} أدوار؟",
+      "delete_role_confirm": "حذف هذا الدور؟",
+      "role_and_desc": "الدور والوصف",
+      "permissions": "الصلاحيات",
+      "no_description": "لا يوجد وصف",
+      "add_new_role": "إضافة دور جديد",
+      "edit_role": "تعديل الدور",
+      "save_role": "حفظ البيانات",
+      "role_name": "اسم الدور",
+      "description": "الوصف التوضيحي",
+      "assign_permissions": "تخصيص الصلاحيات",
+      "uncategorized": "غير مصنف"
+    },
+    "permissions": {
+      "title": "إدارة الصلاحيات",
+      "total_permissions": "إجمالي الصلاحيات",
+      "total_groups": "إجمالي المجموعات",
+      "delete_items_confirm": "حذف {{count}} صلاحيات؟",
+      "delete_perm_confirm": "حذف هذه الصلاحية؟",
+      "add_new_perm": "إضافة صلاحية جديدة",
+      "edit_perm": "تعديل الصلاحية",
+      "no_description": "لا يوجد وصف",
+      "key": "مفتاح الصلاحية",
+      "group": "المجموعة",
+      "select_from_list": "اختر من القائمة",
+      "new_group": "+ مجموعة جديدة",
+      "new_group_name": "اسم المجموعة الجديدة...",
+      "description_placeholder": "وصف الصلاحية...",
+      "general": "عام"
+    }
+  },
+  "auto": {
+    "system_settings_saved_successfully": "تم حفظ إعدادات النظام بنجاح",
+    "ltr": "rtl",
+    "general_system_settings": "إعدادات النظام العامة",
+    "configure_default_system_branding_emails": "تخصيص الإعدادات العامة لاسم المنصة، التواصل، وإعدادات التسجيل والصيانة.",
+    "save_settings": "حفظ التعديلات",
+    "save": "حفظ",
+    "identity_contact_info": "معلومات الهوية والتواصل",
+    "application_name": "اسم التطبيق / المنصة",
+    "support_contact_email": "البريد الإلكتروني للتواصل",
+    "default_system_language": "اللغة الافتراضية للنظام",
+    "arabic_ar": "العربية (AR)",
+    "english_en": "الإنجليزية (EN)",
+    "system_registration_controls": "التحكم في التسجيل والصلاحيات",
+    "allow_new_user_registrations": "السماح بتسجيل الحسابات الجديدة",
+    "enable_or_disable_signups_for_new_accoun": "تمكين أو تعطيل إمكانية تسجيل مشتركين جدد في المنصة.",
+    "enable_maintenance_mode": "تفعيل وضع الصيانة المؤقت",
+    "restricts_portal_access_to_administrator": "سيتم منع غير المسؤولين من تصفح المنصة وإظهار صفحة صيانة مؤقتة.",
+    "maintenance_mode_active": "وضع الصيانة نشط حالياً",
+    "warning_users_and_trainees_will_not_be_a": "يرجى الحذر! وضع الصيانة سيمنع جميع المشتركين والمستخدمين العاديين من استخدام التطبيق حتى تقوم بإيقاف تشغيله مجدداً.",
+    "logged_in_successfully": "تم تسجيل الدخول بنجاح",
+    "invalid_credentials": "بيانات الاعتماد غير صحيحة",
+    "email_address": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "loading": "جاري التحميل...",
+    "forgot_your_password": "نسيت كلمة المرور؟",
+    "reset": "استعادة",
+    "no_description": "لا يوجد وصف",
+    "new_passwords_do_not_match": "كلمات المرور الجديدة غير متطابقة",
+    "please_enter_current_password_to_confirm": "يرجى إدخال كلمة المرور الحالية لتأكيد التغيير",
+    "account_details_saved_successfully": "تم حفظ بيانات الحساب بنجاح",
+    "selected_theme_applied": "تم تطبيق المظهر المختار",
+    "enter_a_name_for_this_custom_color": "أدخل اسماً للون المخصص:",
+    "custom_color": "لون مخصص",
+    "would_you_like_to_add_this_color_to_the_": "هل تحب إضافة هذا اللون للقائمة وحفظه بشكل دائم؟",
+    "custom_color_saved_and_added_to_the_list": "تم حفظ اللون وإضافته للقائمة بنجاح!",
+    "custom_color_applied_successfully": "تم تطبيق اللون المخصص بنجاح!",
+    "enter_a_name_for_this_custom_background": "أدخل اسماً لهذه الخلفية المخصصة:",
+    "custom_background": "خلفية مخصصة",
+    "would_you_like_to_add_this_background_to": "هل تحب إضافة هذه الخلفية للقائمة وحفظها بشكل دائم؟",
+    "background_saved_and_added_to_the_list_s": "تم حفظ الخلفية وإضافتها للقائمة بنجاح!",
+    "custom_background_applied_successfully": "تم تطبيق الخلفية المخصصة بنجاح!",
+    "are_you_sure_you_want_to_delete_this_col": "هل تريد حذف هذا اللون؟",
+    "color_deleted_successfully": "تم حذف اللون بنجاح",
+    "are_you_sure_you_want_to_delete_this_bac": "هل تريد حذف هذه الخلفية؟",
+    "background_deleted_successfully": "تم حذف الخلفية بنجاح",
+    "profile_personal_settings": "الملف الشخصي والإعدادات الخاصة",
+    "manage_your_personal_account_details_pas": "إدارة تفاصيل حسابك الشخصي وكلمة المرور وتخصيص تجربة التصفح والمظهر الخاص بك.",
+    "account_info": "معلومات الحساب",
+    "appearance": "تخصيص المظهر",
+    "basic_details": "البيانات الأساسية",
+    "full_name": "الاسم الكامل",
+    "change_password": "تغيير كلمة المرور",
+    "leave_these_fields_blank_if_you_do_not_w": "اترك الحقول فارغة في حال لم تكن ترغب في تعديل كلمة المرور.",
+    "current_password": "كلمة المرور الحالية",
+    "new_password": "كلمة المرور الجديدة",
+    "confirm_new_password": "تأكيد كلمة المرور الجديدة",
+    "brand_accent_colors": "ألوان هوية النظام (Brand Accent Color)",
+    "choose_the_primary_focus_color_for_butto": "حدد اللون التفاعلي الرئيسي الذي سيتم تطبيقه على الأزرار، والروابط النشطة، وعناصر الواجهة الرئيسية.",
+    "delete_color": "حذف اللون",
+    "custom_color_configuration": "إعدادات اللون المخصص",
+    "color_value": "قيمة اللون",
+    "would_you_like_to_add_it_to_the_existing": "هل تحب إضافته للقائمة الموجودة؟",
+    "apply_save_color": "تطبيق وحفظ اللون",
+    "page_background_colors": "خلفية صفحات الموقع (Page Background)",
+    "select_a_theme_background_color_to_contr": "حدد لون الخلفية للمنصة بالكامل لخلق تباين مثالي مع الكروت البيضاء المرتفعة.",
+    "delete_background": "حذف الخلفية",
+    "custom_background_configuration": "إعدادات الخلفية المخصصة",
+    "background_color_value": "قيمة لون الخلفية",
+    "apply_save_background": "تطبيق وحفظ الخلفية",
+    "typography_font_family": "خطوط النصوص والكتابة (Typography Font)",
+    "select_your_preferred_font_family_for_he": "اختر خط الويب المفضل لعرض القوائم، التقارير والواجهة بالكامل.",
+    "live_appearance_preview": "معاينة تجريبية فورية",
+    "this_block_demonstrates_how_components_c": "هذا الكارت يوضح كيفية عرض المكونات، العناوين والنصوص بمجرد اختيار المظهر الجديد.",
+    "sample_component": "عنوان تجريبي رئيسي",
+    "typography_and_accents_adjust_dynamicall": "الخطوط والألوان تظهر بشكل ديناميكي هنا لضمان تناسق القراءة والجمالية العامة للمنصة.",
+    "accent_button": "زر نشط",
+    "light_tag": "رابط خفيف",
+    "active_brand": "البراند النشط: ",
+    "active_background": "الخلفية النشطة: ",
+    "active_font": "الخط النشط: ",
+    "clear_selection": "إلغاء التحديد",
+    "increase_by_10": "زيادة 10%",
+    "increase_by_25": "زيادة 25%",
+    "increase_by_50": "زيادة 50%",
+    "custom_increase": "زيادة مخصصة",
+    "increase_overage": "زيادة السعة",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "enter_custom": "أدخل النسبة المطلوبة",
+    "left_3": "right-3",
+    "pl_9_pr_3": "pr-9 pl-3",
+    "search": "بحث...",
+    "filters": "تصفية",
+    "bulk_actions": "العمليات الجماعية",
+    "delete_selected": "حذف المحدد",
+    "activate": "تنشيط",
+    "right_1": "left-1",
+    "refresh": "تحديث",
+    "export": "تصدير",
+    "add_new": "إضافة جديد",
+    "subscribers": "المشتركين",
+    "settings": "الإعدادات",
+    "roles": "الأدوار",
+    "permissions": "الصلاحيات",
+    "general_settings": "الإعدادات العامة",
+    "users": "المستخدمين",
+    "profile": "الملف الشخصي",
+    "mr_3": "ml-3",
+    "ar": "en",
+    "key_yk00n": "English"
+  },
+  "landing": {
+    "dir": "rtl",
+    "font": "font-cairo",
+    "nav": {
+      "home": "الرئيسية",
+      "about": "من نحن",
+      "programs": "البرامج",
+      "requirements": "الشروط",
+      "journey": "الرحلة",
+      "success": "قصص نجاح",
+      "partners": "شركاء النجاح",
+      "contact": "تواصل معنا"
+    },
+    "hero": {
+      "badge": "التسجيل مفتوح لدفعة مارس 2026",
+      "carousel": [
+        {
+          "title": "انطلق في رحلتك المهنية مع موثق",
+          "subtitle": "من التعلم إلى الاحتراف، نوفر لك الجسر الحقيقي لسوق العمل",
+          "cta": "ابدأ رحلتك الآن",
+          "icon": "",
+          "bg": "from-deep-blue to-emerald"
+        },
+        {
+          "title": "كن جزءاً من نخبة المطورين",
+          "subtitle": "نختار الأفضل لنضمن بيئة تعليمية متميزة ومحفزة",
+          "cta": "تقديم للانتقاء",
+          "icon": "",
+          "bg": "from-purple-600 to-pink-600"
+        },
+        {
+          "title": "اعمل كأنك في شركة حقيقية",
+          "subtitle": "فرق Agile، اجتماعات يومية، ومدير مشاريع حقيقي",
+          "cta": "استكشف البيئة",
+          "icon": "",
+          "bg": "from-blue-600 to-cyan-600"
+        },
+        {
+          "title": "بناء مشاريع تضيف لمعرض أعمالك",
+          "subtitle": "مشاريع تجارية حقيقية مع Code Reviews وتحديات واقعية",
+          "cta": "شاهد المشاريع",
+          "icon": "",
+          "bg": "from-orange-600 to-red-600"
+        },
+        {
+          "title": "إتقان دورة حياة البرمجيات بالكامل",
+          "subtitle": "من Planning إلى Deployment، تعلم كل خطوة عملية",
+          "cta": "تعرف على المنهج",
+          "icon": "",
+          "bg": "from-green-600 to-teal-600"
+        },
+        {
+          "title": "اجمع بين الخبرة والشهادة المعتمدة",
+          "subtitle": "منهجية Agile مع شهادة معتمدة في المشاريع البرمجية الحديثة",
+          "cta": "احصل على شهادتك",
+          "icon": "",
+          "bg": "from-indigo-600 to-purple-600"
+        }
+      ],
+      "stats": "+150 خبير انطلقوا في مسيرتهم المهنية",
+      "bullets": [
+        "بيئة عمل محاكاة حقيقية مع فرق Scrum وSprints.",
+        "مشاريع قابلة للعرض مع Code Reviews وCI/CD.",
+        "دعم فني وإرشاد مهني 24/7 حتى أول نشر حقيقي."
+      ],
+      "abVariants": {
+        "headlines": [
+          {
+            "key": "A1",
+            "text": "ابدأ مشروعك العملي الأول خلال 8 أسابيع"
+          },
+          {
+            "key": "A2",
+            "text": "تدريب عملي مع شركات حقيقية وأدوات احترافية"
+          },
+          {
+            "key": "A3",
+            "text": "حوّل معرفتك إلى خبرة قابلة للتوظيف"
+          }
+        ],
+        "ctas": [
+          {
+            "key": "cta_free",
+            "text": "ابدأ تجربة مجانية"
+          },
+          {
+            "key": "cta_book",
+            "text": "احجز مكانك الآن"
+          },
+          {
+            "key": "cta_demo",
+            "text": "اطلب عرض توضيحي قصير"
+          }
+        ]
+      }
+    },
+    "problem": {
+      "title": "فجوة الخبرة تمنعك من الحصول على أول وظيفة عملية",
+      "subtitle": "لماذا يجد الخريجون صعوبة في الحصول على وظائف؟",
+      "heroSubtitle": "المعرفة النظرية لا تكفي — تحتاج مشاريع عملية، أدوات حقيقية، وتجربة فريقية لتُوظّف.",
+      "ctaText": "هل تريد حل هذه الفجوة الآن",
+      "gap": "فجوة الخبرة",
+      "gapDesc": "معرفة نظرية قوية لكن بدون أمثلة عملية تُعرض لأصحاب العمل.",
+      "fear": "رهبة الإنتاج",
+      "fearDesc": "تتردد عند التعامل مع مشاريع حقيقية ودمج الكود في أنظمة حقيقية.",
+      "methodology": "غياب المنهجية",
+      "methodologyDesc": "لا تعرف كيفية العمل ضمن فريق Agile أو استخدام أدوات الشركات."
+    },
+    "solution": {
+      "title": "موثق يحل فجوة الخبرة",
+      "subtitle": "نوفر لك بيئة عمل محاكاة بالكامل",
+      "points": [
+        "بيئة عمل حقيقية مع فرق Agile",
+        "مشاريع محاكاة مع Code Reviews",
+        "أدوات احترافية (Jira, Azure DevOps)",
+        "Sprints و Scrum Meetings",
+        "CI/CD و Deployment Pipeline"
+      ],
+      "features": [
+        {
+          "icon": "tool",
+          "title": "أدوات الشركات الحقيقية",
+          "benefit": "تعمل على Azure DevOps وJira لتدخل سوق العمل بثقة."
+        },
+        {
+          "icon": "portfolio",
+          "title": "معرض أعمال قابل للعرض",
+          "benefit": "تقييم مهني ومراجعات كود تضيف مشاريع حقيقية لـ Portfolio."
+        },
+        {
+          "icon": "deploy",
+          "title": "نظام نشر CI/CD حقيقي",
+          "benefit": "تجربة Deployment Pipeline كاملة من أول يوم."
+        },
+        {
+          "icon": "team",
+          "title": "عمل فريقي Agile",
+          "benefit": "اجتماعات Scrum يومية بإشراف مهني حتى التخرج."
+        }
+      ]
+    },
+    "techStack": {
+      "title": "التقنيات والأدوات",
+      "subtitle": "تعلم التقنيات والأدوات المستخدمة في الشركات الكبرى",
+      "technologies": [
+        {
+          "name": "React",
+          "image": "react.png"
+        },
+        {
+          "name": "Laravel",
+          "image": "Laravel.svg"
+        },
+        {
+          "name": "PHP",
+          "image": "php.png"
+        },
+        {
+          "name": "Node.js",
+          "image": "nodejs.webp"
+        },
+        {
+          "name": "Flutter",
+          "image": "Flutter.webp"
+        },
+        {
+          "name": "Angular",
+          "image": "angularjs.png"
+        },
+        {
+          "name": "Vue.js",
+          "image": "vue.webp"
+        },
+        {
+          "name": "Next.js",
+          "image": "nextjs.svg"
+        },
+        {
+          "name": "Express.js",
+          "image": "expressjs.png"
+        },
+        {
+          "name": "MySQL",
+          "image": "mysql.png"
+        },
+        {
+          "name": "MongoDB",
+          "image": "mongodb.png"
+        },
+        {
+          "name": "PostgreSQL",
+          "image": "postgresql.svg"
+        },
+        {
+          "name": "Tailwind CSS",
+          "image": "tailwind-css.png"
+        },
+        {
+          "name": "Bootstrap",
+          "image": "bootstrap.png"
+        },
+        {
+          "name": "HTML",
+          "image": "html.png"
+        },
+        {
+          "name": "CSS",
+          "image": "css.png"
+        },
+        {
+          "name": "JavaScript",
+          "image": "javascrit.png"
+        },
+        {
+          "name": "MUI",
+          "image": "mui.png"
+        },
+        {
+          "name": "Font Awesome",
+          "image": "font_awesome.png"
+        }
+      ],
+      "tools": [
+        {
+          "name": "GitHub",
+          "image": "github.svg"
+        },
+        {
+          "name": "Jira",
+          "image": "jira.png"
+        },
+        {
+          "name": "Azure DevOps",
+          "image": "azure.png"
+        },
+        {
+          "name": "Agile",
+          "image": "agile.svg"
+        },
+        {
+          "name": "Scrum",
+          "image": "scrum.png"
+        },
+        {
+          "name": "Sprints",
+          "image": "sprints.png"
+        },
+        {
+          "name": "Code Review",
+          "image": "code-review.png"
+        },
+        {
+          "name": "CI/CD",
+          "image": "ci-cd.webp"
+        },
+        {
+          "name": "Docker",
+          "image": "docker.png"
+        },
+        {
+          "name": "Postman",
+          "image": "postman.png"
+        },
+        {
+          "name": "Figma",
+          "image": "figma.png"
+        },
+        {
+          "name": "Slack",
+          "image": "slack.png"
+        }
+      ]
+    },
+    "requirements": {
+      "title": "شروط الالتحاق",
+      "subtitle": "نبحث عن المطورين الجادين",
+      "items": [
+        {
+          "icon": "",
+          "title": "أساسيات قوية",
+          "desc": "معرفة جيدة بأساسيات المسار التقني الذي ترغب في التخصص فيه"
+        },
+        {
+          "icon": "",
+          "title": "التزام يومي",
+          "desc": "الالتزام بالاجتماعات اليومية والعمل المنظم خلال الـ Sprints"
+        },
+        {
+          "icon": "",
+          "title": "الاستعداد للمراجعة",
+          "desc": "الجاهزية لتقبّل مراجعات الكود والتغذية الراجعة البناءة"
+        },
+        {
+          "icon": "",
+          "title": "عقلية الفريق",
+          "desc": "القدرة على العمل ضمن فريق والتعاون بفعالية"
+        }
+      ]
+    },
+    "journey": {
+      "title": "رحلة المتدرب — من التدريب إلى التوظيف خلال 6 أسابيع",
+      "subtitle": "خارطة عملية تتضمن مهام يومية، أدوات حقيقية، ومخرجات يمكن عرضها أمام أصحاب العمل.",
+      "stages": [
+        {
+          "number": "01",
+          "title": "استقبال وإعداد",
+          "keyEN": "onboarding",
+          "desc": "تهيئة بيئة العمل، إعداد الحسابات، وتعريف الفريق.",
+          "longDesc": "أسبوع تمهيدي يهدف إلى تجهيز المتدرب للعمل الفعلي: إعداد حسابات المشروع، تهيئة بيئة التطوير، تعريف الأدوات مثل Git وJira وAzure DevOps، ومنح صلاحيات الوصول. يتضمن جلسات تعريفية مع المرشد وقائد الفريق وقائمة مهام أولية لضمان انطلاقة سلسة.",
+          "descKeyEN": "onboarding_desc",
+          "duration": "أسبوع 1",
+          "weekKey": "week_1",
+          "highlight": false
+        },
+        {
+          "number": "02",
+          "title": "Sprint تعلمي مكثف",
+          "keyEN": "learning_sprint",
+          "desc": "مهام قصيرة مع تقييمات يومية ومراجعات كود.",
+          "longDesc": "سلسلة من المهام العملية القصيرة مع تسليمات يومية: تمارين تطبيقية، تحديات برمجية، ومراجعات فورية للكود. الهدف هو بناء الثقة في كتابة الكود والعمل وفق معايير الفريق.",
+          "descKeyEN": "learning_sprint_desc",
+          "duration": "أسبوع 2",
+          "weekKey": "week_2",
+          "highlight": false
+        },
+        {
+          "number": "03",
+          "title": "انطلاق المشروع",
+          "keyEN": "project_kickoff",
+          "desc": "تشكيل فرق، تقسيم مهام، وبدء العمل على مشروع محاكاة.",
+          "longDesc": "تشكيل فرق صغيرة، تقسيم المهام إلى قصص مستخدم، وضع Definition of Done، وبدء تنفيذ أولى المهام تحت إشراف مهندس مرشد مع مراجعات دورية.",
+          "descKeyEN": "project_kickoff_desc",
+          "duration": "أسبوع 3",
+          "weekKey": "week_3",
+          "highlight": false
+        },
+        {
+          "number": "04",
+          "title": "سير عمل حقيقي",
+          "keyEN": "real_workflow",
+          "desc": "مهام يومية ضمن فريق Agile، اجتماعات Scrum، ومراجعات كود.",
+          "longDesc": "العمل اليومي ضمن فريق Agile: اجتماعات Scrum، إدارة المهام في Jira وAzure DevOps، مراجعات كود رسمية، ودمج التغييرات عبر feature branches. هذه المرحلة تحاكي وتيرة العمل الحقيقية وتجهّز المتدرب لتحمل مسؤوليات وظيفية.",
+          "descKeyEN": "real_workflow_desc",
+          "duration": "أسبوع 4",
+          "weekKey": "week_4",
+          "highlight": true
+        },
+        {
+          "number": "05",
+          "title": "تكامل ونشر",
+          "keyEN": "ci_cd",
+          "desc": "إعداد خطوط العمل، الاختبار، وتجربة نشر فعلية.",
+          "longDesc": "إعداد خطوط التكامل والتسليم: كتابة اختبارات تلقائية، إعداد الـ pipeline، تنفيذ نشر تجريبي إلى بيئة staging، ومراقبة الأداء. هنا يتعلم المتدرب كيف يضمن جودة الكود واستقرار النشر.",
+          "descKeyEN": "ci_cd_desc",
+          "duration": "أسبوع 5",
+          "weekKey": "week_5",
+          "highlight": false
+        },
+        {
+          "number": "06",
+          "title": "يوم العرض والتحضير للتوظيف",
+          "keyEN": "demo_day",
+          "desc": "عرض المشروع، تقييم نهائي، وإعداد محفظة أعمال قابلة للعرض.",
+          "longDesc": "عرض نهائي للمشاريع أمام لجنة تقييم وممثلين من سوق العمل، مراجعة محفظة الأعمال، جلسة تحضير للمقابلات، وخطة متابعة للتوظيف. الهدف أن يخرج المتدرب بمواد قابلة للعرض وفرص متابعة وظيفية حقيقية.",
+          "descKeyEN": "demo_day_desc",
+          "duration": "أسبوع 6",
+          "weekKey": "week_6",
+          "highlight": true
+        }
+      ]
+    },
+    "success": {
+      "title": "آراء المتدربين",
+      "subtitle": "تجارب حقيقية من متدربين انتقلوا من التدريب إلى وظائف فعلية بعد إتمام البرنامج.",
+      "stories": [
+        {
+          "name": "ريم العتيبي",
+          "position": "مطورة Frontend — موظفة حالياً في شركة تقنية",
+          "country": "السعودية",
+          "date": "مارس 2026",
+          "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?fit=crop&w=300&h=300",
+          "quote": "بفضل الله ثم فضل هذا البرنامج، أصبحت قادرة على العمل في بيئة احترافية حقيقية. لم يكن الأمر سهلاً في البداية — كنت خائفة من Code Review ومن الأدوات الجديدة. لكن الفريق كان داعماً، والمهام كانت واضحة، والتغذية الراجعة كانت بنّاءة. بعد انتهاء البرنامج بأسبوعين فقط، حصلت على وظيفتي الأولى كـ Frontend Developer."
+        },
+        {
+          "name": "أيمن المحمود",
+          "position": "Backend Developer — انتقل من تدريب نظري إلى بيئة إنتاج حقيقية",
+          "country": "الكويت",
+          "date": "فبراير 2026",
+          "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?fit=crop&w=300&h=300",
+          "quote": "كنت أتساءل دائماً: كيف تعمل الشركات فعلاً؟ ما الفرق بين ما تعلمته في الكورسات وما يحدث على أرض الواقع؟ موثق أجاب على هذا السؤال عملياً. عملت ضمن فريق Agile حقيقي، استخدمت Azure DevOps، وأجريت أول Code Review في حياتي. الآن لديّ مشاريع أعرضها في المقابلات، وتوظيفي جاء في الشركة الأولى التي تقدمت إليها."
+        },
+        {
+          "name": "نورة الزهراني",
+          "position": "Full Stack Developer — حصلت على عرض عمل قبل إتمام البرنامج",
+          "country": "السعودية",
+          "date": "يناير 2026",
+          "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?fit=crop&w=300&h=300",
+          "quote": "ما ميّز موثق عن غيره هو أنه لم يكن مجرد تعليم — كان عمل حقيقي بمسؤوليات حقيقية. كل sprint كان لديه هدف، وكل مهمة كان لها تسليم واضح. شاركت في بناء مشروع كامل من الصفر حتى النشر، واكتسبت خبرة لا تحصل عليها في سنوات من المشاهدة والتمارين. حصلت على عرض عمل قبل أن ينتهي البرنامج بأسبوعين."
+        },
+        {
+          "name": "محمد الشريف",
+          "position": "DevOps Engineer — تحوّل كامل في المسار المهني",
+          "country": "الأردن",
+          "date": "مارس 2026",
+          "image": "https://images.unsplash.com/photo-1557862921-37829c790f19?fit=crop&w=300&h=300",
+          "quote": "كنت أعمل في مجال آخر تماماً، وقررت تغيير مساري المهني نحو التقنية. كثيرون أخبروني أن هذا صعب بدون خبرة. لكن موثق أعطاني تلك الخبرة. من أول أسبوع بدأت أفهم كيف تعمل الفرق الحقيقية. تعلمت CI/CD وDocker وGit Workflows بشكل عملي. اليوم أعمل كـ DevOps Junior في شركة ناشئة، وأشعر أنني أستحق هذا المنصب."
+        },
+        {
+          "name": "سارة القحطاني",
+          "position": "Mobile Developer — من خريجة جامعية إلى موظفة تقنية خلال شهرين",
+          "country": "الإمارات",
+          "date": "ديسمبر 2025",
+          "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?fit=crop&w=300&h=300",
+          "quote": "تخرجت من الجامعة وكان لديّ معرفة نظرية جيدة، لكنني لم أكن أعرف كيف أعمل ضمن فريق أو كيف أستخدم أدوات بيئة العمل الحقيقية. في موثق تعلمت كيف أكتب كوداً قابلاً للمراجعة، وكيف أساهم في Sprint وأتعامل مع Merge Conflicts أمام الفريق. هذا ما جعل CV الخاصة بي مختلفة عن كل زميلاتي الخريجات."
+        }
+      ]
+    },
+    "partners": {
+      "title": "شركاء النجاح",
+      "subtitle": "شركات وخبراء يدعمون رحلتك"
+    },
+    "cta": {
+      "title": "هل أنت مستعد لبدء رحلتك المهنية؟",
+      "subtitle": "انضم إلى قائمة الانتظار واحصل على فرصة لتغيير مسيرتك المهنية",
+      "primaryBtn": "ابدأ تجربة مجانية",
+      "form": {
+        "name": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "track": "المسار التقني",
+        "message": "رسالة إضافية (اختياري)",
+        "submit": "انضم إلى قائمة الانتظار"
+      },
+      "success": "شكراً لتسجيلك! سنتواصل معك خلال 48 ساعة."
+    },
+    "contact": {
+      "title": "تواصل معنا واسأل عن كل ما يهمك",
+      "subtitle": "سواء كنت شركة تبحث عن شراكات، متدربًا يسعى لفرصة عملية، أو مدرّبًا يريد الانضمام كمرشد — نحن هنا لنستمع ونوجّهك.",
+      "paragraph": "أخبرنا بما تحتاجه وسنرد بخطة واضحة خلال 48 ساعة. نميّز بين احتياجات الشركات والمتدربين والمدرّبين لنقدّم استجابة مخصّصة: عروض تدريبية، فرص توظيف، أو تعاون تدريسي. املأ النموذج على اليمين — خطوة بسيطة تقربك من الحل.",
+      "trust": "نسبة استجابة سريعة؛ دعم مخصص؛ سرية تامة للمعلومات.",
+      "variantA": "أخبرنا بطبيعة احتياجك وسنقدّم حلًا مخصّصًا خلال 48 ساعة.",
+      "variantB": "هل تبحث عن تدريب عملي أو شريك توظيف؟ املأ النموذج وسنعود لك بخطوات واضحة.",
+      "form": {
+        "fullName": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "subject": "موضوع الرسالة",
+        "message": "اكتب رسالتك هنا...",
+        "sendCopy": "أرسل لي نسخة على بريدي الإلكتروني",
+        "audienceType": "نوع المرسل",
+        "audienceOptions": [
+          {
+            "value": "company",
+            "label": "🏢 شركة"
+          },
+          {
+            "value": "trainee",
+            "label": "🎓 متدرب"
+          },
+          {
+            "value": "trainer",
+            "label": "🧑‍💼 مدرّب"
+          }
+        ],
+        "companyName": "اسم الشركة",
+        "companySize": "حجم الشركة",
+        "companySizeOptions": [
+          "1-10",
+          "11-50",
+          "51-200",
+          "+200"
+        ],
+        "companyInterest": "هدف التواصل",
+        "companyInterestOptions": [
+          "شراكة",
+          "توظيف",
+          "تدريب",
+          "استشارة"
+        ],
+        "track": "المسار التقني",
+        "trackOptions": [
+          "Frontend",
+          "Backend",
+          "Fullstack",
+          "DevOps",
+          "Data"
+        ],
+        "wantsDemo": "أريد جلسة تعريفية مجانية",
+        "experienceYears": "سنوات الخبرة",
+        "trainerInterest": "نوع التعاون المطلوب",
+        "trainerInterestOptions": [
+          "مرشد",
+          "مدرّب جزئي",
+          "مدرّب كامل"
+        ],
+        "submit": "أرسل الرسالة"
+      },
+      "errors": {
+        "fullNameRequired": "الاسم الكامل مطلوب.",
+        "fullNameShort": "يجب أن يتكوّن الاسم من كلمتين على الأقل.",
+        "emailRequired": "البريد الإلكتروني مطلوب.",
+        "emailInvalid": "أدخل بريدًا إلكترونيًا صالحًا.",
+        "subjectRequired": "الموضوع مطلوب.",
+        "messageTooShort": "الرسالة قصيرة جدًا، اكتب مزيدًا من التفاصيل.",
+        "audienceRequired": "يرجى تحديد نوع المرسل."
+      },
+      "success": "شكرًا! استلمنا رسالتك وسنرد خلال 48 ساعة."
+    },
+    "footer": {
+      "brandName": "موثّق",
+      "brandTagline": "من التدريب إلى التوظيف — مشاريع عملية وأدوات حقيقية.",
+      "about": "موثق هو جسر يعبر بك من التعلم إلى التوظيف. نحن نوفر بيئة عمل حقيقية لمحاكاة الخبرة المهنية.",
+      "newsletterTitle": "اشترك في النشرة البريدية",
+      "newsletterPlaceholder": "بريدك الإلكتروني",
+      "newsletterCta": "اشترك",
+      "newsletterConsent": "أوافق على استقبال الرسائل البريدية",
+      "newsletterSuccess": "شكرًا! تم اشتراكك بنجاح.",
+      "social": {
+        "twitter": {
+          "alt": "Twitter / X",
+          "key": "social_twitter",
+          "href": "#"
+        },
+        "linkedin": {
+          "alt": "LinkedIn",
+          "key": "social_linkedin",
+          "href": "#"
+        },
+        "instagram": {
+          "alt": "Instagram",
+          "key": "social_instagram",
+          "href": "#"
+        },
+        "youtube": {
+          "alt": "YouTube",
+          "key": "social_youtube",
+          "href": "#"
+        }
+      },
+      "sitemap": [
+        {
+          "title": "خريطة الموقع",
+          "links": [
+            {
+              "label": "الرئيسية",
+              "key": "sitemap_home",
+              "to": "hero"
+            },
+            {
+              "label": "من نحن",
+              "key": "sitemap_about",
+              "to": "solution"
+            },
+            {
+              "label": "تواصل معنا",
+              "key": "sitemap_contact",
+              "to": "contact"
+            },
+            {
+              "label": "المدونة",
+              "key": "sitemap_blog",
+              "to": "#"
+            }
+          ]
+        },
+        {
+          "title": "الأعمال",
+          "links": [
+            {
+              "label": "دراسات حالة",
+              "key": "works_case_studies",
+              "to": "#"
+            },
+            {
+              "label": "عملاؤنا",
+              "key": "works_clients",
+              "to": "partners"
+            },
+            {
+              "label": "شراكات",
+              "key": "works_partnerships",
+              "to": "partners"
+            }
+          ]
+        },
+        {
+          "title": "المنتجات",
+          "links": [
+            {
+              "label": "الكورسات",
+              "key": "products_courses",
+              "to": "journey"
+            },
+            {
+              "label": "البوتكامبس",
+              "key": "products_bootcamps",
+              "to": "journey"
+            },
+            {
+              "label": "الأدوات",
+              "key": "products_tools",
+              "to": "techStack"
+            }
+          ]
+        },
+        {
+          "title": "الدعم",
+          "links": [
+            {
+              "label": "أسئلة شائعة",
+              "key": "support_faq",
+              "to": "#"
+            },
+            {
+              "label": "التوثيق",
+              "key": "support_docs",
+              "to": "#"
+            },
+            {
+              "label": "تواصل معنا",
+              "key": "support_contact",
+              "to": "contact"
+            }
+          ]
+        }
+      ],
+      "copyright": "© 2026 موثّق. كل الحقوق محفوظة.",
+      "trademark": "موثّق مسجّلة كعلامة تجارية.",
+      "quickLinks": "روابط سريعة",
+      "contact": "تواصل معنا",
+      "rights": "جميع الحقوق محفوظة © 2026 موثق"
+    },
+    "megaMenu": [
+      {
+        "title": "خريطة الموقع",
+        "links": [
+          {
+            "label": "الرئيسية",
+            "to": "hero",
+            "icon": "home"
+          },
+          {
+            "label": "البرنامج",
+            "to": "journey",
+            "icon": "map"
+          },
+          {
+            "label": "التقنيات",
+            "to": "techStack",
+            "icon": "cpu"
+          },
+          {
+            "label": "الشروط",
+            "to": "requirements",
+            "icon": "check"
+          }
+        ]
+      },
+      {
+        "title": "الموارد",
+        "links": [
+          {
+            "label": "قصص نجاح",
+            "to": "success",
+            "icon": "star"
+          },
+          {
+            "label": "الشركاء",
+            "to": "partners",
+            "icon": "handshake"
+          },
+          {
+            "label": "رحلة المتدرب",
+            "to": "journey",
+            "icon": "rocket"
+          },
+          {
+            "label": "المدونة",
+            "to": "#",
+            "icon": "book"
+          }
+        ]
+      },
+      {
+        "title": "الأعمال",
+        "links": [
+          {
+            "label": "شركات",
+            "to": "contact",
+            "icon": "building"
+          },
+          {
+            "label": "توظيف",
+            "to": "contact",
+            "icon": "briefcase"
+          },
+          {
+            "label": "دراسات حالة",
+            "to": "#",
+            "icon": "folder"
+          }
+        ]
+      },
+      {
+        "title": "سجّل الآن",
+        "isCta": true,
+        "links": [
+          {
+            "label": "ابدأ مجانا",
+            "to": "/subscribe",
+            "icon": "zap",
+            "highlight": true
+          },
+          {
+            "label": "تواصل معنا",
+            "to": "contact",
+            "icon": "chat"
+          },
+          {
+            "label": "دخول",
+            "to": "/login",
+            "icon": "login"
+          }
+        ]
+      }
+    ],
+    "courseDetails": {
+      "hero": {
+        "badge": "دبلوم مكثف — دفعة مارس 2026",
+        "title": "برنامج هندسة البرمجيات المتكاملة",
+        "subtitle": "حوّل شغفك إلى مهنة احترافية في 8 أسابيع من العمل الجاد على مشاريع حقيقية.",
+        "cta": "سجل مكانك الآن",
+        "secondaryCta": "تحميل الخطة الكاملة",
+        "price": "بداية من 1,500 ريال",
+        "duration": "8 أسابيع (دوام كامل)"
+      },
+      "highlights": [
+        {
+          "title": "تدريب عملي 100%",
+          "desc": "لا نظريات جوفاء، فقط كود ومشاريع حقيقية.",
+          "icon": "zap"
+        },
+        {
+          "title": "بيئة Scrum",
+          "desc": "تعمل في فريق محاكي للشركات الكبرى.",
+          "icon": "users"
+        },
+        {
+          "title": "شهادة معتمدة",
+          "desc": "توثق مهاراتك بشهادة خبرة عملية.",
+          "icon": "award"
+        }
+      ],
+      "curriculum": [
+        {
+          "week": "الأسبوع 1-2",
+          "title": "أساسيات الويب وهيكلة البيانات",
+          "topics": [
+            "HTML5 / Semantic UI",
+            "CSS3 Advanced Layouts",
+            "JavaScript (ES6+)",
+            "Git & GitHub Workflow"
+          ]
+        },
+        {
+          "week": "الأسبوع 3-4",
+          "title": "تطوير الواجهات (Frontend Mastery)",
+          "topics": [
+            "React.js & State Management",
+            "Tailwind CSS & Design Systems",
+            "API Integration",
+            "Performance Optimization"
+          ]
+        },
+        {
+          "week": "الأسبوع 5-6",
+          "title": "الخوادم وقواعد البيانات (Backend)",
+          "topics": [
+            "Node.js & Express",
+            "MongoDB Design",
+            "Authentication & Security",
+            "Server Architecture"
+          ]
+        },
+        {
+          "week": "الأسبوع 7-8",
+          "title": "المشروع النهائي والنشر (Deployment)",
+          "topics": [
+            "Full-Stack Project",
+            "CI/CD Pipelines",
+            "Docker Basics",
+            "Cloud Hosting (AWS/Vercel)"
+          ]
+        }
+      ],
+      "techStack": {
+        "frontend": [
+          "React",
+          "Next.js",
+          "Tailwind",
+          "Framer Motion"
+        ],
+        "backend": [
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+          "Redis"
+        ],
+        "tools": [
+          "Docker",
+          "Git",
+          "Jira",
+          "Figma"
+        ]
+      },
+      "faq": [
+        {
+          "q": "هل أحتاج لخبرة سابقة؟",
+          "a": "نفضل معرفة أساسيات البرمجة، لكننا نبدأ معك من هيكلة المشاريع الاحترافية."
+        },
+        {
+          "q": "ما هو الوقت المتوقع للالتزام؟",
+          "a": "البرنامج مكثف، يتطلب 5-8 ساعات يومياً لضمان النتيجة."
+        }
+      ]
+    }
+  },
+  "subscribe": {
+    "wizard": {
+      "header": {
+        "title": "سجّل اشتراكك",
+        "subtitle": "أكمل الخطوات التالية لتقديم طلب الانضمام إلى موثق"
+      },
+      "success": {
+        "title": "تم تقديم طلبك بنجاح!",
+        "subtitle": "نحن سعداء باهتمامك بالانضمام إلى برنامجنا التدريبي.",
+        "desc": "لقد تلقينا طلبك وسيقوم فريقنا بمراجعته في أقرب وقت ممكن. ستتلقى رسالة تأكيد على بريدك الإلكتروني.",
+        "appId": "رقم الطلب الخاص بك",
+        "copy": "نسخ",
+        "copied": "تم النسخ!"
+      },
+      "errors": {
+        "role": "يجب اختيار نوع التسجيل",
+        "track": "يرجى اختيار المسار التقني",
+        "position": "يرجى اختيار المسمى الوظيفي",
+        "traineesCount": "يرجى تحديد عدد المتدربين",
+        "programDesc": "يرجى إدخال وصف البرنامج",
+        "email": "البريد الإلكتروني مطلوب",
+        "phone": "رقم الهاتف مطلوب",
+        "country": "يرجى اختيار الدولة",
+        "fullName": "الاسم الكامل مطلوب",
+        "cvTrainer": "السيرة الذاتية إجبارية للمدربين",
+        "brandName": "اسم العلامة التجارية مطلوب",
+        "crNumber": "رقم السجل التجاري مطلوب",
+        "crDoc": "صورة السجل التجاري إجبارية",
+        "interviewDay": "يرجى اختيار يوم المقابلة",
+        "interviewTime": "يرجى اختيار وقت المقابلة",
+        "agreed": "يجب الموافقة على الشروط والأحكام"
+      },
+      "steps": {
+        "role": "نوع التسجيل",
+        "specifics": "التخصص",
+        "info": "البيانات الأساسية",
+        "schedule": "الموعد",
+        "review": "المراجعة"
+      },
+      "buttons": {
+        "next": "التالي",
+        "back": "السابق",
+        "submit": "تأكيد وإرسال الطلب",
+        "agreeAndSubmit": "أوافق وأرسل الطلب"
+      },
+      "roles": {
+        "trainee": "متدرب",
+        "traineeDesc": "أريد الانضمام كمتدرب لاكتساب الخبرة",
+        "trainer": "مدرب",
+        "trainerDesc": "أريد الانضمام لتدريب وإرشاد المتدربين",
+        "company": "شركة",
+        "companyDesc": "نريد توظيف خريجين أو تدريب فريقنا"
+      },
+      "trainee": {
+        "trackLabel": "المسار التقني",
+        "trackPlaceholder": "اختر المسار التقني"
+      },
+      "trainer": {
+        "positionLabel": "المسمى الوظيفي",
+        "positionPlaceholder": "اختر المسمى الوظيفي"
+      },
+      "company": {
+        "traineesCountLabel": "عدد المتدربين",
+        "programDescLabel": "وصف البرنامج التدريبي",
+        "programDescPlaceholder": "مثال: نحتاج تدريب 5 موظفين على تطوير واجهات React..."
+      },
+      "info": {
+        "fullName": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "country": "الدولة",
+        "cvOptional": "السيرة الذاتية (اختياري)",
+        "cvMandatory": "السيرة الذاتية (إجباري)",
+        "brandName": "اسم العلامة التجارية",
+        "crNumber": "رقم السجل التجاري",
+        "crDocMandatory": "صورة السجل التجاري (إجباري)"
+      },
+      "schedule": {
+        "interviewDay": "يوم المقابلة",
+        "interviewTime": "الوقت المفضل",
+        "trainerFridayNote": "متاح أيام الجمعة فقط",
+        "companyNote": "سيقوم فريق المبيعات والتقنيين بالتواصل معكم هاتفياً لتحديد موعد مقابلة لمناقشة التفاصيل."
+      },
+      "review": {
+        "title": "مراجعة الطلب",
+        "termsAgree": "أوافق على",
+        "termsLink": "الشروط والأحكام",
+        "summary": "ملخص البيانات"
+      },
+      "reqs": {
+        "trainee": [
+          "سيرة ذاتية (مستواك الحالي)",
+          "خريج أو في السنة الأخيرة",
+          "شغف حقيقي للتعلم والالتزام"
+        ],
+        "trainer": [
+          "سيرة ذاتية توضح خبرتك",
+          "نماذج أعمال أو مشاريع سابقة",
+          "خبرة لا تقل عن 3 سنوات"
+        ],
+        "company": [
+          "سجل تجاري ساري",
+          "تحديد احتياجات التدريب بدقة",
+          "توفير بيئة تدريب مناسبة"
+        ]
+      },
+      "specifics": {
+        "free": "مجاني",
+        "weeks": "أسبوع",
+        "seats": "المقاعد:",
+        "start": "البداية:",
+        "cert": "شهادة معتمدة",
+        "techs": "التقنيات:",
+        "reqsLabel": "المتطلبات:"
+      },
+      "days": {
+        "sat": "السبت",
+        "sun": "الأحد",
+        "mon": "الاثنين",
+        "wed": "الأربعاء",
+        "fri": "الجمعة"
+      },
+      "times": {
+        "morning": "صباحاً (9 – 11)",
+        "midday": "ظهراً (12 – 2)",
+        "afternoon": "عصراً (3 – 5)",
+        "evening": "مساءً (6 – 8)"
+      }
+    }
+  }
+}

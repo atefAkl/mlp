@@ -1,0 +1,1099 @@
+{
+  "common": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "roles": "Roles",
+    "permissions": "Permissions",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "search": "Search...",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "actions": "Actions",
+    "status": "Status",
+    "active": "Active",
+    "disabled": "Disabled",
+    "deleted": "Deleted",
+    "updated": "Updated",
+    "created": "Created",
+    "failed": "Failed",
+    "are_you_sure": "Are you sure?",
+    "saving": "Saving..."
+  },
+  "admin": {
+    "users": {
+      "title": "Users Management",
+      "total_users": "Total Users",
+      "active_users": "Active Users",
+      "disabled_accounts": "Disabled",
+      "delete_users_confirm": "Delete {{count}} users?",
+      "add_new_user": "Add New User",
+      "edit_user": "Edit User",
+      "save_user": "Save User",
+      "status_updated": "Status updated",
+      "user": "User",
+      "role": "Role",
+      "no_role": "No Role",
+      "full_name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "leave_blank": "Leave blank to keep current",
+      "user_role": "User Role"
+    },
+    "roles": {
+      "title": "Roles Management",
+      "total_roles": "Total Roles",
+      "total_permissions": "Total Permissions",
+      "delete_roles_confirm": "Delete {{count}} roles?",
+      "delete_role_confirm": "Delete this role?",
+      "role_and_desc": "Role & Description",
+      "permissions": "Permissions",
+      "no_description": "No description provided",
+      "add_new_role": "Add New Role",
+      "edit_role": "Edit Role",
+      "save_role": "Save Role",
+      "role_name": "Role Name",
+      "description": "Description",
+      "assign_permissions": "Assign Permissions",
+      "uncategorized": "Uncategorized"
+    },
+    "permissions": {
+      "title": "Permissions Management",
+      "total_permissions": "Total Permissions",
+      "total_groups": "Total Groups",
+      "delete_items_confirm": "Delete {{count}} items?",
+      "delete_perm_confirm": "Delete this permission?",
+      "add_new_perm": "Add New Permission",
+      "edit_perm": "Edit Permission",
+      "no_description": "No description",
+      "key": "Key",
+      "group": "Group",
+      "select_from_list": "Select from list",
+      "new_group": "+ New Group",
+      "new_group_name": "New group name...",
+      "description_placeholder": "Description...",
+      "general": "General"
+    }
+  },
+  "auto": {
+    "system_settings_saved_successfully": "System settings saved successfully",
+    "ltr": "ltr",
+    "general_system_settings": "General System Settings",
+    "configure_default_system_branding_emails": "Configure default system branding, emails, user registrations, and maintenance.",
+    "save_settings": "Save Settings",
+    "save": "Save",
+    "identity_contact_info": "Identity & Contact Info",
+    "application_name": "Application Name",
+    "support_contact_email": "Support Contact Email",
+    "default_system_language": "Default System Language",
+    "arabic_ar": "Arabic (AR)",
+    "english_en": "English (EN)",
+    "system_registration_controls": "System & Registration Controls",
+    "allow_new_user_registrations": "Allow New User Registrations",
+    "enable_or_disable_signups_for_new_accoun": "Enable or disable signups for new accounts on the registration page.",
+    "enable_maintenance_mode": "Enable Maintenance Mode",
+    "restricts_portal_access_to_administrator": "Restricts portal access to administrators only and shows a temporary offline message.",
+    "maintenance_mode_active": "Maintenance Mode Active",
+    "warning_users_and_trainees_will_not_be_a": "Warning: Users and trainees will not be able to log in or use the platform until maintenance mode is turned off.",
+    "logged_in_successfully": "Logged in successfully",
+    "invalid_credentials": "Invalid credentials",
+    "email_address": "Email Address",
+    "password": "Password",
+    "loading": "Loading...",
+    "forgot_your_password": "Forgot your password?",
+    "reset": "Reset",
+    "no_description": "No description",
+    "new_passwords_do_not_match": "New passwords do not match",
+    "please_enter_current_password_to_confirm": "Please enter current password to confirm change",
+    "account_details_saved_successfully": "Account details saved successfully",
+    "selected_theme_applied": "Selected theme applied",
+    "enter_a_name_for_this_custom_color": "Enter a name for this custom color:",
+    "custom_color": "Custom Color",
+    "would_you_like_to_add_this_color_to_the_": "Would you like to add this color to the existing list and save it permanently?",
+    "custom_color_saved_and_added_to_the_list": "Custom color saved and added to the list successfully!",
+    "custom_color_applied_successfully": "Custom color applied successfully!",
+    "enter_a_name_for_this_custom_background": "Enter a name for this custom background:",
+    "custom_background": "Custom Background",
+    "would_you_like_to_add_this_background_to": "Would you like to add this background to the existing list and save it permanently?",
+    "background_saved_and_added_to_the_list_s": "Background saved and added to the list successfully!",
+    "custom_background_applied_successfully": "Custom background applied successfully!",
+    "are_you_sure_you_want_to_delete_this_col": "Are you sure you want to delete this color?",
+    "color_deleted_successfully": "Color deleted successfully",
+    "are_you_sure_you_want_to_delete_this_bac": "Are you sure you want to delete this background?",
+    "background_deleted_successfully": "Background deleted successfully",
+    "profile_personal_settings": "Profile & Personal Settings",
+    "manage_your_personal_account_details_pas": "Manage your personal account details, passwords, and personalize your theme and fonts.",
+    "account_info": "Account Info",
+    "appearance": "Appearance",
+    "basic_details": "Basic Details",
+    "full_name": "Full Name",
+    "change_password": "Change Password",
+    "leave_these_fields_blank_if_you_do_not_w": "Leave these fields blank if you do not want to update your password.",
+    "current_password": "Current Password",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "brand_accent_colors": "Brand Accent Colors",
+    "choose_the_primary_focus_color_for_butto": "Choose the primary focus color for buttons, active items, toggles, and highlights.",
+    "delete_color": "Delete color",
+    "custom_color_configuration": "Custom Color Configuration",
+    "color_value": "Color Value",
+    "would_you_like_to_add_it_to_the_existing": "Would you like to add it to the existing list?",
+    "apply_save_color": "Apply & Save Color",
+    "page_background_colors": "Page Background Colors",
+    "select_a_theme_background_color_to_contr": "Select a theme background color to contrast beautifully with white content panels.",
+    "delete_background": "Delete background",
+    "custom_background_configuration": "Custom Background Configuration",
+    "background_color_value": "Background Color Value",
+    "apply_save_background": "Apply & Save Background",
+    "typography_font_family": "Typography Font Family",
+    "select_your_preferred_font_family_for_he": "Select your preferred font family for headers, tables, lists, and content texts.",
+    "live_appearance_preview": "Live Appearance Preview",
+    "this_block_demonstrates_how_components_c": "This block demonstrates how components, colors, and typography interact live.",
+    "sample_component": "Sample Component",
+    "typography_and_accents_adjust_dynamicall": "Typography and accents adjust dynamically here to ensure maximum layout harmony.",
+    "accent_button": "Accent Button",
+    "light_tag": "Light Tag",
+    "active_brand": "Active Brand: ",
+    "active_background": "Active Background: ",
+    "active_font": "Active Font: ",
+    "clear_selection": "Clear selection",
+    "increase_by_10": "Increase by 10%",
+    "increase_by_25": "Increase by 25%",
+    "increase_by_50": "Increase by 50%",
+    "custom_increase": "Custom Increase",
+    "increase_overage": "Increase Overage",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "enter_custom": "Enter custom %",
+    "left_3": "left-3",
+    "pl_9_pr_3": "pl-9 pr-3",
+    "search": "Search...",
+    "filters": "Filters",
+    "bulk_actions": "Bulk Actions",
+    "delete_selected": "Delete Selected",
+    "activate": "Activate",
+    "right_1": "right-1",
+    "refresh": "Refresh",
+    "export": "Export",
+    "add_new": "Add New",
+    "subscribers": "Subscribers",
+    "settings": "Settings",
+    "roles": "Roles",
+    "permissions": "Permissions",
+    "general_settings": "General Settings",
+    "users": "Users",
+    "profile": "Profile",
+    "mr_3": "mr-3",
+    "ar": "ar",
+    "key_yk00n": "العربية"
+  },
+  "landing": {
+    "dir": "ltr",
+    "font": "font-almarai",
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "programs": "Programs",
+      "requirements": "Requirements",
+      "journey": "Journey",
+      "success": "Success Stories",
+      "partners": "Partners",
+      "contact": "Contact"
+    },
+    "hero": {
+      "badge": "Registration Open for March 2026",
+      "carousel": [
+        {
+          "title": "Start Your Professional Journey with Mawthiq",
+          "subtitle": "From learning to professionalism, we provide the real bridge to the job market",
+          "cta": "Start Your Journey Now",
+          "icon": "",
+          "bg": "from-deep-blue to-emerald"
+        },
+        {
+          "title": "Be Part of Elite Developers",
+          "subtitle": "We select the best to ensure an excellent and motivating learning environment",
+          "cta": "Apply for Selection",
+          "icon": "",
+          "bg": "from-purple-600 to-pink-600"
+        },
+        {
+          "title": "Work as if in a Real Company",
+          "subtitle": "Agile teams, daily meetings, and a real project manager",
+          "cta": "Explore Environment",
+          "icon": "",
+          "bg": "from-blue-600 to-cyan-600"
+        },
+        {
+          "title": "Build Projects for Your Portfolio",
+          "subtitle": "Real commercial projects with Code Reviews and realistic challenges",
+          "cta": "View Projects",
+          "icon": "",
+          "bg": "from-orange-600 to-red-600"
+        },
+        {
+          "title": "Master the Complete Software Lifecycle",
+          "subtitle": "From Planning to Deployment, learn every practical step",
+          "cta": "Learn Curriculum",
+          "icon": "",
+          "bg": "from-green-600 to-teal-600"
+        },
+        {
+          "title": "Combine Experience with Certified Certificate",
+          "subtitle": "Agile methodology with certified certificate in modern software projects",
+          "cta": "Get Your Certificate",
+          "icon": "",
+          "bg": "from-indigo-600 to-purple-600"
+        }
+      ],
+      "stats": "+150 experts launched their careers"
+    },
+    "problem": {
+      "title": "The Experience Gap is Blocking Your First Real Job",
+      "subtitle": "Why do graduates struggle to get jobs?",
+      "heroSubtitle": "Theoretical knowledge isn't enough — you need real projects, real tools, and team experience to get hired.",
+      "ctaText": "Want to close this gap now?",
+      "gap": "Experience Gap",
+      "gapDesc": "Strong theoretical knowledge, but no real-world examples to show employers.",
+      "fear": "Production Fear",
+      "fearDesc": "You hesitate when working with real projects or merging code into live systems.",
+      "methodology": "Methodology Gap",
+      "methodologyDesc": "You don't know how to work in an Agile team or use company tools."
+    },
+    "solution": {
+      "title": "Mawthiq Bridges the Experience Gap",
+      "subtitle": "We provide a fully simulated work environment",
+      "points": [
+        "Real work environment with Agile teams",
+        "Simulation projects with Code Reviews",
+        "Professional tools (Jira, Azure DevOps)",
+        "Sprints and Scrum Meetings",
+        "CI/CD and Deployment Pipeline"
+      ],
+      "features": [
+        {
+          "icon": "tool",
+          "title": "Real Company Tools",
+          "benefit": "Work on Azure DevOps & Jira — enter the job market with confidence."
+        },
+        {
+          "icon": "portfolio",
+          "title": "Presentable Portfolio",
+          "benefit": "Professional evaluation and code reviews that build your portfolio."
+        },
+        {
+          "icon": "deploy",
+          "title": "Real CI/CD Pipeline",
+          "benefit": "Full deployment pipeline experience from day one."
+        },
+        {
+          "icon": "team",
+          "title": "Agile Teamwork",
+          "benefit": "Daily Scrum meetings with professional mentorship until graduation."
+        }
+      ]
+    },
+    "techStack": {
+      "title": "Technologies & Tools",
+      "subtitle": "Learn technologies and tools used in major companies",
+      "technologies": [
+        {
+          "name": "React",
+          "image": "react.png"
+        },
+        {
+          "name": "Laravel",
+          "image": "Laravel.svg"
+        },
+        {
+          "name": "PHP",
+          "image": "php.png"
+        },
+        {
+          "name": "Node.js",
+          "image": "nodejs.webp"
+        },
+        {
+          "name": "Flutter",
+          "image": "Flutter.webp"
+        },
+        {
+          "name": "Angular",
+          "image": "angularjs.png"
+        },
+        {
+          "name": "Vue.js",
+          "image": "vue.webp"
+        },
+        {
+          "name": "Next.js",
+          "image": "nextjs.svg"
+        },
+        {
+          "name": "Express.js",
+          "image": "expressjs.png"
+        },
+        {
+          "name": "MySQL",
+          "image": "mysql.png"
+        },
+        {
+          "name": "MongoDB",
+          "image": "mongodb.png"
+        },
+        {
+          "name": "PostgreSQL",
+          "image": "postgresql.svg"
+        },
+        {
+          "name": "Tailwind CSS",
+          "image": "tailwind-css.png"
+        },
+        {
+          "name": "Bootstrap",
+          "image": "bootstrap.png"
+        },
+        {
+          "name": "HTML",
+          "image": "html.png"
+        },
+        {
+          "name": "CSS",
+          "image": "css.png"
+        },
+        {
+          "name": "JavaScript",
+          "image": "javascript.png"
+        },
+        {
+          "name": "MUI",
+          "image": "mui.png"
+        },
+        {
+          "name": "Font Awesome",
+          "image": "font_awesome.png"
+        }
+      ],
+      "tools": [
+        {
+          "name": "GitHub",
+          "image": "github.svg"
+        },
+        {
+          "name": "Jira",
+          "image": "jira.png"
+        },
+        {
+          "name": "Azure DevOps",
+          "image": "azure.png"
+        },
+        {
+          "name": "Agile",
+          "image": "agile.svg"
+        },
+        {
+          "name": "Scrum",
+          "image": "scrum.png"
+        },
+        {
+          "name": "Sprints",
+          "image": "sprints.png"
+        },
+        {
+          "name": "Code Review",
+          "image": "code-review.png"
+        },
+        {
+          "name": "CI/CD",
+          "image": "ci-cd.webp"
+        }
+      ]
+    },
+    "requirements": {
+      "title": "Eligibility Requirements",
+      "subtitle": "We are looking for serious developers",
+      "items": [
+        {
+          "icon": "",
+          "title": "Solid Basics",
+          "desc": "Strong fundamentals in your chosen tech track"
+        },
+        {
+          "icon": "",
+          "title": "Daily Commitment",
+          "desc": "Commitment to daily syncs and weekly sprints"
+        },
+        {
+          "icon": "",
+          "title": "Open to Reviews",
+          "desc": "Readiness for code reviews and constructive feedback"
+        },
+        {
+          "icon": "",
+          "title": "Team Mindset",
+          "desc": "Ability to work in a team and effective collaboration"
+        }
+      ]
+    },
+    "journey": {
+      "title": "Trainee Journey — From Training to Employment in 6 Weeks",
+      "subtitle": "A practical roadmap with daily tasks, real tools, and presentable deliverables for employers.",
+      "stages": [
+        {
+          "number": "01",
+          "title": "Onboarding",
+          "keyEN": "onboarding",
+          "desc": "Work environment setup, account configuration, and team introduction.",
+          "longDesc": "An introductory week to prepare the trainee for real work: setting up project accounts, configuring the development environment, introducing tools (Git, Jira, Azure DevOps), and granting access permissions. Includes orientation sessions with the mentor and team lead plus an initial task list for a smooth start.",
+          "descKeyEN": "onboarding_desc",
+          "duration": "Week 1",
+          "weekKey": "week_1",
+          "highlight": false
+        },
+        {
+          "number": "02",
+          "title": "Learning Sprint",
+          "keyEN": "learning_sprint",
+          "desc": "Short tasks with daily evaluations and code reviews.",
+          "longDesc": "A series of short, focused tasks with daily deliverables: hands-on exercises, coding challenges, and immediate code reviews. The goal is to build confidence in writing code and working to team standards.",
+          "descKeyEN": "learning_sprint_desc",
+          "duration": "Week 2",
+          "weekKey": "week_2",
+          "highlight": false
+        },
+        {
+          "number": "03",
+          "title": "Project Kickoff",
+          "keyEN": "project_kickoff",
+          "desc": "Team formation, task breakdown, and kickoff on a simulation project.",
+          "longDesc": "Forming small teams, breaking tasks into user stories, defining the Definition of Done, and beginning execution of first tasks under a mentor engineer with periodic reviews.",
+          "descKeyEN": "project_kickoff_desc",
+          "duration": "Week 3",
+          "weekKey": "week_3",
+          "highlight": false
+        },
+        {
+          "number": "04",
+          "title": "Real Workflow",
+          "keyEN": "real_workflow",
+          "desc": "Daily tasks in an Agile team, Scrum meetings, and code reviews.",
+          "longDesc": "Daily work in an Agile team: Scrum meetings, task management in Jira/Azure DevOps, formal code reviews, and merging changes via feature branches. This phase mirrors the pace of real work and prepares the trainee for job responsibilities.",
+          "descKeyEN": "real_workflow_desc",
+          "duration": "Week 4",
+          "weekKey": "week_4",
+          "highlight": true
+        },
+        {
+          "number": "05",
+          "title": "CI/CD & Finalization",
+          "keyEN": "ci_cd",
+          "desc": "Pipeline setup, testing, and trial deployment.",
+          "longDesc": "Setting up integration and delivery pipelines: writing automated tests, configuring the pipeline, executing a trial deployment to a staging environment, and monitoring performance. Trainees learn to ensure code quality and deployment stability.",
+          "descKeyEN": "ci_cd_desc",
+          "duration": "Week 5",
+          "weekKey": "week_5",
+          "highlight": false
+        },
+        {
+          "number": "06",
+          "title": "Demo Day & Hiring Prep",
+          "keyEN": "demo_day",
+          "desc": "Project presentation, final evaluation, and building a presentable portfolio.",
+          "longDesc": "A final project presentation before an evaluation committee and job market representatives, portfolio review, interview preparation session, and an employment follow-up plan. The goal is for trainees to leave with presentable materials and follow-up job opportunities.",
+          "descKeyEN": "demo_day_desc",
+          "duration": "Week 6",
+          "weekKey": "week_6",
+          "highlight": true
+        }
+      ]
+    },
+    "success": {
+      "title": "Our Trainees' Voices",
+      "subtitle": "Real experiences from trainees who moved from training to real jobs after completing the program.",
+      "stories": [
+        {
+          "name": "Reem Al-Otaibi",
+          "position": "Frontend Developer — Currently employed at a tech company",
+          "country": "Saudi Arabia",
+          "date": "March 2026",
+          "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?fit=crop&w=300&h=300",
+          "quote": "By the grace of God and this program, I became capable of working in a real professional environment. It wasn't easy at first — I was scared of Code Review and the new tools. But the team was supportive, the tasks were clear, and the feedback was constructive. Just two weeks after finishing the program, I landed my first job as a Frontend Developer."
+        },
+        {
+          "name": "Ayman Al-Mahmoud",
+          "position": "Backend Developer — Moved from theoretical training to a real production environment",
+          "country": "Kuwait",
+          "date": "February 2026",
+          "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?fit=crop&w=300&h=300",
+          "quote": "I always wondered: how do companies really work? What's the difference between what I learned in courses and what happens on the ground? Mawthiq answered that practically. I worked in a real Agile team, used Azure DevOps, and conducted my first Code Review. Now I have projects to show in interviews, and I got hired by the first company I applied to."
+        },
+        {
+          "name": "Noura Al-Zahrani",
+          "position": "Full Stack Developer — Received a job offer before completing the program",
+          "country": "Saudi Arabia",
+          "date": "January 2026",
+          "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?fit=crop&w=300&h=300",
+          "quote": "What distinguished Mawthiq was that it wasn't just education — it was real work with real responsibilities. Every sprint had a goal, every task had a clear deliverable. I participated in building a complete project from scratch to deployment, and I gained experience you can't get from years of watching tutorials. I received a job offer two weeks before the program ended."
+        },
+        {
+          "name": "Mohammed Al-Sharif",
+          "position": "DevOps Engineer — Complete career change",
+          "country": "Jordan",
+          "date": "March 2026",
+          "image": "https://images.unsplash.com/photo-1557862921-37829c790f19?fit=crop&w=300&h=300",
+          "quote": "I was working in a completely different field and decided to switch my career to tech. Many told me it was hard without experience. But Mawthiq gave me that experience. From the first week I started understanding how real teams work. I learned CI/CD, Docker, and Git Workflows practically. Today I work as a DevOps Junior at a startup, and I feel I truly deserve this position."
+        },
+        {
+          "name": "Sara Al-Qahtani",
+          "position": "Mobile Developer — From university graduate to tech employee in two months",
+          "country": "UAE",
+          "date": "December 2025",
+          "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?fit=crop&w=300&h=300",
+          "quote": "I graduated from university with good theoretical knowledge, but I didn't know how to work in a team or use real work environment tools. At Mawthiq I learned how to write code that's ready for review, how to contribute to a Sprint, and how to handle Merge Conflicts in front of the team. This is what made my CV stand out from all my fellow graduates."
+        }
+      ]
+    },
+    "partners": {
+      "title": "Success Partners",
+      "subtitle": "Companies and experts supporting your journey"
+    },
+    "cta": {
+      "title": "Ready to Start Your Professional Journey?",
+      "subtitle": "Join the waitlist and get a chance to transform your career",
+      "primaryBtn": "Start Free Trial",
+      "form": {
+        "name": "Full Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "track": "Tech Track",
+        "message": "Additional Message (Optional)",
+        "submit": "Join Waitlist"
+      },
+      "success": "Thank you for registering! We will contact you within 48 hours."
+    },
+    "contact": {
+      "title": "Contact us and ask about everything that matters to you",
+      "subtitle": "Whether you're a company looking for partnerships, a trainee seeking practical opportunities, or a trainer wanting to join as a mentor — we're here to listen and guide you.",
+      "paragraph": "Tell us what you need and we'll respond with a clear plan within 48 hours. We differentiate between the needs of companies, trainees, and trainers to provide a customized response: training offers, employment opportunities, or teaching collaboration. Fill the form on the right — one simple step closer to your solution.",
+      "trust": "Fast response rate; dedicated support; complete information confidentiality.",
+      "variantA": "Tell us about your need and we'll provide a customized solution within 48 hours.",
+      "variantB": "Looking for practical training or a hiring partner? Fill the form and we'll get back with clear steps.",
+      "form": {
+        "fullName": "Full Name",
+        "email": "Email Address",
+        "subject": "Message Subject",
+        "message": "Write your message here...",
+        "sendCopy": "Send me a copy to my email",
+        "audienceType": "Sender Type",
+        "audienceOptions": [
+          {
+            "value": "company",
+            "label": "🏢 Company"
+          },
+          {
+            "value": "trainee",
+            "label": "🎓 Trainee"
+          },
+          {
+            "value": "trainer",
+            "label": "🧑‍💼 Trainer"
+          }
+        ],
+        "companyName": "Company Name",
+        "companySize": "Company Size",
+        "companySizeOptions": [
+          "1-10",
+          "11-50",
+          "51-200",
+          "+200"
+        ],
+        "companyInterest": "Purpose of Contact",
+        "companyInterestOptions": [
+          "Partnership",
+          "Hiring",
+          "Training",
+          "Consulting"
+        ],
+        "track": "Tech Track",
+        "trackOptions": [
+          "Frontend",
+          "Backend",
+          "Fullstack",
+          "DevOps",
+          "Data"
+        ],
+        "wantsDemo": "I want a free intro session",
+        "experienceYears": "Years of Experience",
+        "trainerInterest": "Type of Collaboration",
+        "trainerInterestOptions": [
+          "Mentor",
+          "Part-time Trainer",
+          "Full-time Trainer"
+        ],
+        "submit": "Send Message"
+      },
+      "errors": {
+        "fullNameRequired": "Full name is required.",
+        "fullNameShort": "Name must contain at least two words.",
+        "emailRequired": "Email address is required.",
+        "emailInvalid": "Please enter a valid email address.",
+        "subjectRequired": "Subject is required.",
+        "messageTooShort": "Message is too short, please write more details.",
+        "audienceRequired": "Please select the sender type."
+      },
+      "success": "Thank you! We received your message and will reply within 48 hours."
+    },
+    "footer": {
+      "brandName": "Mawthiq",
+      "brandTagline": "From training to employment — real projects and real tools.",
+      "about": "Mawthiq is a bridge that takes you from learning to employment. We provide a real work environment to simulate professional experience.",
+      "newsletterTitle": "Subscribe to Newsletter",
+      "newsletterPlaceholder": "Your email address",
+      "newsletterCta": "Subscribe",
+      "newsletterConsent": "I agree to receive email messages",
+      "newsletterSuccess": "Thanks! You've subscribed successfully.",
+      "social": {
+        "twitter": {
+          "alt": "Twitter / X",
+          "key": "social_twitter",
+          "href": "#"
+        },
+        "linkedin": {
+          "alt": "LinkedIn",
+          "key": "social_linkedin",
+          "href": "#"
+        },
+        "instagram": {
+          "alt": "Instagram",
+          "key": "social_instagram",
+          "href": "#"
+        },
+        "youtube": {
+          "alt": "YouTube",
+          "key": "social_youtube",
+          "href": "#"
+        }
+      },
+      "sitemap": [
+        {
+          "title": "Sitemap",
+          "links": [
+            {
+              "label": "Home",
+              "key": "sitemap_home",
+              "to": "hero"
+            },
+            {
+              "label": "About",
+              "key": "sitemap_about",
+              "to": "solution"
+            },
+            {
+              "label": "Contact",
+              "key": "sitemap_contact",
+              "to": "contact"
+            },
+            {
+              "label": "Blog",
+              "key": "sitemap_blog",
+              "to": "#"
+            }
+          ]
+        },
+        {
+          "title": "Business",
+          "links": [
+            {
+              "label": "Case Studies",
+              "key": "works_case_studies",
+              "to": "#"
+            },
+            {
+              "label": "Clients",
+              "key": "works_clients",
+              "to": "partners"
+            },
+            {
+              "label": "Partnerships",
+              "key": "works_partnerships",
+              "to": "partners"
+            }
+          ]
+        },
+        {
+          "title": "Products",
+          "links": [
+            {
+              "label": "Courses",
+              "key": "products_courses",
+              "to": "journey"
+            },
+            {
+              "label": "Bootcamps",
+              "key": "products_bootcamps",
+              "to": "journey"
+            },
+            {
+              "label": "Tools",
+              "key": "products_tools",
+              "to": "techStack"
+            }
+          ]
+        },
+        {
+          "title": "Support",
+          "links": [
+            {
+              "label": "FAQ",
+              "key": "support_faq",
+              "to": "#"
+            },
+            {
+              "label": "Docs",
+              "key": "support_docs",
+              "to": "#"
+            },
+            {
+              "label": "Contact",
+              "key": "support_contact",
+              "to": "contact"
+            }
+          ]
+        }
+      ],
+      "copyright": "© 2026 Mawthiq. All rights reserved.",
+      "trademark": "Mawthiq is a registered trademark.",
+      "quickLinks": "Quick Links",
+      "contact": "Contact Us",
+      "rights": "All Rights Reserved © 2026 Mawthiq"
+    },
+    "megaMenu": [
+      {
+        "title": "Sitemap",
+        "links": [
+          {
+            "label": "Home",
+            "to": "hero",
+            "icon": "home"
+          },
+          {
+            "label": "Program",
+            "to": "journey",
+            "icon": "map"
+          },
+          {
+            "label": "Tech Stack",
+            "to": "techStack",
+            "icon": "cpu"
+          },
+          {
+            "label": "Requirements",
+            "to": "requirements",
+            "icon": "check"
+          }
+        ]
+      },
+      {
+        "title": "Resources",
+        "links": [
+          {
+            "label": "Success Stories",
+            "to": "success",
+            "icon": "star"
+          },
+          {
+            "label": "Partners",
+            "to": "partners",
+            "icon": "handshake"
+          },
+          {
+            "label": "Journey",
+            "to": "journey",
+            "icon": "rocket"
+          },
+          {
+            "label": "Blog",
+            "to": "#",
+            "icon": "book"
+          }
+        ]
+      },
+      {
+        "title": "Business",
+        "links": [
+          {
+            "label": "Companies",
+            "to": "contact",
+            "icon": "building"
+          },
+          {
+            "label": "Hiring",
+            "to": "contact",
+            "icon": "briefcase"
+          },
+          {
+            "label": "Case Studies",
+            "to": "#",
+            "icon": "folder"
+          }
+        ]
+      },
+      {
+        "title": "Get Started",
+        "isCta": true,
+        "links": [
+          {
+            "label": "Start Free",
+            "to": "/subscribe",
+            "icon": "zap",
+            "highlight": true
+          },
+          {
+            "label": "Contact Us",
+            "to": "contact",
+            "icon": "chat"
+          },
+          {
+            "label": "Login",
+            "to": "/login",
+            "icon": "login"
+          }
+        ]
+      }
+    ],
+    "courseDetails": {
+      "hero": {
+        "badge": "Intensive Diploma — March 2026 Batch",
+        "title": "Full-Stack Software Engineering Program",
+        "subtitle": "Transform your passion into a professional career in 8 weeks of intensive work on real-world projects.",
+        "cta": "Secure Your Seat Now",
+        "secondaryCta": "Download Full Roadmap",
+        "price": "Starting from $400",
+        "duration": "8 Weeks (Full-time)"
+      },
+      "highlights": [
+        {
+          "title": "100% Practical",
+          "desc": "No fluff, only code and real-world projects.",
+          "icon": "zap"
+        },
+        {
+          "title": "Scrum Environment",
+          "desc": "Work in teams simulating top tech companies.",
+          "icon": "users"
+        },
+        {
+          "title": "Certified",
+          "desc": "Verify your skills with a practical experience certificate.",
+          "icon": "award"
+        }
+      ],
+      "curriculum": [
+        {
+          "week": "Week 1-2",
+          "title": "Web Foundations & Data Structure",
+          "topics": [
+            "HTML5 / Semantic UI",
+            "CSS3 Advanced Layouts",
+            "JavaScript (ES6+)",
+            "Git & GitHub Workflow"
+          ]
+        },
+        {
+          "week": "Week 3-4",
+          "title": "Frontend Mastery",
+          "topics": [
+            "React.js & State Management",
+            "Tailwind CSS & Design Systems",
+            "API Integration",
+            "Performance Optimization"
+          ]
+        },
+        {
+          "week": "Week 5-6",
+          "title": "Backend & Systems",
+          "topics": [
+            "Node.js & Express",
+            "MongoDB Design",
+            "Authentication & Security",
+            "Server Architecture"
+          ]
+        },
+        {
+          "week": "Week 7-8",
+          "title": "Final Project & Deployment",
+          "topics": [
+            "Full-Stack Project",
+            "CI/CD Pipelines",
+            "Docker Basics",
+            "Cloud Hosting (AWS/Vercel)"
+          ]
+        }
+      ],
+      "techStack": {
+        "frontend": [
+          "React",
+          "Next.js",
+          "Tailwind",
+          "Framer Motion"
+        ],
+        "backend": [
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+          "Redis"
+        ],
+        "tools": [
+          "Docker",
+          "Git",
+          "Jira",
+          "Figma"
+        ]
+      },
+      "faq": [
+        {
+          "q": "Do I need prior experience?",
+          "a": "Basic programming knowledge is preferred, but we start from professional project structuring."
+        },
+        {
+          "q": "What is the expected time commitment?",
+          "a": "The program is intensive, requiring 5-8 hours daily to guarantee results."
+        }
+      ]
+    }
+  },
+  "subscribe": {
+    "wizard": {
+      "header": {
+        "title": "Subscribe Now",
+        "subtitle": "Complete the following steps to submit your application to Mawthiq"
+      },
+      "success": {
+        "title": "Application Submitted Successfully!",
+        "subtitle": "We're excited you want to join our training program.",
+        "desc": "We have received your application and our team will review it shortly. You'll receive a confirmation email.",
+        "appId": "Your Application ID",
+        "copy": "Copy",
+        "copied": "Copied!"
+      },
+      "errors": {
+        "role": "You must select a registration type",
+        "track": "Please select a tech track",
+        "position": "Please select a job position",
+        "traineesCount": "Please specify the number of trainees",
+        "programDesc": "Please enter a program description",
+        "email": "Email is required",
+        "phone": "Phone number is required",
+        "country": "Please select a country",
+        "fullName": "Full name is required",
+        "cvTrainer": "Resume is mandatory for trainers",
+        "brandName": "Brand name is required",
+        "crNumber": "CR number is required",
+        "crDoc": "CR document is mandatory",
+        "interviewDay": "Please select an interview day",
+        "interviewTime": "Please select an interview time",
+        "agreed": "You must agree to the terms and conditions"
+      },
+      "steps": {
+        "role": "Role",
+        "specifics": "Specifics",
+        "info": "Basic Info",
+        "schedule": "Schedule",
+        "review": "Review"
+      },
+      "buttons": {
+        "next": "Next",
+        "back": "Back",
+        "submit": "Submit Application",
+        "agreeAndSubmit": "I Agree & Submit"
+      },
+      "roles": {
+        "trainee": "Trainee",
+        "traineeDesc": "I want to join to gain practical experience",
+        "trainer": "Trainer",
+        "trainerDesc": "I want to join to train and mentor",
+        "company": "Company",
+        "companyDesc": "We want to hire grads or train our team"
+      },
+      "trainee": {
+        "trackLabel": "Tech Stack",
+        "trackPlaceholder": "Select Tech Stack"
+      },
+      "trainer": {
+        "positionLabel": "Job Position",
+        "positionPlaceholder": "Select Job Position"
+      },
+      "company": {
+        "traineesCountLabel": "Number of Trainees",
+        "programDescLabel": "Training Program Description",
+        "programDescPlaceholder": "Ex: We need to train 5 employees on React..."
+      },
+      "info": {
+        "fullName": "Full Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "country": "Country",
+        "cvOptional": "Resume/CV (Optional)",
+        "cvMandatory": "Resume/CV (Mandatory)",
+        "brandName": "Brand Name",
+        "crNumber": "CR Number",
+        "crDocMandatory": "CR Document (Mandatory)"
+      },
+      "schedule": {
+        "interviewDay": "Interview Day",
+        "interviewTime": "Preferred Time",
+        "trainerFridayNote": "Available on Fridays only",
+        "companyNote": "Our sales and technical team will contact you by phone to schedule a meeting to discuss details."
+      },
+      "review": {
+        "title": "Review Application",
+        "termsAgree": "I agree to the",
+        "termsLink": "Terms and Conditions",
+        "summary": "Data Summary"
+      },
+      "reqs": {
+        "trainee": [
+          "CV (Current level)",
+          "Graduate or Senior year",
+          "Real passion to learn and commit"
+        ],
+        "trainer": [
+          "CV showing your experience",
+          "Portfolio or previous projects",
+          "At least 3 years of experience"
+        ],
+        "company": [
+          "Valid Commercial Register",
+          "Clear training needs",
+          "Suitable training environment"
+        ]
+      },
+      "specifics": {
+        "free": "Free",
+        "weeks": "Weeks",
+        "seats": "Seats:",
+        "start": "Start:",
+        "cert": "Certified",
+        "techs": "Techs:",
+        "reqsLabel": "Requirements:"
+      },
+      "days": {
+        "sat": "Saturday",
+        "sun": "Sunday",
+        "mon": "Monday",
+        "wed": "Wednesday",
+        "fri": "Friday"
+      },
+      "times": {
+        "morning": "Morning (9 – 11)",
+        "midday": "Midday (12 – 2)",
+        "afternoon": "Afternoon (3 – 5)",
+        "evening": "Evening (6 – 8)"
+      }
+    }
+  }
+}
