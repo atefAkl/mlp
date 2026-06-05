@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Calendar, Clock, Users, Code, Award, CheckCircle2, Briefcase, DollarSign, ListChecks } from "lucide-react";
 
@@ -101,52 +101,65 @@ const Step2Specifics = ({ formData, updateData }) => {
                                             <CheckCircle2 className="w-6 h-6" />
                                         </div>
                                     )}
-                                    <div className="flex justify-between items-start mb-3 pr-8">
-                                        <div>
-                                            <h4 className="text-[14px] font-bold text-white">{prog.name}</h4>
-                                            <p className="text-emerald-400 text-[12px] font-medium">{prog.target}</p>
-                                        </div>
-                                        <div className="bg-white/10 text-white text-[12px] px-3 py-1 rounded-full whitespace-nowrap">
-                                            {prog.cost}
-                                        </div>
+                                    <div className="flex justify-between items-start pr-8">
+                                        <h4 className="text-[14px] font-bold text-white">{prog.name}</h4>
                                     </div>
                                     
-                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-                                        <div className="flex items-center gap-2 text-[12px] text-gray-300">
-                                            <Calendar className="w-4 h-4 text-gray-400" />
-                                            <span>البداية: {prog.startDate}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-[12px] text-gray-300">
-                                            <Clock className="w-4 h-4 text-gray-400" />
-                                            <span>{prog.duration}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-[12px] text-gray-300">
-                                            <Users className="w-4 h-4 text-gray-400" />
-                                            <span>المقاعد: {prog.seats}</span>
-                                        </div>
-                                        {prog.certificate && (
-                                            <div className="flex items-center gap-2 text-[12px] text-gray-300">
-                                                <Award className="w-4 h-4 text-gray-400" />
-                                                <span>شهادة معتمدة</span>
+                                    <AnimatePresence>
+                                    {isSelected && (
+                                        <motion.div 
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: "auto" }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                                            className="overflow-hidden mt-3 pt-3 border-t border-white/10"
+                                        >
+                                            <div className="flex justify-between items-center mb-3">
+                                                <p className="text-emerald-400 text-[12px] font-medium">{prog.target}</p>
+                                                <div className="bg-white/10 text-white text-[12px] px-3 py-1 rounded-full whitespace-nowrap">
+                                                    {prog.cost === "مجاني" ? w.specifics?.free : prog.cost}
+                                                </div>
                                             </div>
-                                        )}
-                                    </div>
 
-                                    <div className="space-y-2">
-                                        <div className="text-[12px] text-gray-400 font-medium flex items-center gap-2">
-                                            <Code className="w-3.5 h-3.5" /> التقنيات:
-                                        </div>
-                                        <div className="flex flex-wrap gap-1.5">
-                                            {prog.tech.map(t => <span key={t} className="bg-blue-500/10 text-blue-300 border border-blue-500/20 text-[12px] px-2 py-0.5 rounded">{t}</span>)}
-                                        </div>
-                                        
-                                        <div className="text-[12px] text-gray-400 font-medium flex items-center gap-2 mt-2">
-                                            <ListChecks className="w-3.5 h-3.5" /> المتطلبات:
-                                        </div>
-                                        <div className="flex flex-wrap gap-1.5">
-                                            {prog.requirements.map(r => <span key={r} className="bg-white/5 text-gray-300 border border-white/10 text-[12px] px-2 py-0.5 rounded">{r}</span>)}
-                                        </div>
-                                    </div>
+                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                                                <div className="flex items-center gap-2 text-[12px] text-gray-300">
+                                                    <Calendar className="w-4 h-4 text-gray-400" />
+                                                    <span>{w.specifics?.start} {prog.startDate}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-[12px] text-gray-300">
+                                                    <Clock className="w-4 h-4 text-gray-400" />
+                                                    <span>{prog.duration.replace("أسبوع", w.specifics?.weeks || "أسبوع")}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-[12px] text-gray-300">
+                                                    <Users className="w-4 h-4 text-gray-400" />
+                                                    <span>{w.specifics?.seats} {prog.seats}</span>
+                                                </div>
+                                                {prog.certificate && (
+                                                    <div className="flex items-center gap-2 text-[12px] text-gray-300">
+                                                        <Award className="w-4 h-4 text-gray-400" />
+                                                        <span>{w.specifics?.cert}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <div className="text-[12px] text-gray-400 font-medium flex items-center gap-2">
+                                                    <Code className="w-3.5 h-3.5" /> {w.specifics?.techs}
+                                                </div>
+                                                <div className="flex flex-wrap gap-1.5">
+                                                    {prog.tech.map(t => <span key={t} className="bg-white/10 text-white border border-white/20 text-[12px] px-2 py-0.5 rounded">{t}</span>)}
+                                                </div>
+                                                
+                                                <div className="text-[12px] text-gray-400 font-medium flex items-center gap-2 mt-2">
+                                                    <ListChecks className="w-3.5 h-3.5" /> {w.specifics?.reqsLabel}
+                                                </div>
+                                                <div className="flex flex-wrap gap-1.5">
+                                                    {prog.requirements.map(r => <span key={r} className="bg-emerald-500/20 text-emerald-100 border border-emerald-500/30 text-[12px] px-2 py-0.5 rounded">{r}</span>)}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                    </AnimatePresence>
                                 </button>
                             );
                         })}
@@ -188,23 +201,35 @@ const Step2Specifics = ({ formData, updateData }) => {
                                             <CheckCircle2 className="w-6 h-6" />
                                         </div>
                                     )}
-                                    <h4 className="text-[14px] font-bold text-white mb-2 pr-8">{job.title}</h4>
+                                    <h4 className="text-[14px] font-bold text-white pr-8">{job.title}</h4>
                                     
-                                    <div className="flex flex-wrap gap-4 mb-3">
-                                        <div className="flex items-center gap-1.5 text-[12px] text-gray-300 bg-white/5 px-2.5 py-1 rounded-lg">
-                                            <Briefcase className="w-4 h-4 text-emerald-400" />
-                                            <span>الدوام: {job.type}</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 text-[12px] text-gray-300 bg-white/5 px-2.5 py-1 rounded-lg">
-                                            <DollarSign className="w-4 h-4 text-emerald-400" />
-                                            <span>الراتب: {job.salary}</span>
-                                        </div>
-                                    </div>
+                                    <AnimatePresence>
+                                    {isSelected && (
+                                        <motion.div 
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: "auto" }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                                            className="overflow-hidden mt-3 pt-3 border-t border-white/10"
+                                        >
+                                            <div className="flex flex-wrap gap-4 mb-3">
+                                                <div className="flex items-center gap-1.5 text-[12px] text-gray-300 bg-white/5 px-2.5 py-1 rounded-lg">
+                                                    <Briefcase className="w-4 h-4 text-emerald-400" />
+                                                    <span>الدوام: {job.type}</span>
+                                                </div>
+                                                <div className="flex items-center gap-1.5 text-[12px] text-gray-300 bg-white/5 px-2.5 py-1 rounded-lg">
+                                                    <DollarSign className="w-4 h-4 text-emerald-400" />
+                                                    <span>الراتب: {job.salary}</span>
+                                                </div>
+                                            </div>
 
-                                    <div className="text-[12px] text-gray-400 leading-relaxed bg-black/20 p-3 rounded-xl border border-white/5">
-                                        <span className="text-emerald-300 font-semibold block mb-1">المتطلبات:</span>
-                                        {job.requirements}
-                                    </div>
+                                            <div className="text-[12px] text-gray-400 leading-relaxed bg-black/20 p-3 rounded-xl border border-white/5">
+                                                <span className="text-emerald-300 font-semibold block mb-1">المتطلبات:</span>
+                                                {job.requirements}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                    </AnimatePresence>
                                 </button>
                             );
                         })}

@@ -52,8 +52,8 @@ const Step5Review = ({ formData, updateData }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6">
                     {summaryItems.map((item, idx) => (
                         <div key={idx} className="space-y-1">
-                            <span className="text-[12px] text-gray-500 block">{item.label}</span>
-                            <span className={`text-[14px] text-gray-200 block ${item.ltr ? 'dir-ltr text-right' : ''}`}>
+                            <span className="text-[12px] text-white/70 block">{item.label}</span>
+                            <span className={`text-[14px] text-white font-medium block ${item.ltr ? 'dir-ltr text-right' : ''}`}>
                                 {item.value}
                             </span>
                         </div>

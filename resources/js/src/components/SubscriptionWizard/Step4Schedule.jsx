@@ -3,27 +3,24 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Calendar, Clock, Info, CheckCircle2 } from "lucide-react";
 
-const TRAINEE_DAYS = [
-    { key: "sat", ar: "السبت" },
-    { key: "sun", ar: "الأحد" },
-    { key: "mon", ar: "الاثنين" },
-    { key: "wed", ar: "الأربعاء" },
-];
-
-const TIME_SLOTS = [
-    { key: "morning", ar: "صباحاً (9 – 11)" },
-    { key: "midday", ar: "ظهراً (12 – 2)" },
-    { key: "afternoon", ar: "عصراً (3 – 5)" },
-    { key: "evening", ar: "مساءً (6 – 8)" },
-];
+const TRAINEE_DAYS = ["sat", "sun", "mon", "wed"];
+const TIME_SLOTS = ["morning", "midday", "afternoon", "evening"];
 
 const Step4Schedule = ({ formData, updateData }) => {
     const { t } = useTranslation();
     const w = t("subscribe.wizard", { returnObjects: true });
     const { role, schedule } = formData;
 
-    const handleChange = (field, value) => {
-        updateData("schedule", field, value);
+    const toggleSelection = (field, value) => {
+        const current = Array.isArray(schedule[field]) ? schedule[field] : [];
+        const isSelected = current.includes(value);
+        let updated;
+        if (isSelected) {
+            updated = current.filter(item => item !== value);
+        } else {
+            updated = [...current, value];
+        }
+        updateData("schedule", field, updated);
     };
 
     if (role === "company") {
@@ -47,7 +44,7 @@ const Step4Schedule = ({ formData, updateData }) => {
         );
     }
 
-    const daysList = role === "trainee" ? TRAINEE_DAYS : [{ key: "fri", ar: "الجمعة" }];
+    const daysList = role === "trainee" ? TRAINEE_DAYS : ["fri"];
 
     return (
         <motion.div
@@ -75,20 +72,20 @@ const Step4Schedule = ({ formData, updateData }) => {
                     {w.schedule.interviewDay}
                 </label>
                 <div className="grid grid-cols-2 gap-3">
-                    {daysList.map((day) => {
-                        const isSelected = schedule.interviewDay === day.key;
+                    {daysList.map((dayKey) => {
+                        const isSelected = (schedule.interviewDay || []).includes(dayKey);
                         return (
                             <button
-                                key={day.key}
+                                key={dayKey}
                                 type="button"
-                                onClick={() => handleChange("interviewDay", day.key)}
+                                onClick={() => toggleSelection("interviewDay", dayKey)}
                                 className={`relative h-9 px-4 flex items-center justify-start rounded-xl border transition-all duration-300 text-[14px] font-medium ${
                                     isSelected
                                         ? "bg-emerald-500/20 border-emerald-400 text-white shadow-[0_0_15px_rgba(52,211,153,0.15)]"
                                         : "bg-white/5 border-white/25 text-white/70 hover:border-emerald-400/50 hover:text-white"
                                 }`}
                             >
-                                {day.ar}
+                                {w.days?.[dayKey]}
                                 {isSelected && (
                                     <CheckCircle2 className="absolute top-1/2 -translate-y-1/2 right-4 w-5 h-5 text-emerald-400" />
                                 )}
@@ -104,20 +101,20 @@ const Step4Schedule = ({ formData, updateData }) => {
                     {w.schedule.interviewTime}
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {TIME_SLOTS.map((time) => {
-                        const isSelected = schedule.interviewTime === time.key;
+                    {TIME_SLOTS.map((timeKey) => {
+                        const isSelected = (schedule.interviewTime || []).includes(timeKey);
                         return (
                             <button
-                                key={time.key}
+                                key={timeKey}
                                 type="button"
-                                onClick={() => handleChange("interviewTime", time.key)}
+                                onClick={() => toggleSelection("interviewTime", timeKey)}
                                 className={`relative h-9 px-4 flex items-center justify-start rounded-xl border transition-all duration-300 text-[14px] font-medium ${
                                     isSelected
                                         ? "bg-emerald-500/20 border-emerald-400 text-white shadow-[0_0_15px_rgba(52,211,153,0.15)]"
                                         : "bg-white/5 border-white/25 text-white/70 hover:border-emerald-400/50 hover:text-white"
                                 }`}
                             >
-                                {time.ar}
+                                {w.times?.[timeKey]}
                                 {isSelected && (
                                     <CheckCircle2 className="absolute top-1/2 -translate-y-1/2 left-4 w-5 h-5 text-emerald-400" />
                                 )}

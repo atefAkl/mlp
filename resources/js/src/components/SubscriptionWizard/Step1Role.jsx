@@ -44,6 +44,10 @@ const Step1Role = ({ formData, updateData, nextStep }) => {
         updateData("role", null, id);
     };
 
+    const getRoleRequirements = (roleId) => {
+        return w.reqs?.[roleId] || [];
+    };
+
     return (
         <div className="space-y-6">
             <h3 className="text-[14px] font-bold text-white mb-6">
@@ -76,13 +80,28 @@ const Step1Role = ({ formData, updateData, nextStep }) => {
                             <h4 className="text-[14px] font-bold text-white mb-1">
                                 {role.title}
                             </h4>
-                            <p className="text-[12px] text-gray-400">
+                            <p className="text-[12px] text-white/70">
                                 {role.desc}
                             </p>
                         </motion.button>
                     );
                 })}
             </div>
+
+            {formData.role && (
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl"
+                >
+                    <h4 className="text-[14px] font-bold text-emerald-400 mb-3">المتطلبات الأساسية</h4>
+                    <ul className="list-disc list-inside space-y-2 text-[12px] text-gray-300">
+                        {getRoleRequirements(formData.role).map((req, index) => (
+                            <li key={index}>{req}</li>
+                        ))}
+                    </ul>
+                </motion.div>
+            )}
         </div>
     );
 };

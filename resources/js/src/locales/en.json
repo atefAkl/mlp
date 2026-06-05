@@ -1022,8 +1022,47 @@
       "review": {
         "title": "Review Application",
         "termsAgree": "I agree to the",
-        "termsLink": "Terms & Conditions",
+        "termsLink": "Terms and Conditions",
         "summary": "Data Summary"
+      },
+      "reqs": {
+        "trainee": [
+          "CV (Current level)",
+          "Graduate or Senior year",
+          "Real passion to learn and commit"
+        ],
+        "trainer": [
+          "CV showing your experience",
+          "Portfolio or previous projects",
+          "At least 3 years of experience"
+        ],
+        "company": [
+          "Valid Commercial Register",
+          "Clear training needs",
+          "Suitable training environment"
+        ]
+      },
+      "specifics": {
+        "free": "Free",
+        "weeks": "Weeks",
+        "seats": "Seats:",
+        "start": "Start:",
+        "cert": "Certified",
+        "techs": "Techs:",
+        "reqsLabel": "Requirements:"
+      },
+      "days": {
+        "sat": "Saturday",
+        "sun": "Sunday",
+        "mon": "Monday",
+        "wed": "Wednesday",
+        "fri": "Friday"
+      },
+      "times": {
+        "morning": "Morning (9 – 11)",
+        "midday": "Midday (12 – 2)",
+        "afternoon": "Afternoon (3 – 5)",
+        "evening": "Evening (6 – 8)"
       }
     }
   }

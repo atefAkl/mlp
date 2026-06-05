@@ -116,8 +116,8 @@ const SubscriptionSection = ({ lang = "ar", registrationRequest }) => {
             crDoc: null,
         },
         schedule: {
-            interviewDay: "",
-            interviewTime: "",
+            interviewDay: [],
+            interviewTime: [],
         },
         agreed: false,
     };
@@ -134,16 +134,7 @@ const SubscriptionSection = ({ lang = "ar", registrationRequest }) => {
         }
     }, [registrationRequest]);
 
-    // Safe auto-advance for Step 1
-    useEffect(() => {
-        if (currentStep === 1 && formData.role) {
-            const timer = setTimeout(() => {
-                setErrors([]); // Clear any previous errors
-                setCurrentStep(2);
-            }, 350);
-            return () => clearTimeout(timer);
-        }
-    }, [formData.role, currentStep]);
+    // Auto-advance is disabled per user request.
 
     const updateData = (section, field, value) => {
         setErrors([]);
@@ -297,7 +288,7 @@ const SubscriptionSection = ({ lang = "ar", registrationRequest }) => {
                     <h2 className="text-[28px] font-bold text-white mb-2">
                         سجّل اشتراكك
                     </h2>
-                    <p className="text-sm text-gray-400 max-w-xl mx-auto">
+                    <p className="text-[14px] text-white/80 max-w-xl mx-auto">
                         أكمل الخطوات التالية لتقديم طلب الانضمام إلى موثق
                     </p>
                 </div>
@@ -305,9 +296,9 @@ const SubscriptionSection = ({ lang = "ar", registrationRequest }) => {
                 {/* Progress Bar */}
                 <div className="mb-10">
                     <div className="flex items-center justify-between relative">
-                        <div className="absolute left-0 right-0 top-4 md:top-5 h-1 bg-white/10 -z-10" />
+                        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-1 rounded-full bg-white/10 -z-10" />
                         <div 
-                            className="absolute right-0 top-4 md:top-5 h-1 bg-white transition-all duration-500 -z-10" 
+                            className="absolute right-0 top-1/2 -translate-y-1/2 h-1 rounded-full bg-white transition-all duration-500 -z-10" 
                             style={{ width: `${((currentStep - 1) / 4) * 100}%`, left: isRtl ? 'auto' : 0, right: isRtl ? 0 : 'auto' }}
                         />
                         
@@ -321,12 +312,12 @@ const SubscriptionSection = ({ lang = "ar", registrationRequest }) => {
                                     <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 border-2 text-[14px] ${
                                         isActive ? "bg-emerald-700 border-emerald-700 text-white shadow-[0_0_15px_rgba(4,120,87,0.5)]" 
                                         : isCompleted ? "bg-emerald-700 border-white text-white"
-                                        : "bg-gray-500/20 border-gray-500 text-gray-400"
+                                        : "bg-gray-600 border-gray-500 text-white/80"
                                     }`}>
                                         {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : stepNum}
                                     </div>
                                     <span className={`text-[12px] md:text-[14px] font-medium hidden md:block ${
-                                        isActive ? "text-emerald-400" : isCompleted ? "text-gray-300" : "text-gray-500"
+                                        isActive ? "text-emerald-400" : isCompleted ? "text-white/90" : "text-white/60"
                                     }`}>
                                         {stepLabel}
                                     </span>
@@ -355,7 +346,7 @@ const SubscriptionSection = ({ lang = "ar", registrationRequest }) => {
                 </AnimatePresence>
 
                 {/* Step Content */}
-                <div className="bg-[#111]/80 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 md:p-10 min-h-[400px] flex flex-col justify-between shadow-2xl">
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2rem] p-6 md:p-10 min-h-[400px] flex flex-col justify-between shadow-2xl">
                     <AnimatePresence mode="wait">
                         {currentStep === 1 && <Step1Role key="step1" formData={formData} updateData={updateData} nextStep={nextStep} />}
                         {currentStep === 2 && <Step2Specifics key="step2" formData={formData} updateData={updateData} />}

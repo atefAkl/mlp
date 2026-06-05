@@ -66,7 +66,7 @@ const SubscriptionPage = () => {
                 showTopActions={false}
             />
 
-            <main className="pt-24">
+            <main className="pt-16">
                 <SubscriptionSection
                     lang={lang}
                     registrationRequest={registrationRequest}
