@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&family=Almarai:wght@300;400;700;800&display=swap');
+@import 'react-toastify/dist/ReactToastify.css';
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../**/*.jsx';
+
+@theme {
+    --color-deep-blue: #1E3A8A;
+    --color-emerald: #10B981;
+    --color-soft-gray: #F9FAFB;
+
+    --font-cairo: "Cairo", sans-serif;
+    --font-almarai: "Almarai", sans-serif;
+
+    --animate-fade-in-up: fadeInUp 0.6s ease-out;
+    --animate-fade-in-down: fadeInDown 0.6s ease-out;
+    --animate-fade-in-left: fadeInLeft 0.6s ease-out;
+    --animate-fade-in-right: fadeInRight 0.6s ease-out;
+
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+        0% { opacity: 0; transform: translateY(-30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInLeft {
+        0% { opacity: 0; transform: translateX(30px); }
+        100% { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInRight {
+        0% { opacity: 0; transform: translateX(-30px); }
+        100% { opacity: 1; transform: translateX(0); }
+    }
+}
+
+/* Custom CSS for RTL/LTR support */
+body {
+  font-family: "Cairo", sans-serif;
+  @apply text-slate-800 bg-slate-50;
+}
+
+body.ltr {
+  font-family: "Almarai", sans-serif;
+}
+
+/* Compact layout utilities */
+.compact-grid {
+  @apply gap-2;
+}
+
+.compact-padding {
+  @apply p-2;
+}
+
+/* Smooth transitions */
+.smooth-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.hover-lift {
+  @apply hover:-translate-y-1 hover:shadow-lg;
+}
+
+/* RTL Support for FontAwesome Icons if needed */
+[dir="rtl"] .fa-rotate-rtl {
+  @apply rotate-180;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
