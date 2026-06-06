@@ -150,6 +150,21 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Permission'],
     }),
+
+    // Public subscriptions
+    getSubscriptionMeta: builder.query({
+      query: () => '/subscriptions/meta',
+    }),
+    createSubscription: builder.mutation({
+      query: (formData) => ({
+        url: '/subscriptions',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
+    getPublicSubscription: builder.query({
+      query: (publicId) => `/subscriptions/public/${publicId}`,
+    }),
   }),
 });
 
@@ -172,5 +187,8 @@ export const {
   useCreatePermissionMutation,
   useUpdatePermissionMutation,
   useDeletePermissionMutation,
-  useBulkDeletePermissionsMutation
+  useBulkDeletePermissionsMutation,
+  useGetSubscriptionMetaQuery,
+  useCreateSubscriptionMutation,
+  useGetPublicSubscriptionQuery,
 } = apiSlice;

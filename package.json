@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "postman:test": "newman run back/postman/subscriptions-api.collection.json -r htmlextra --reporter-htmlextra-export newman-report.html"
+  },
+  "dependencies": {
+    "newman": "^6.2.2",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}
