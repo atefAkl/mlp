@@ -44,6 +44,11 @@ class RolesAndPermissionsSeeder extends Seeder
                 ['name' => 'review_code', 'description' => 'مراجعة الكود البرمجي المقدم'],
                 ['name' => 'submit_tasks', 'description' => 'رفع وتسليم المهام المنجزة'],
                 ['name' => 'evaluate_work', 'description' => 'تقييم جودة العمل والنتائج'],
+            ],
+            'صلاحيات التسويق والبرامج' => [
+                ['name' => 'manage_training_programs', 'description' => 'إدارة البرامج التدريبية'],
+                ['name' => 'manage_trainer_opportunities', 'description' => 'إدارة فرص المدربين'],
+                ['name' => 'manage_company_packages', 'description' => 'إدارة باقات الشركات'],
             ]
         ];
 

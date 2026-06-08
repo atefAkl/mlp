@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
  * managed.
  */
 const OveragesModal = ({ isOpen, onClose, onConfirm }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const [selected, setSelected] = useState('');
   const options = [

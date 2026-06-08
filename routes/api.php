@@ -9,11 +9,26 @@ use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\AdminSubscriberController;
 use App\Http\Controllers\Api\ReferenceDataController;
+use App\Http\Controllers\Api\TrainingProgramController;
+use App\Http\Controllers\Api\TrainerOpportunityController;
+use App\Http\Controllers\Api\CompanyPackageController;
+
+Route::get('/login', function () {
+    return response()->json(['message' => 'Unauthenticated.'], 401);
+})->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/subscriptions/meta', [SubscriptionController::class, 'meta']);
 Route::post('/subscriptions', [SubscriptionController::class, 'store'])->middleware('throttle:subscriptions-create');
 Route::get('/subscriptions/public/{publicId}', [SubscriptionController::class, 'showPublic']);
+
+// Public Read Routes
+Route::get('/training-programs', [TrainingProgramController::class, 'index']);
+Route::get('/training-programs/{id}', [TrainingProgramController::class, 'show']);
+Route::get('/trainer-opportunities', [TrainerOpportunityController::class, 'index']);
+Route::get('/trainer-opportunities/{id}', [TrainerOpportunityController::class, 'show']);
+Route::get('/company-packages', [CompanyPackageController::class, 'index']);
+Route::get('/company-packages/{id}', [CompanyPackageController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
@@ -58,4 +73,25 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/admin/reference-data/{resource}/{id}', [ReferenceDataController::class, 'update']);
         Route::delete('/admin/reference-data/{resource}/{id}', [ReferenceDataController::class, 'destroy']);
     });
+
+    // Training Programs Management
+    Route::post('/training-programs', [TrainingProgramController::class, 'store']);
+    Route::put('/training-programs/{id}', [TrainingProgramController::class, 'update']);
+    Route::delete('/training-programs/{id}', [TrainingProgramController::class, 'destroy']);
+    Route::patch('/training-programs/{id}/activate', [TrainingProgramController::class, 'activate']);
+    Route::patch('/training-programs/{id}/deactivate', [TrainingProgramController::class, 'deactivate']);
+
+    // Trainer Opportunities Management
+    Route::post('/trainer-opportunities', [TrainerOpportunityController::class, 'store']);
+    Route::put('/trainer-opportunities/{id}', [TrainerOpportunityController::class, 'update']);
+    Route::delete('/trainer-opportunities/{id}', [TrainerOpportunityController::class, 'destroy']);
+    Route::patch('/trainer-opportunities/{id}/activate', [TrainerOpportunityController::class, 'activate']);
+    Route::patch('/trainer-opportunities/{id}/deactivate', [TrainerOpportunityController::class, 'deactivate']);
+
+    // Company Packages Management
+    Route::post('/company-packages', [CompanyPackageController::class, 'store']);
+    Route::put('/company-packages/{id}', [CompanyPackageController::class, 'update']);
+    Route::delete('/company-packages/{id}', [CompanyPackageController::class, 'destroy']);
+    Route::patch('/company-packages/{id}/activate', [CompanyPackageController::class, 'activate']);
+    Route::patch('/company-packages/{id}/deactivate', [CompanyPackageController::class, 'deactivate']);
 });

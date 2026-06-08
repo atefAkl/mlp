@@ -23,7 +23,7 @@ const ResourceFilters = ({
   onSelectNone,
   onSelectInvert
 }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   return (

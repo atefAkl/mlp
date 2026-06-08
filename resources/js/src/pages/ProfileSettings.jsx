@@ -31,7 +31,7 @@ import { setCredentials } from '../features/auth/authSlice';
 import { toast } from 'react-toastify';
 
 const ProfileSettings = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const isRTL = i18n.language === 'ar';
   

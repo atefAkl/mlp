@@ -7,7 +7,7 @@ import { getGeneralSettings, saveGeneralSettings } from '../utils/themeHelper';
 import { toast } from 'react-toastify';
 
 const GeneralSettings = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const [settings, setSettings] = useState({

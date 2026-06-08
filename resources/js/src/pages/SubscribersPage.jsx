@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 const typeOptions = [{ value: '', label: 'All Types' }, ...subscriberTypes];
 
 const SubscribersPage = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const [filters, setFilters] = useState({ type: '', round: '', date: '', name: '', status: '' });

@@ -26,7 +26,7 @@ import { Input } from '../components/atoms/FormElements';
 import { toast } from 'react-toastify';
 
 const RoleList = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   
   // API Queries

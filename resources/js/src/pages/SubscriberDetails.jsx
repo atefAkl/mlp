@@ -8,7 +8,7 @@ import { typeLabels, subscribers, statusLabels } from '../data/subscribers';
 
 const SubscriberDetails = () => {
   const { type, id } = useParams();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const subscriber = subscribers.find((item) => item.type === type && item.id === id);

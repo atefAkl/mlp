@@ -10,7 +10,7 @@ const SelectionBanner = ({
   onSelectAllFiltered,
   onClearSelection
 }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   // Only show the banner if something is selected and there's a difference between page count and total filtered count

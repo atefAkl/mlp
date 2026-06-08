@@ -8,6 +8,13 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\RateLimiter;
 
+use App\Repositories\Contracts\TrainingProgramRepositoryInterface;
+use App\Repositories\Eloquent\TrainingProgramRepository;
+use App\Repositories\Contracts\TrainerOpportunityRepositoryInterface;
+use App\Repositories\Eloquent\TrainerOpportunityRepository;
+use App\Repositories\Contracts\CompanyPackageRepositoryInterface;
+use App\Repositories\Eloquent\CompanyPackageRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -15,7 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(TrainingProgramRepositoryInterface::class, TrainingProgramRepository::class);
+        $this->app->bind(TrainerOpportunityRepositoryInterface::class, TrainerOpportunityRepository::class);
+        $this->app->bind(CompanyPackageRepositoryInterface::class, CompanyPackageRepository::class);
     }
 
     /**

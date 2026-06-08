@@ -5,7 +5,7 @@ import { faChevronRight, faChevronLeft, faHome } from '@fortawesome/free-solid-s
 import { useTranslation } from 'react-i18next';
 
 const Breadcrumbs = ({ items = [] }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const ChevronIcon = isRTL ? faChevronLeft : faChevronRight;
 

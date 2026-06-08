@@ -4,7 +4,7 @@ import { faPlus, faFileExport, faRefresh } from '@fortawesome/free-solid-svg-ico
 import { useTranslation } from 'react-i18next';
 
 const ResourceHeader = ({ title, description, onAdd, onRefresh }) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   return (
