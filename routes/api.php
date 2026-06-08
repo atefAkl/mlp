@@ -18,9 +18,11 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/subscriptions/meta', [SubscriptionController::class, 'meta']);
-Route::post('/subscriptions', [SubscriptionController::class, 'store'])->middleware('throttle:subscriptions-create');
-Route::get('/subscriptions/public/{publicId}', [SubscriptionController::class, 'showPublic']);
+
+// Subscription Wizard Routes
+Route::get('/subscribe/meta', [SubscriptionController::class, 'meta']);
+Route::post('/subscribe', [SubscriptionController::class, 'store'])->middleware('throttle:subscriptions-create');
+Route::get('/subscribe/public/{publicId}', [SubscriptionController::class, 'showPublic']);
 
 // Public Read Routes
 Route::get('/training-programs', [TrainingProgramController::class, 'index']);

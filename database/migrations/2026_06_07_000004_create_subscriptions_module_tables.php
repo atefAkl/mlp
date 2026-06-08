@@ -58,15 +58,14 @@ return new class extends Migration
         Schema::create('subscription_trainee_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subscription_id')->unique()->constrained('subscriptions')->cascadeOnDelete();
-            $table->foreignId('stack_id')->constrained('stacks')->cascadeOnDelete();
-            $table->foreignId('round_id')->constrained('rounds')->cascadeOnDelete();
+            $table->foreignId('training_program_id')->constrained('training_programs')->cascadeOnDelete();
             $table->timestamps();
         });
 
         Schema::create('subscription_trainer_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subscription_id')->unique()->constrained('subscriptions')->cascadeOnDelete();
-            $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();
+            $table->foreignId('trainer_opportunity_id')->constrained('trainer_opportunities')->cascadeOnDelete();
             $table->timestamps();
         });
 
@@ -74,8 +73,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('subscription_id')->unique()->constrained('subscriptions')->cascadeOnDelete();
             $table->string('brand_name');
-            $table->foreignId('company_field_id')->constrained('company_fields')->cascadeOnDelete();
-            $table->foreignId('package_range_id')->constrained('package_ranges')->cascadeOnDelete();
+            $table->foreignId('company_package_id')->constrained('company_packages')->cascadeOnDelete();
             $table->string('cr_number');
             $table->text('extra_information')->nullable();
             $table->timestamps();

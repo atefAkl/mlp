@@ -40,7 +40,7 @@ const TechStackSection = ({ t }) => {
               >
                 <div className="flex flex-col items-center justify-center transition-all duration-500 hover:scale-125 cursor-pointer group origin-center">
                   <img
-                    src={tech.image}
+                    src={`/assets/${tech.image}`}
                     alt={tech.name}
                     className="h-14 w-auto object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                   />
@@ -68,7 +68,7 @@ const TechStackSection = ({ t }) => {
               data-aos-delay={index * 50}
             >
               <img
-                src={tool.image}
+                src={`/assets/${tool.image}`}
                 alt={tool.name}
                 className="w-12 h-12 mx-auto mb-3 object-contain"
               />

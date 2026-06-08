@@ -25,7 +25,6 @@ class TrainingProgramFactory extends Factory
             'description' => fake()->text(1000),
             'training_type' => fake()->randomElement(['online', 'onsite', 'hybrid']),
             'project_type' => fake()->word(),
-            'tech_stack' => fake()->randomElements(['PHP', 'Laravel', 'React', 'Vue', 'Node.js', 'Python'], 3),
             'methodology' => fake()->randomElement(['agile', 'waterfall', 'scrum']),
             'level' => fake()->randomElement(['beginner', 'intermediate', 'advanced']),
             'duration_weeks' => fake()->numberBetween(4, 24),

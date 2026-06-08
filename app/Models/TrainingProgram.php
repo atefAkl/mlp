@@ -13,7 +13,6 @@ class TrainingProgram extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'tech_stack' => 'array',
         'start_date' => 'date',
         'end_date' => 'date',
         'published_at' => 'datetime',
@@ -24,4 +23,14 @@ class TrainingProgram extends Model
         'admission_test_required' => 'boolean',
         'interview_required' => 'boolean',
     ];
+
+    public function positions()
+    {
+        return $this->morphToMany(Position::class, 'positionable');
+    }
+
+    public function skills()
+    {
+        return $this->morphToMany(Skill::class, 'skillable');
+    }
 }

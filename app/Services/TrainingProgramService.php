@@ -21,13 +21,27 @@ class TrainingProgramService
 
     public function getProgram(int $id)
     {
-        return $this->repository->findOrFail($id);
+        return $this->repository->findOrFail($id)->load(['skills', 'positions']);
     }
 
     public function createProgram(array $data)
     {
         $data['slug'] = Str::slug($data['title']) . '-' . uniqid();
-        return $this->repository->create($data);
+        
+        $skillIds = $data['skill_ids'] ?? [];
+        $positionIds = $data['position_ids'] ?? [];
+        unset($data['skill_ids'], $data['position_ids']);
+
+        $program = $this->repository->create($data);
+        
+        if (!empty($skillIds)) {
+            $program->skills()->sync($skillIds);
+        }
+        if (!empty($positionIds)) {
+            $program->positions()->sync($positionIds);
+        }
+        
+        return $program;
     }
 
     public function updateProgram(int $id, array $data)
@@ -35,7 +49,21 @@ class TrainingProgramService
         if (isset($data['title'])) {
             $data['slug'] = Str::slug($data['title']) . '-' . uniqid();
         }
-        return $this->repository->update($id, $data);
+
+        $skillIds = $data['skill_ids'] ?? null;
+        $positionIds = $data['position_ids'] ?? null;
+        unset($data['skill_ids'], $data['position_ids']);
+
+        $program = $this->repository->update($id, $data);
+
+        if ($skillIds !== null) {
+            $program->skills()->sync($skillIds);
+        }
+        if ($positionIds !== null) {
+            $program->positions()->sync($positionIds);
+        }
+
+        return $program;
     }
 
     public function deleteProgram(int $id)

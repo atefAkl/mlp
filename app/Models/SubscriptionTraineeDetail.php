@@ -11,8 +11,7 @@ class SubscriptionTraineeDetail extends Model
 
     protected $fillable = [
         'subscription_id',
-        'stack_id',
-        'round_id',
+        'training_program_id',
     ];
 
     public function subscription()
@@ -20,13 +19,18 @@ class SubscriptionTraineeDetail extends Model
         return $this->belongsTo(Subscription::class);
     }
 
-    public function stack()
+    public function positions()
     {
-        return $this->belongsTo(Stack::class);
+        return $this->morphToMany(Position::class, 'positionable');
     }
 
-    public function round()
+    public function skills()
     {
-        return $this->belongsTo(Round::class);
+        return $this->morphToMany(Skill::class, 'skillable');
+    }
+
+    public function trainingProgram()
+    {
+        return $this->belongsTo(TrainingProgram::class);
     }
 }

@@ -18,6 +18,7 @@ class TrainingProgramRepository extends BaseRepository implements TrainingProgra
     public function getList(int $perPage = 15): LengthAwarePaginator
     {
         return QueryBuilder::for(TrainingProgram::class)
+            ->allowedIncludes(['skills', 'positions'])
             ->allowedFilters([
                 'status',
                 'training_type',

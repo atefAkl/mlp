@@ -18,6 +18,7 @@ class TrainerOpportunityRepository extends BaseRepository implements TrainerOppo
     public function getList(int $perPage = 15): LengthAwarePaginator
     {
         return QueryBuilder::for(TrainerOpportunity::class)
+            ->allowedIncludes(['skills', 'positions'])
             ->allowedFilters([
                 'specialization',
                 'employment_type',

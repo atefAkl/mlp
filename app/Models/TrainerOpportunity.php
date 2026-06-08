@@ -13,7 +13,18 @@ class TrainerOpportunity extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'required_skills' => 'array',
         'application_deadline' => 'date',
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
+
+    public function positions()
+    {
+        return $this->morphToMany(Position::class, 'positionable');
+    }
+
+    public function skills()
+    {
+        return $this->morphToMany(Skill::class, 'skillable');
+    }
 }

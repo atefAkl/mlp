@@ -12,4 +12,24 @@ class Position extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function trainingPrograms()
+    {
+        return $this->morphedByMany(TrainingProgram::class, 'positionable');
+    }
+
+    public function trainerOpportunities()
+    {
+        return $this->morphedByMany(TrainerOpportunity::class, 'positionable');
+    }
+
+    public function subscriptionTraineeDetails()
+    {
+        return $this->morphedByMany(SubscriptionTraineeDetail::class, 'positionable');
+    }
+
+    public function subscriptionTrainerDetails()
+    {
+        return $this->morphedByMany(SubscriptionTrainerDetail::class, 'positionable');
+    }
 }

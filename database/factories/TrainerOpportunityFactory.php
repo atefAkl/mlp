@@ -22,7 +22,6 @@ class TrainerOpportunityFactory extends Factory
             'specialization' => fake()->randomElement(['Frontend', 'Backend', 'Fullstack', 'DevOps', 'Mobile']),
             'employment_type' => fake()->randomElement(['full_time', 'part_time', 'freelance']),
             'experience_level' => fake()->randomElement(['junior', 'mid', 'senior']),
-            'required_skills' => fake()->randomElements(['PHP', 'Laravel', 'React', 'Vue', 'Node.js', 'Python'], 3),
             'location_type' => fake()->randomElement(['remote', 'onsite', 'hybrid']),
             'salary_range' => fake()->randomElement(['$50k - $70k', '$70k - $100k', '$100k+']),
             'vacancies' => fake()->numberBetween(1, 5),
