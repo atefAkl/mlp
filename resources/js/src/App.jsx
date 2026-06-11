@@ -19,6 +19,7 @@ import SubscribersPage from "./pages/SubscribersPage";
 import SubscriberDetails from "./pages/SubscriberDetails";
 import GeneralSettings from "./pages/GeneralSettings";
 import ProfileSettings from "./pages/ProfileSettings";
+import TrainingPrograms from "./pages/TrainingPrograms";
 import { getThemeSettings, applyThemeSettings } from "./utils/themeHelper";
 
 // Placeholders for now
@@ -72,6 +73,10 @@ function App() {
                     <Route path="users" element={<UserList />} />
                     <Route path="roles" element={<RoleList />} />
                     <Route path="permissions" element={<PermissionList />} />
+                    <Route
+                        path="programs/training"
+                        element={<TrainingPrograms />}
+                    />
                     <Route path="subscribers" element={<SubscribersPage />} />
                     <Route
                         path="subscribers/:type/:id"

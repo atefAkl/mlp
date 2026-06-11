@@ -15,6 +15,9 @@ import {
     faChevronDown,
     faHome,
     faEnvelope,
+    faBookOpen,
+    faBriefcase,
+    faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "../atoms/Button";
 import { useDispatch } from "react-redux";
@@ -70,7 +73,7 @@ const DashboardLayout = () => {
                 },
                 {
                     id: "subscribers",
-                    name: t('auto.subscribers'),
+                    name: t("auto.subscribers"),
                     icon: faEnvelope,
                     path: "/dashboard/subscribers",
                 },
@@ -78,7 +81,7 @@ const DashboardLayout = () => {
         },
         {
             id: "settings",
-            label: t('auto.settings'),
+            label: t("auto.settings"),
             icon: faGear,
             items: [
                 {
@@ -89,21 +92,46 @@ const DashboardLayout = () => {
                 },
                 {
                     id: "roles",
-                    name: t('auto.roles'),
+                    name: t("auto.roles"),
                     icon: faUserShield,
                     path: "/dashboard/roles",
                 },
                 {
                     id: "permissions",
-                    name: t('auto.permissions'),
+                    name: t("auto.permissions"),
                     icon: faKey,
                     path: "/dashboard/permissions",
                 },
                 {
                     id: "settings-page",
-                    name: t('auto.general_settings'),
+                    name: t("auto.general_settings"),
                     icon: faGear,
                     path: "/dashboard/settings",
+                },
+            ],
+        },
+        {
+            id: "programs",
+            label: t("auto.programs"),
+            icon: faBookOpen,
+            items: [
+                {
+                    id: "training-programs",
+                    name: t("auto.training_programs"),
+                    icon: faBookOpen,
+                    path: "/dashboard/programs/training",
+                },
+                {
+                    id: "jobs",
+                    name: t("auto.jobs"),
+                    icon: faBriefcase,
+                    path: "/dashboard/programs/jobs",
+                },
+                {
+                    id: "companies",
+                    name: t("auto.companies"),
+                    icon: faBuilding,
+                    path: "/dashboard/programs/companies",
                 },
             ],
         },
@@ -116,15 +144,16 @@ const DashboardLayout = () => {
         const parts = path.split("/").filter((p) => p && p !== "dashboard");
         return parts.map((part) => {
             // Simple mapping or translation
-            if (part === "users") return t('auto.users');
-            if (part === "subscribers")
-                return t('auto.subscribers');
-            if (part === "roles") return t('auto.roles');
-            if (part === "permissions")
-                return t('auto.permissions');
-            if (part === "profile") return t('auto.profile');
-            if (part === "settings")
-                return t('auto.general_settings');
+            if (part === "users") return t("auto.users");
+            if (part === "subscribers") return t("auto.subscribers");
+            if (part === "roles") return t("auto.roles");
+            if (part === "permissions") return t("auto.permissions");
+            if (part === "profile") return t("auto.profile");
+            if (part === "settings") return t("auto.general_settings");
+            if (part === "programs") return t("auto.programs");
+            if (part === "training") return t("auto.training_programs");
+            if (part === "jobs") return t("auto.jobs");
+            if (part === "companies") return t("auto.companies");
             return part;
         });
     };
@@ -134,7 +163,7 @@ const DashboardLayout = () => {
     return (
         <div
             className="min-h-screen flex bg-slate-50 overflow-hidden"
-            dir={t('auto.ltr')}
+            dir={t("auto.ltr")}
         >
             {/* Sidebar - Fixed Height and Sticky */}
             <aside
@@ -197,7 +226,7 @@ const DashboardLayout = () => {
                                             >
                                                 <FontAwesomeIcon
                                                     icon={item.icon}
-                                                    className={`${sidebarOpen ? (t('auto.mr_3')) : ""} w-5 text-sm`}
+                                                    className={`${sidebarOpen ? t("auto.mr_3") : ""} w-5 text-sm`}
                                                 />
                                                 {sidebarOpen && (
                                                     <span className="text-xs font-bold">
@@ -219,7 +248,7 @@ const DashboardLayout = () => {
                     >
                         <FontAwesomeIcon
                             icon={faSignOutAlt}
-                            className={`${sidebarOpen ? (t('auto.mr_3')) : ""} w-5 text-sm`}
+                            className={`${sidebarOpen ? t("auto.mr_3") : ""} w-5 text-sm`}
                         />
                         {sidebarOpen && (
                             <span className="text-xs font-bold">
@@ -271,12 +300,10 @@ const DashboardLayout = () => {
 
                     <div className="flex items-center gap-4">
                         <button
-                            onClick={() =>
-                                i18n.changeLanguage(t('auto.ar'))
-                            }
+                            onClick={() => i18n.changeLanguage(t("auto.ar"))}
                             className="text-[10px] font-black text-slate-500 hover:text-blue-600 border border-slate-200 px-3 py-1.5 rounded-lg bg-slate-50 smooth-transition uppercase tracking-tighter"
                         >
-                            {t('auto.key_yk00n')}
+                            {t("auto.key_yk00n")}
                         </button>
                         <div className="flex items-center gap-2 pl-4 border-s border-slate-200">
                             <div className="text-end hidden sm:block">

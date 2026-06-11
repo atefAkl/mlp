@@ -18,6 +18,14 @@ export default defineConfig({
         hmr: {
             host: '127.0.0.1',
         },
+        proxy: {
+            '/api': {
+                target: 'https://www.mawthiq.tech',
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/api/, '/api'),
+            },
+        },
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
