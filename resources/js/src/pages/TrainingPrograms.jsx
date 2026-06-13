@@ -16,22 +16,20 @@ import {
 } from "../features/api/apiSlice";
 
 const TECH_OPTIONS = [
-    "PHP",
-    "Laravel",
-    "MySQL",
-    "React",
-    "Vue",
-    "Docker",
-    "Redis",
-    "Git",
-];
-const PROGRAM_TYPES = [
-    "Web Development",
-    "Mobile Development",
     "UI/UX",
     "QA",
     "DevOps",
     "AI",
+    "Frontend",
+    "Backend",
+    "Cloud",
+];
+const PROGRAM_TYPES = [
+    "Bootcamp",
+    "Workshop",
+    "Mentorship",
+    "Certification",
+    "Short Course",
 ];
 const METHODOLOGIES = ["Agile Scrum", "Kanban", "Waterfall", "Hybrid"];
 const TRAINING_MODES = ["Live", "Recorded", "Hybrid"];
@@ -40,12 +38,24 @@ const WORK_SIMULATION = [
     "Real Production Project",
     "Open Source Project",
 ];
-const SKILL_OPTIONS = ['HTML','CSS','JavaScript','PHP Basics','Git Basics'];
-const PROJECT_OPTIONS = ['Inventory System','POS System','Dental Clinic System','Custom Product'];
-const CERTIFICATE_OPTIONS = ['Certificate of Completion','Certificate of Excellence','Participation Certificate'];
-const EXPERIENCE_LEVELS = ['Beginner','Junior','Intermediate'];
-const TEAM_SIZES = [{value:3,label:'3 Developers'},{value:5,label:'5 Developers'},{value:8,label:'8 Developers'}];
-
+const SKILL_OPTIONS = ["HTML", "CSS", "JavaScript", "PHP Basics", "Git Basics"];
+const PROJECT_OPTIONS = [
+    "Inventory System",
+    "POS System",
+    "Dental Clinic System",
+    "Custom Product",
+];
+const CERTIFICATE_OPTIONS = [
+    "Certificate of Completion",
+    "Certificate of Excellence",
+    "Participation Certificate",
+];
+const EXPERIENCE_LEVELS = ["Beginner", "Junior", "Intermediate"];
+const TEAM_SIZES = [
+    { value: 3, label: "3 Developers" },
+    { value: 5, label: "5 Developers" },
+    { value: 8, label: "8 Developers" },
+];
 
 const TrainingPrograms = () => {
     const { t, i18n } = useTranslation();
@@ -96,11 +106,11 @@ const TrainingPrograms = () => {
         enrolled: 0,
         // Admission
         required_skills: [],
-        experience_level: 'Beginner',
-        admission_test: 'No',
-        interview: 'No',
+        experience_level: "Beginner",
+        admission_test: "No",
+        interview: "No",
         // Outcomes & projects
-        outcomes: '',
+        outcomes: "",
         projects: [],
         certificates: [],
         portfolio: false,
@@ -108,13 +118,13 @@ const TrainingPrograms = () => {
         // Team
         training_team: [],
         // Pricing
-        price: '',
-        discount: '',
+        price: "",
+        discount: "",
         installment_available: false,
         installments_count: 0,
         // Work sim + team size + features
-        work_simulation: '',
-        team_size: '',
+        work_simulation: "",
+        team_size: "",
         git_repo_access: false,
         code_review: false,
         sprint_planning: false,
@@ -148,21 +158,21 @@ const TrainingPrograms = () => {
             max_capacity: "",
             enrolled: 0,
             required_skills: [],
-            experience_level: 'Beginner',
-            admission_test: 'No',
-            interview: 'No',
-            outcomes: '',
+            experience_level: "Beginner",
+            admission_test: "No",
+            interview: "No",
+            outcomes: "",
             projects: [],
             certificates: [],
             portfolio: false,
             recommendation: false,
             training_team: [],
-            price: '',
-            discount: '',
+            price: "",
+            discount: "",
             installment_available: false,
             installments_count: 0,
-            work_simulation: '',
-            team_size: '',
+            work_simulation: "",
+            team_size: "",
             git_repo_access: false,
             code_review: false,
             sprint_planning: false,
@@ -171,18 +181,99 @@ const TrainingPrograms = () => {
         }));
         setIsModalOpen(true);
     };
+    const buildProgramPayload = (values) => {
+        const payload = {};
+
+        const setIfPresent = (key, value) => {
+            if (value !== undefined && value !== null && value !== "") {
+                payload[key] = value;
+            }
+        };
+
+        setIfPresent("title", values.title);
+        setIfPresent("description", values.description);
+        setIfPresent("short_description", values.short_description);
+        setIfPresent("slug", values.slug);
+        setIfPresent("training_type", values.training_type || values.program_type);
+        setIfPresent("project_type", values.project_type);
+        setIfPresent("methodology", values.methodology);
+        setIfPresent("level", values.level || values.experience_level);
+        setIfPresent("duration_weeks", values.duration_weeks);
+        setIfPresent("weekly_hours", values.weekly_hours);
+        setIfPresent("start_date", values.start_date);
+        setIfPresent("end_date", values.end_date);
+        setIfPresent("price", values.price !== "" ? Number(values.price) : undefined);
+        setIfPresent(
+            "discount_price",
+            values.discount_price !== undefined
+                ? values.discount_price
+                : values.discount !== ""
+                ? Number(values.discount)
+                : undefined,
+        );
+        const capacityValue = values.max_capacity || values.capacity;
+        if (capacityValue !== undefined && capacityValue !== "") {
+            payload.capacity = Number(capacityValue);
+        }
+        if (values.certificates?.length > 0) {
+            payload.certificate_available = true;
+        }
+        if (values.portfolio !== undefined) {
+            payload.portfolio_available = values.portfolio;
+        }
+        if (values.admission_test !== undefined) {
+            payload.admission_test_required = values.admission_test === "Yes";
+        }
+        if (values.interview !== undefined) {
+            payload.interview_required = values.interview === "Yes";
+        }
+        setIfPresent("status", values.status);
+        return payload;
+    };
+
     const openEdit = (p) => {
         setEditProgram(p);
         setForm({
             ...p,
-            title: p.title || p.name || '',
-            tech_stack: p.tech_stack || [],
+            title: p.title || p.name || "",
+            code: p.code || "",
+            slug: p.slug || "",
+            short_description: p.short_description || "",
+            description: p.description || "",
+            cover_image: p.cover_image || null,
+            intro_video: p.intro_video || null,
+            training_type: p.training_type || p.program_type || "",
+            project_type: p.project_type || "",
+            methodology: p.methodology || "",
+            level: p.level || p.experience_level || "",
+            duration_weeks: p.duration_weeks || "",
+            weekly_hours: p.weekly_hours || "",
+            start_date: p.start_date || "",
+            end_date: p.end_date || "",
+            min_capacity: p.min_capacity || "",
+            max_capacity: p.capacity ?? p.max_capacity ?? "",
+            enrolled: p.enrolled || 0,
             required_skills: p.required_skills || [],
+            experience_level: p.experience_level || p.level || "Beginner",
+            admission_test: p.admission_test_required ? "Yes" : "No",
+            interview: p.interview_required ? "Yes" : "No",
+            outcomes: p.outcomes || "",
             projects: p.projects || [],
             certificates: p.certificates || [],
-            training_team: p.training_team || [],
-            portfolio: p.portfolio || false,
+            portfolio: p.portfolio_available ?? p.portfolio ?? false,
             recommendation: p.recommendation || false,
+            training_team: p.training_team || [],
+            price: p.price ?? "",
+            discount: p.discount_price ?? p.discount ?? "",
+            installment_available: p.installment_available || false,
+            installments_count: p.installments_count || 0,
+            work_simulation: p.work_simulation || "",
+            team_size: p.team_size || "",
+            git_repo_access: p.git_repo_access || false,
+            code_review: p.code_review || false,
+            sprint_planning: p.sprint_planning || false,
+            daily_standup: p.daily_standup || false,
+            final_deployment: p.final_deployment || false,
         });
         setIsModalOpen(true);
     };
@@ -190,11 +281,12 @@ const TrainingPrograms = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const payload = buildProgramPayload(form);
             if (editProgram) {
-                await updateProgram({ id: editProgram.id, ...form }).unwrap();
+                await updateProgram({ id: editProgram.id, ...payload }).unwrap();
                 toast.success("Updated");
             } else {
-                await createProgram(form).unwrap();
+                await createProgram(payload).unwrap();
                 toast.success("Created");
             }
             setIsModalOpen(false);
@@ -243,24 +335,35 @@ const TrainingPrograms = () => {
     };
 
     const addTeamMember = () => {
-        setForm((prev) => ({ ...prev, training_team: [...prev.training_team, { role: '', name: '' }] }));
+        setForm((prev) => ({
+            ...prev,
+            training_team: [...prev.training_team, { role: "", name: "" }],
+        }));
     };
 
     const updateTeamMember = (index, key, value) => {
-        setForm((prev) => ({ ...prev, training_team: prev.training_team.map((m,i)=> i===index ? ({...m,[key]:value}) : m) }));
+        setForm((prev) => ({
+            ...prev,
+            training_team: prev.training_team.map((m, i) =>
+                i === index ? { ...m, [key]: value } : m,
+            ),
+        }));
     };
 
     const removeTeamMember = (index) => {
-        setForm((prev) => ({ ...prev, training_team: prev.training_team.filter((_,i)=>i!==index) }));
+        setForm((prev) => ({
+            ...prev,
+            training_team: prev.training_team.filter((_, i) => i !== index),
+        }));
     };
 
-    const availableSeats = useMemo(()=>{
+    const availableSeats = useMemo(() => {
         const max = Number(form.max_capacity) || 0;
         const enrolled = Number(form.enrolled) || 0;
         return Math.max(0, max - enrolled);
     }, [form.max_capacity, form.enrolled]);
 
-    const finalPrice = useMemo(()=>{
+    const finalPrice = useMemo(() => {
         const p = Number(form.price) || 0;
         const d = Number(form.discount) || 0;
         return Math.max(0, p - d);
@@ -276,6 +379,17 @@ const TrainingPrograms = () => {
                 onRefresh={refetch}
                 onAdd={openCreate}
             />
+
+            <div className="flex items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200">
+                <div className="text-sm text-slate-500">
+                    {programs.length > 0 ? `${programs.length} programs loaded` : "No programs loaded yet"}
+                </div>
+                <div className="flex items-center gap-2">
+                    <Button variant="primary" onClick={openCreate}>
+                        {i18n.language === "ar" ? "إضافة برنامج" : "Create Program"}
+                    </Button>
+                </div>
+            </div>
 
             <ResourceFilters
                 onSearch={(val) => setQuery(val)}
@@ -295,17 +409,14 @@ const TrainingPrograms = () => {
                                 <table className="w-full text-sm text-start">
                                     <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[10px]">
                                         <tr>
-                                            <th className="px-6 py-4 text-start">
-                                                Program
-                                            </th>
-                                            <th className="px-6 py-4">Type</th>
-                                            <th className="px-6 py-4">
-                                                Status
-                                            </th>
-                                            <th className="px-6 py-4">Seats</th>
-                                            <th className="px-6 py-4">
-                                                Actions
-                                            </th>
+                                            <th className="px-3 py-2 text-start">Program</th>
+                                            <th className="px-3 py-2">Type</th>
+                                            <th className="px-3 py-2">Dates</th>
+                                            <th className="px-3 py-2">Seats</th>
+                                            <th className="px-3 py-2">Price</th>
+                                            <th className="px-3 py-2">Flags</th>
+                                            <th className="px-3 py-2">Status</th>
+                                            <th className="px-3 py-2">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100">
@@ -314,28 +425,55 @@ const TrainingPrograms = () => {
                                                 key={p.id}
                                                 className="hover:bg-slate-50 smooth-transition"
                                             >
-                                                <td className="px-6 py-4">
-                                                    <div className="font-bold">
+                                                <td className="px-3 py-2">
+                                                    <div className="font-bold text-sm">
                                                         {p.title || p.name}
                                                     </div>
                                                     <div className="text-[11px] text-slate-400">
                                                         {p.short_description}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    {p.training_type ||
-                                                        p.program_type}
+                                                <td className="px-3 py-2 text-sm text-slate-600">
+                                                    {p.training_type || p.project_type || "General"}
+                                                    <div className="text-[11px] text-slate-400 mt-1">
+                                                        {p.methodology ? `${p.methodology} • ` : ""}
+                                                        {p.level ?? ""}
+                                                    </div>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    {p.status}
+                                                <td className="px-3 py-2 text-sm text-slate-600">
+                                                    {p.start_date || "-"}
+                                                    <div className="text-[11px] text-slate-400 mt-1">
+                                                        {p.end_date || "-"}
+                                                    </div>
                                                 </td>
-                                                <td className="px-6 py-4">
-                                                    {p.available_seats ??
-                                                        p.capacity ??
-                                                        p.max_capacity ??
-                                                        "-"}
+                                                <td className="px-3 py-2 text-sm">
+                                                    {p.available_seats != null
+                                                        ? `${p.available_seats} / ${p.capacity ?? "-"}`
+                                                        : p.capacity ?? "-"}
                                                 </td>
-                                                <td className="px-6 py-4">
+                                                <td className="px-3 py-2 text-sm">
+                                                    {p.price === 0
+                                                        ? "Free"
+                                                        : p.discount_price != null
+                                                        ? `${p.discount_price} (discount)`
+                                                        : p.price != null
+                                                        ? p.price
+                                                        : "-"}
+                                                </td>
+                                                <td className="px-3 py-2 text-sm">
+                                                    <div className="flex flex-wrap gap-1 text-[11px] text-slate-500">
+                                                        <span className="rounded-full bg-emerald-100 px-2 py-0.5">Cert: {p.certificate_available ? "Yes" : "No"}</span>
+                                                        <span className="rounded-full bg-slate-100 px-2 py-0.5">Portfolio: {p.portfolio_available ? "Yes" : "No"}</span>
+                                                        <span className="rounded-full bg-slate-100 px-2 py-0.5">Test: {p.admission_test_required ? "Yes" : "No"}</span>
+                                                        <span className="rounded-full bg-slate-100 px-2 py-0.5">Interview: {p.interview_required ? "Yes" : "No"}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-3 py-2 text-sm">
+                                                    <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-700">
+                                                        {p.status || "draft"}
+                                                    </span>
+                                                </td>
+                                                <td className="px-3 py-2 text-sm">
                                                     <div className="flex gap-2">
                                                         <Button
                                                             variant="ghost"
@@ -376,16 +514,42 @@ const TrainingPrograms = () => {
                                     <div className="font-bold text-slate-800">
                                         {p.title || p.name}
                                     </div>
-                                    <div className="text-[12px] text-slate-500">
-                                        {p.short_description}
+                                    <div className="text-[12px] text-slate-500 mt-1">
+                                        {p.short_description || p.description || "No description available."}
                                     </div>
-                                    <div className="mt-2 text-[12px] text-slate-400">
-                                        {p.duration_weeks
-                                            ? `${p.duration_weeks} weeks`
-                                            : ""}{" "}
-                                        {p.start_date
-                                            ? `· starts ${p.start_date}`
-                                            : ""}
+                                    <div className="mt-3 grid grid-cols-2 gap-2 text-[12px] text-slate-500">
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Type:</span> {p.training_type || p.project_type || "General"}
+                                        </div>
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Duration:</span> {p.duration_weeks ? `${p.duration_weeks} weeks` : "-"}
+                                        </div>
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Dates:</span> {p.start_date || "-"} → {p.end_date || "-"}
+                                        </div>
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Capacity:</span> {p.available_seats != null ? `${p.available_seats} / ${p.capacity ?? "-"}` : p.capacity ?? "-"}
+                                        </div>
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Price:</span> {p.price === 0 ? "Free" : p.discount_price != null ? `${p.discount_price} (discount)` : p.price ?? "-"}
+                                        </div>
+                                    </div>
+                                    <div className="mt-3 grid grid-cols-2 gap-2 text-[12px] text-slate-500">
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Certificate:</span> {p.certificate_available ? "Yes" : "No"}
+                                        </div>
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Portfolio:</span> {p.portfolio_available ? "Yes" : "No"}
+                                        </div>
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Test:</span> {p.admission_test_required ? "Yes" : "No"}
+                                        </div>
+                                        <div>
+                                            <span className="font-semibold text-slate-700">Interview:</span> {p.interview_required ? "Yes" : "No"}
+                                        </div>
+                                    </div>
+                                    <div className="mt-3 text-sm text-slate-700">
+                                        <span className="font-semibold">Status:</span> {p.status || "draft"}
                                     </div>
                                 </div>
                             ))}
@@ -643,13 +807,24 @@ const TrainingPrograms = () => {
                                     >
                                         <input
                                             type="checkbox"
-                                            checked={form.days_of_week.includes(day)}
+                                            checked={form.days_of_week.includes(
+                                                day,
+                                            )}
                                             onChange={() =>
                                                 setForm((prev) => ({
                                                     ...prev,
-                                                    days_of_week: prev.days_of_week.includes(day)
-                                                        ? prev.days_of_week.filter((d) => d !== day)
-                                                        : [...prev.days_of_week, day],
+                                                    days_of_week:
+                                                        prev.days_of_week.includes(
+                                                            day,
+                                                        )
+                                                            ? prev.days_of_week.filter(
+                                                                  (d) =>
+                                                                      d !== day,
+                                                              )
+                                                            : [
+                                                                  ...prev.days_of_week,
+                                                                  day,
+                                                              ],
                                                 }))
                                             }
                                         />
@@ -672,7 +847,10 @@ const TrainingPrograms = () => {
                             }
                             options={[
                                 { value: "Beginner", label: "Beginner" },
-                                { value: "Intermediate", label: "Intermediate" },
+                                {
+                                    value: "Intermediate",
+                                    label: "Intermediate",
+                                },
                                 { value: "Advanced", label: "Advanced" },
                             ]}
                         />
@@ -734,7 +912,10 @@ const TrainingPrograms = () => {
                                 rows={4}
                                 value={form.outcomes}
                                 onChange={(e) =>
-                                    setForm({ ...form, outcomes: e.target.value })
+                                    setForm({
+                                        ...form,
+                                        outcomes: e.target.value,
+                                    })
                                 }
                             />
                         </div>
@@ -763,16 +944,29 @@ const TrainingPrograms = () => {
                         </label>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             {CERTIFICATE_OPTIONS.map((cert) => (
-                                <label key={cert} className="flex items-center gap-2 text-sm">
+                                <label
+                                    key={cert}
+                                    className="flex items-center gap-2 text-sm"
+                                >
                                     <input
                                         type="checkbox"
-                                        checked={form.certificates.includes(cert)}
+                                        checked={form.certificates.includes(
+                                            cert,
+                                        )}
                                         onChange={() =>
                                             setForm((prev) => ({
                                                 ...prev,
-                                                certificates: prev.certificates.includes(cert)
-                                                    ? prev.certificates.filter((c) => c !== cert)
-                                                    : [...prev.certificates, cert],
+                                                certificates:
+                                                    prev.certificates.includes(
+                                                        cert,
+                                                    )
+                                                        ? prev.certificates.filter(
+                                                              (c) => c !== cert,
+                                                          )
+                                                        : [
+                                                              ...prev.certificates,
+                                                              cert,
+                                                          ],
                                             }))
                                         }
                                     />
@@ -820,24 +1014,39 @@ const TrainingPrograms = () => {
                                     Add instructors, mentors, and reviewers.
                                 </div>
                             </div>
-                            <Button variant="secondary" type="button" onClick={addTeamMember}>
+                            <Button
+                                variant="secondary"
+                                type="button"
+                                onClick={addTeamMember}
+                            >
                                 Add Role
                             </Button>
                         </div>
                         {form.training_team.map((member, index) => (
-                            <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+                            <div
+                                key={index}
+                                className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end"
+                            >
                                 <Input
                                     label="Role"
                                     value={member.role}
                                     onChange={(e) =>
-                                        updateTeamMember(index, 'role', e.target.value)
+                                        updateTeamMember(
+                                            index,
+                                            "role",
+                                            e.target.value,
+                                        )
                                     }
                                 />
                                 <Input
                                     label="Name"
                                     value={member.name}
                                     onChange={(e) =>
-                                        updateTeamMember(index, 'name', e.target.value)
+                                        updateTeamMember(
+                                            index,
+                                            "name",
+                                            e.target.value,
+                                        )
                                     }
                                 />
                                 <Button
