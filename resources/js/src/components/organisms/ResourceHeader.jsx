@@ -44,14 +44,10 @@ const ResourceHeader = ({ title, description, onAdd, onRefresh }) => {
                         variant="primary"
                         icon={faPlus}
                         onClick={onAdd}
-                        className="flex flex-col items-center text-[10px] font-black uppercase tracking-wider px-3 py-2 rounded-none"
+                        data-testid="create-program-btn"
+                        className="flex items-center gap-2 text-xs font-black uppercase tracking-wider px-4 py-2 rounded-none bg-blue-600 text-white shadow-lg hover:bg-blue-700"
                     >
-                        <span className="text-[10px] mt-1">
-                            {isRTL ? "إضافة" : "Create"}
-                        </span>
-                        <span className="text-[9px] text-slate-200 mt-0.5">
-                            {isRTL ? "برنامج" : "Program"}
-                        </span>
+                        {isRTL ? "إضافة برنامج" : "Create Program"}
                     </Button>
                 )}
             </div>

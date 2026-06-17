@@ -19,6 +19,10 @@ const Modal = ({ isOpen, onClose, title, children, footer, size = 'md' }) => {
     md: 'max-w-md',
     lg: 'max-w-lg',
     xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
+    '3xl': 'max-w-3xl',
+    '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
   };
 
   return (
@@ -45,7 +49,7 @@ const Modal = ({ isOpen, onClose, title, children, footer, size = 'md' }) => {
           </div>
 
           {/* Body */}
-          <div className="p-4">
+          <div className="p-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
             {children}
           </div>
 

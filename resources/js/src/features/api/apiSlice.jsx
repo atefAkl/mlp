@@ -153,19 +153,22 @@ export const apiSlice = createApi({
         }),
         // Training Programs
         getTrainingPrograms: builder.query({
-            query: ({ category, search } = {}) => {
+            query: ({ category, search, page } = {}) => {
                 const params = new URLSearchParams();
                 if (category) params.append("category", category);
                 if (search) params.append("search", search);
+                if (page) params.append("page", page);
                 return {
                     url: `/training-programs${params.toString() ? `?${params.toString()}` : ""}`,
                     method: "GET",
                 };
             },
+            transformResponse: (response) => response.data,
             providesTags: ["TrainingProgram"],
         }),
         getTrainingProgram: builder.query({
             query: (id) => `/training-programs/${id}`,
+            transformResponse: (response) => response.data,
             providesTags: (result, error, id) => [
                 { type: "TrainingProgram", id },
             ],

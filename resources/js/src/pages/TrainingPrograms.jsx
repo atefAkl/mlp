@@ -7,8 +7,7 @@ import Modal from "../components/organisms/Modal";
 import { Input, Select } from "../components/atoms/FormElements";
 import Button from "../components/atoms/Button";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
     useGetTrainingProgramsQuery,
     useCreateTrainingProgramMutation,
@@ -64,7 +63,10 @@ const TrainingPrograms = () => {
     const [viewMode, setViewMode] = useState("list");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editProgram, setEditProgram] = useState(null);
-    const isEditing = Boolean(editProgram);
+    const [modalMode, setModalMode] = useState("create");
+    const [currentProgram, setCurrentProgram] = useState(null);
+    const isEditing = modalMode === "edit";
+    const isViewing = modalMode === "view";
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 15;
 
@@ -116,23 +118,20 @@ const TrainingPrograms = () => {
         data: programsData,
         isLoading,
         refetch,
-    } = useGetTrainingProgramsQuery({ search: query });
+    } = useGetTrainingProgramsQuery({ search: query, page: currentPage });
     const [createProgram] = useCreateTrainingProgramMutation();
     const [updateProgram] = useUpdateTrainingProgramMutation();
     const [deleteProgram] = useDeleteTrainingProgramMutation();
 
-    const programs =
-        programsData?.data?.data || programsData?.data || programsData || [];
-
-    const totalItems = programs.length;
+    const programs = Array.isArray(programsData?.data) ? programsData.data : [];
+    const totalItems = programsData?.meta?.total ?? programs.length;
+    const visiblePrograms = programs;
     const displayCount =
         totalItems === 0 ? 0 : Math.min(itemsPerPage, totalItems);
-    const visiblePrograms = programs.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage,
-    );
 
     const openCreate = () => {
+        setModalMode("create");
+        setCurrentProgram(null);
         setEditProgram(null);
         setForm((f) => ({
             ...f,
@@ -144,7 +143,8 @@ const TrainingPrograms = () => {
             cover_image: null,
             intro_video: null,
             status: "draft",
-            program_type: "",
+            training_type: "",
+            project_type: "",
             product_target: "",
             tech_stack: [],
             methodology: "",
@@ -179,6 +179,12 @@ const TrainingPrograms = () => {
             daily_standup: false,
             final_deployment: false,
         }));
+        setIsModalOpen(true);
+    };
+
+    const openProgramDetails = (program) => {
+        setCurrentProgram(program);
+        setModalMode("view");
         setIsModalOpen(true);
     };
     const buildProgramPayload = (values) => {
@@ -237,49 +243,58 @@ const TrainingPrograms = () => {
         return payload;
     };
 
-    const openEdit = (p) => {
-        setEditProgram(p);
+    const openEdit = (program) => {
+        setCurrentProgram(program);
+        setModalMode("edit");
+        setEditProgram(program);
         setForm({
-            ...p,
-            title: p.title || p.name || "",
-            code: p.code || "",
-            slug: p.slug || "",
-            short_description: p.short_description || "",
-            description: p.description || "",
-            cover_image: p.cover_image || null,
-            intro_video: p.intro_video || null,
-            training_type: p.training_type || p.program_type || "",
-            project_type: p.project_type || "",
-            methodology: p.methodology || "",
-            level: p.level || p.experience_level || "",
-            duration_weeks: p.duration_weeks || "",
-            weekly_hours: p.weekly_hours || "",
-            start_date: p.start_date || "",
-            end_date: p.end_date || "",
-            min_capacity: p.min_capacity || "",
-            max_capacity: p.capacity ?? p.max_capacity ?? "",
-            enrolled: p.enrolled || 0,
-            required_skills: p.required_skills || [],
-            experience_level: p.experience_level || p.level || "Beginner",
-            admission_test: p.admission_test_required ? "Yes" : "No",
-            interview: p.interview_required ? "Yes" : "No",
-            outcomes: p.outcomes || "",
-            projects: p.projects || [],
-            certificates: p.certificates || [],
-            portfolio: p.portfolio_available ?? p.portfolio ?? false,
-            recommendation: p.recommendation || false,
-            training_team: p.training_team || [],
-            price: p.price ?? "",
-            discount: p.discount_price ?? p.discount ?? "",
-            installment_available: p.installment_available || false,
-            installments_count: p.installments_count || 0,
-            work_simulation: p.work_simulation || "",
-            team_size: p.team_size || "",
-            git_repo_access: p.git_repo_access || false,
-            code_review: p.code_review || false,
-            sprint_planning: p.sprint_planning || false,
-            daily_standup: p.daily_standup || false,
-            final_deployment: p.final_deployment || false,
+            title: program.title || program.name || "",
+            code: program.code || "",
+            slug: program.slug || "",
+            short_description: program.short_description || "",
+            description: program.description || "",
+            cover_image: program.cover_image || null,
+            intro_video: program.intro_video || null,
+            training_type: program.training_type || program.project_type || "",
+            project_type: program.project_type || "",
+            product_target: program.product_target || "",
+            tech_stack: program.tech_stack || [],
+            methodology: program.methodology || "",
+            training_mode: program.training_mode || "",
+            start_date: program.start_date || "",
+            end_date: program.end_date || "",
+            duration_weeks: program.duration_weeks || "",
+            weekly_hours: program.weekly_hours || "",
+            days_of_week: program.days_of_week || [],
+            min_capacity: program.min_capacity || "",
+            max_capacity: program.capacity ?? program.max_capacity ?? "",
+            enrolled: program.enrolled || 0,
+            required_skills:
+                program.required_skills ||
+                program.skills?.map((skill) => skill.name) ||
+                [],
+            experience_level:
+                program.experience_level || program.level || "Beginner",
+            admission_test: program.admission_test_required ? "Yes" : "No",
+            interview: program.interview_required ? "Yes" : "No",
+            outcomes: program.outcomes || "",
+            projects: program.projects || [],
+            certificates: program.certificates || [],
+            portfolio:
+                program.portfolio_available ?? program.portfolio ?? false,
+            recommendation: program.recommendation || false,
+            training_team: program.training_team || [],
+            price: program.price ?? "",
+            discount: program.discount_price ?? program.discount ?? "",
+            installment_available: program.installment_available || false,
+            installments_count: program.installments_count || 0,
+            work_simulation: program.work_simulation || "",
+            team_size: program.team_size || "",
+            git_repo_access: program.git_repo_access || false,
+            code_review: program.code_review || false,
+            sprint_planning: program.sprint_planning || false,
+            daily_standup: program.daily_standup || false,
+            final_deployment: program.final_deployment || false,
         });
         setIsModalOpen(true);
     };
@@ -288,7 +303,7 @@ const TrainingPrograms = () => {
         e.preventDefault();
         try {
             const payload = buildProgramPayload(form);
-            if (editProgram) {
+            if (modalMode === "edit" && editProgram) {
                 await updateProgram({
                     id: editProgram.id,
                     ...payload,
@@ -299,6 +314,9 @@ const TrainingPrograms = () => {
                 toast.success("Created");
             }
             setIsModalOpen(false);
+            setModalMode("create");
+            setEditProgram(null);
+            setCurrentProgram(null);
             refetch();
         } catch (err) {
             toast.error(err?.data?.message || "Error");
@@ -306,13 +324,17 @@ const TrainingPrograms = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm("Delete?")) return;
+        if (!window.confirm("Delete this program?")) return;
         try {
             await deleteProgram(id).unwrap();
             toast.success("Deleted");
+            setIsModalOpen(false);
+            setCurrentProgram(null);
+            setEditProgram(null);
+            setModalMode("create");
             refetch();
         } catch (err) {
-            toast.error("Error");
+            toast.error(err?.data?.message || "Error deleting program");
         }
     };
 
@@ -387,8 +409,12 @@ const TrainingPrograms = () => {
                 title={t("auto.training_programs")}
                 description={
                     totalItems === 0
-                        ? "No programs loaded yet"
-                        : `${displayCount} programs loaded`
+                        ? i18n.language === "ar"
+                            ? "لا توجد برامج محملة بعد"
+                            : "No programs loaded yet"
+                        : i18n.language === "ar"
+                          ? `تم تحميل ${totalItems} برنامج`
+                          : `${totalItems} programs loaded`
                 }
                 onRefresh={refetch}
                 onAdd={openCreate}
@@ -508,10 +534,18 @@ const TrainingPrograms = () => {
                                                     </span>
                                                 </td>
                                                 <td className="px-3 py-2 text-sm">
-                                                    <div className="flex gap-2">
+                                                    <div className="flex items-center gap-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            icon={faEye}
+                                                            tooltip={i18n.language === "ar" ? "عرض" : "View"}
+                                                            className="p-2"
+                                                            onClick={() => openProgramDetails(p)}
+                                                        />
                                                         <Button
                                                             variant="ghost"
                                                             icon={faEdit}
+                                                            className="p-2"
                                                             onClick={() =>
                                                                 openEdit(p)
                                                             }
@@ -519,6 +553,7 @@ const TrainingPrograms = () => {
                                                         <Button
                                                             variant="ghost"
                                                             icon={faTrash}
+                                                            className="p-2"
                                                             onClick={() =>
                                                                 handleDelete(
                                                                     p.id,
@@ -543,10 +578,39 @@ const TrainingPrograms = () => {
                             {visiblePrograms.map((p) => (
                                 <div
                                     key={p.id}
-                                    className="bg-white rounded-xl p-4 border border-slate-200"
+                                    className="bg-white rounded-xl p-4 border border-slate-200 hover:shadow-md smooth-transition"
                                 >
-                                    <div className="font-bold text-slate-800">
-                                        {p.title || p.name}
+                                    <div className="flex justify-between items-start gap-4 mb-3">
+                                        <div className="font-bold text-slate-800">
+                                            {p.title || p.name}
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <Button
+                                                variant="ghost"
+                                                icon={faEye}
+                                                tooltip="View"
+                                                className="p-2"
+                                                onClick={() =>
+                                                    openProgramDetails(p)
+                                                }
+                                            />
+                                            <Button
+                                                variant="ghost"
+                                                icon={faEdit}
+                                                tooltip="Edit"
+                                                className="p-2"
+                                                onClick={() => openEdit(p)}
+                                            />
+                                            <Button
+                                                variant="ghost"
+                                                icon={faTrash}
+                                                tooltip="Delete"
+                                                className="p-2"
+                                                onClick={() =>
+                                                    handleDelete(p.id)
+                                                }
+                                            />
+                                        </div>
                                     </div>
                                     <div className="text-[12px] text-slate-500 mt-1">
                                         {p.short_description ||
@@ -654,734 +718,447 @@ const TrainingPrograms = () => {
 
             <Modal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={editProgram ? "Edit Program" : "Create Program"}
-                size="lg"
+                onClose={() => {
+                    setIsModalOpen(false);
+                    setModalMode("create");
+                    setCurrentProgram(null);
+                    setEditProgram(null);
+                }}
+                title={
+                    modalMode === "edit"
+                        ? "Edit Program"
+                        : modalMode === "view"
+                          ? "Program Details"
+                          : "Create Program"
+                }
+                size="4xl"
                 footer={
                     <>
+                        {modalMode === "edit" && editProgram && (
+                            <Button
+                                variant="danger"
+                                onClick={() => handleDelete(editProgram.id)}
+                                type="button"
+                                className="px-5 py-2.5 rounded-md"
+                            >
+                                Delete Program
+                            </Button>
+                        )}
                         <Button
                             variant="secondary"
-                            onClick={() => setIsModalOpen(false)}
+                            onClick={() => {
+                                setIsModalOpen(false);
+                                setModalMode("create");
+                                setEditProgram(null);
+                                setCurrentProgram(null);
+                            }}
                             type="button"
                             className="px-5 py-2.5 rounded-md"
                         >
                             Cancel
                         </Button>
-                        <Button
-                            variant="primary"
-                            type="submit"
-                            onClick={handleSubmit}
-                            className="px-5 py-2.5 rounded-md min-w-[140px] bg-blue-600 text-white hover:bg-blue-700"
-                        >
-                            {editProgram ? "Save Program" : "Create Program"}
-                        </Button>
+                        {modalMode !== "view" && (
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                onClick={handleSubmit}
+                                className="px-5 py-2.5 rounded-md min-w-[140px] bg-blue-600 text-white hover:bg-blue-700"
+                            >
+                                {modalMode === "edit"
+                                    ? "Save Program"
+                                    : "Create Program"}
+                            </Button>
+                        )}
                     </>
                 }
             >
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    {isEditing ? (
-                        <>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <Input
-                                    label="Program Title"
-                                    value={form.title}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            title: e.target.value,
-                                        })
-                                    }
-                                />
-                                <Select
-                                    label="Status"
-                                    value={form.status}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            status: e.target.value,
-                                        })
-                                    }
-                                    options={[
-                                        { value: "draft", label: "Draft" },
-                                        {
-                                            value: "published",
-                                            label: "Published",
-                                        },
-                                        {
-                                            value: "registration_open",
-                                            label: "Registration Open",
-                                        },
-                                        {
-                                            value: "registration_closed",
-                                            label: "Registration Closed",
-                                        },
-                                        { value: "running", label: "Running" },
-                                        {
-                                            value: "completed",
-                                            label: "Completed",
-                                        },
-                                        {
-                                            value: "cancelled",
-                                            label: "Cancelled",
-                                        },
-                                    ]}
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                {isViewing ? (
+                    <div className="space-y-6 text-sm text-slate-700">
+                        {/* Hero Section */}
+                        <div className="bg-gradient-to-r from-slate-50 to-slate-100 p-5 rounded-2xl border border-slate-200">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-1">
-                                        Short Description
-                                    </label>
-                                    <textarea
-                                        className="w-full rounded-xl border border-slate-200 p-3 text-sm text-slate-700"
-                                        rows={3}
-                                        value={form.short_description}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                short_description:
-                                                    e.target.value,
-                                            })
-                                        }
-                                    />
+                                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                        {i18n.language === "ar" ? "اسم البرنامج" : "Program Title"}
+                                    </div>
+                                    <h2 className="text-xl font-bold text-slate-900 mt-1">
+                                        {currentProgram?.title || currentProgram?.name || "-"}
+                                    </h2>
+                                    {currentProgram?.code && (
+                                        <span className="inline-block bg-slate-200 text-slate-700 text-xs px-2.5 py-1 rounded-md font-mono mt-2">
+                                            {i18n.language === "ar" ? "الكود" : "Code"}: {currentProgram.code}
+                                        </span>
+                                    )}
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-1">
-                                        Product Target
-                                    </label>
-                                    <Input
-                                        label="Product Target"
-                                        value={form.product_target}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                product_target: e.target.value,
-                                            })
-                                        }
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                                    Tech Stack
-                                </label>
                                 <div className="flex flex-wrap gap-2">
-                                    {TECH_OPTIONS.map((tch) => (
-                                        <button
-                                            type="button"
-                                            key={tch}
-                                            onClick={() => toggleTech(tch)}
-                                            className={`px-3 py-1 rounded-md border ${form.tech_stack.includes(tch) ? "bg-blue-600 text-white" : "bg-white text-slate-600"}`}
-                                        >
-                                            {tch}
-                                        </button>
-                                    ))}
+                                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${
+                                        currentProgram?.status === "published" 
+                                            ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
+                                            : currentProgram?.status === "registration_open"
+                                            ? "bg-blue-50 text-blue-700 border-blue-200"
+                                            : "bg-slate-50 text-slate-700 border-slate-200"
+                                    }`}>
+                                        {currentProgram?.status === "draft" && (i18n.language === "ar" ? "مسودة" : "Draft")}
+                                        {currentProgram?.status === "published" && (i18n.language === "ar" ? "منشور" : "Published")}
+                                        {currentProgram?.status === "registration_open" && (i18n.language === "ar" ? "التسجيل مفتوح" : "Registration Open")}
+                                        {currentProgram?.status === "registration_closed" && (i18n.language === "ar" ? "التسجيل مغلق" : "Registration Closed")}
+                                        {currentProgram?.status === "running" && (i18n.language === "ar" ? "جاري حالياً" : "Running")}
+                                        {currentProgram?.status === "completed" && (i18n.language === "ar" ? "مكتمل" : "Completed")}
+                                        {currentProgram?.status === "cancelled" && (i18n.language === "ar" ? "ملغي" : "Cancelled")}
+                                        {!["draft", "published", "registration_open", "registration_closed", "running", "completed", "cancelled"].includes(currentProgram?.status) && (currentProgram?.status || "draft")}
+                                    </span>
+                                    {(currentProgram?.level || currentProgram?.experience_level) && (
+                                        <span className="px-3 py-1 bg-violet-50 text-violet-700 border border-violet-200 rounded-full text-xs font-semibold">
+                                            {currentProgram.level || currentProgram.experience_level}
+                                        </span>
+                                    )}
+                                    {(currentProgram?.training_type || currentProgram?.project_type) && (
+                                        <span className="px-3 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full text-xs font-semibold">
+                                            {currentProgram?.training_type || currentProgram?.project_type}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
+                        </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <Select
-                                    label="Program Type"
-                                    value={form.program_type}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            program_type: e.target.value,
-                                        })
-                                    }
-                                    options={PROGRAM_TYPES.map((p) => ({
-                                        value: p,
-                                        label: p,
-                                    }))}
-                                />
-                                <Select
-                                    label="Methodology"
-                                    value={form.methodology}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            methodology: e.target.value,
-                                        })
-                                    }
-                                    options={METHODOLOGIES.map((p) => ({
-                                        value: p,
-                                        label: p,
-                                    }))}
-                                />
-                                <Select
-                                    label="Training Mode"
-                                    value={form.training_mode}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            training_mode: e.target.value,
-                                        })
-                                    }
-                                    options={TRAINING_MODES.map((p) => ({
-                                        value: p,
-                                        label: p,
-                                    }))}
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <Input
-                                    label="Start Date"
-                                    type="date"
-                                    value={form.start_date}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            start_date: e.target.value,
-                                        })
-                                    }
-                                />
-                                <Input
-                                    label="End Date"
-                                    type="date"
-                                    value={form.end_date}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            end_date: e.target.value,
-                                        })
-                                    }
-                                />
-                                <Input
-                                    label="Duration (weeks)"
-                                    type="number"
-                                    value={form.duration_weeks}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            duration_weeks: e.target.value,
-                                        })
-                                    }
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                    <Input
-                                        label="Weekly Hours"
-                                        type="number"
-                                        value={form.weekly_hours}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                weekly_hours: e.target.value,
-                                            })
-                                        }
-                                    />
-                                    <Input
-                                        label="Min Capacity"
-                                        type="number"
-                                        value={form.min_capacity}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                min_capacity: e.target.value,
-                                            })
-                                        }
-                                    />
-                                    <Input
-                                        label="Capacity"
-                                        type="number"
-                                        value={form.max_capacity}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                max_capacity: e.target.value,
-                                            })
-                                        }
-                                    />
+                        {/* Two Column Layout */}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            {/* Left Column (Details & Outcomes) - 2/3 Width */}
+                            <div className="lg:col-span-2 space-y-6">
+                                {/* Description */}
+                                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-3">
+                                    <h3 className="font-bold text-slate-800 border-b border-slate-100 pb-2">
+                                        {i18n.language === "ar" ? "وصف البرنامج" : "Program Description"}
+                                    </h3>
+                                    {currentProgram?.short_description && (
+                                        <p className="text-slate-500 italic text-xs leading-relaxed">
+                                            {currentProgram.short_description}
+                                        </p>
+                                    )}
+                                    <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
+                                        {currentProgram?.description || (i18n.language === "ar" ? "لا يوجد وصف متاح." : "No description available.")}
+                                    </p>
                                 </div>
-                                <div className="grid grid-cols-1 gap-3">
-                                    <label className="text-sm font-semibold text-slate-700">
-                                        Schedule Days
-                                    </label>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {[
-                                            "Sunday",
-                                            "Monday",
-                                            "Tuesday",
-                                            "Wednesday",
-                                            "Thursday",
-                                            "Friday",
-                                            "Saturday",
-                                        ].map((day) => (
-                                            <label
-                                                key={day}
-                                                className="flex items-center gap-2 text-sm"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    checked={form.days_of_week.includes(
-                                                        day,
-                                                    )}
-                                                    onChange={() =>
-                                                        setForm((prev) => ({
-                                                            ...prev,
-                                                            days_of_week:
-                                                                prev.days_of_week.includes(
-                                                                    day,
-                                                                )
-                                                                    ? prev.days_of_week.filter(
-                                                                          (d) =>
-                                                                              d !==
-                                                                              day,
-                                                                      )
-                                                                    : [
-                                                                          ...prev.days_of_week,
-                                                                          day,
-                                                                      ],
-                                                        }))
-                                                    }
-                                                />
-                                                {day}
-                                            </label>
-                                        ))}
+
+                                {/* Required Skills */}
+                                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-3">
+                                    <h3 className="font-bold text-slate-800 border-b border-slate-100 pb-2">
+                                        {i18n.language === "ar" ? "المهارات المطلوبة" : "Required Skills"}
+                                    </h3>
+                                    <div className="flex flex-wrap gap-2 pt-1">
+                                        {(currentProgram?.required_skills || currentProgram?.skills?.map(s => s.name || s) || []).length > 0 ? (
+                                            (currentProgram?.required_skills || currentProgram?.skills?.map(s => s.name || s) || []).map((skill) => (
+                                                <span key={skill} className="px-3 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-semibold">
+                                                    {skill}
+                                                </span>
+                                            ))
+                                        ) : (
+                                            <span className="text-slate-400 italic text-xs">
+                                                {i18n.language === "ar" ? "لا توجد مهارات محددة مطلوبة." : "No specific skills required."}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <Select
-                                    label="Experience Level"
-                                    value={form.experience_level}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            experience_level: e.target.value,
-                                        })
-                                    }
-                                    options={[
-                                        {
-                                            value: "Beginner",
-                                            label: "Beginner",
-                                        },
-                                        {
-                                            value: "Intermediate",
-                                            label: "Intermediate",
-                                        },
-                                        {
-                                            value: "Advanced",
-                                            label: "Advanced",
-                                        },
-                                    ]}
-                                />
-                                <Select
-                                    label="Admission Test"
-                                    value={form.admission_test}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            admission_test: e.target.value,
-                                        })
-                                    }
-                                    options={[
-                                        { value: "Yes", label: "Yes" },
-                                        { value: "No", label: "No" },
-                                    ]}
-                                />
-                                <Select
-                                    label="Interview Required"
-                                    value={form.interview}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            interview: e.target.value,
-                                        })
-                                    }
-                                    options={[
-                                        { value: "Yes", label: "Yes" },
-                                        { value: "No", label: "No" },
-                                    ]}
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                                    Required Skills
-                                </label>
-                                <div className="flex flex-wrap gap-2">
-                                    {SKILL_OPTIONS.map((skill) => (
-                                        <button
-                                            key={skill}
-                                            type="button"
-                                            onClick={() => toggleSkill(skill)}
-                                            className={`px-3 py-1 rounded-md border ${form.required_skills.includes(skill) ? "bg-slate-900 text-white" : "bg-white text-slate-600"}`}
-                                        >
-                                            {skill}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-sm font-semibold text-slate-700 mb-1">
-                                        Learning Outcomes
-                                    </label>
-                                    <textarea
-                                        className="w-full rounded-xl border border-slate-200 p-3 text-sm text-slate-700"
-                                        rows={4}
-                                        value={form.outcomes}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                outcomes: e.target.value,
-                                            })
-                                        }
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                                        Capabilities and Projects
-                                    </label>
-                                    <div className="flex flex-wrap gap-2">
-                                        {PROJECT_OPTIONS.map((proj) => (
-                                            <button
-                                                key={proj}
-                                                type="button"
-                                                onClick={() =>
-                                                    toggleProject(proj)
-                                                }
-                                                className={`px-3 py-1 rounded-md border ${form.projects.includes(proj) ? "bg-emerald-600 text-white" : "bg-white text-slate-600"}`}
-                                            >
-                                                {proj}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                                    Certificate / Portfolio
-                                </label>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                    {CERTIFICATE_OPTIONS.map((cert) => (
-                                        <label
-                                            key={cert}
-                                            className="flex items-center gap-2 text-sm"
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={form.certificates.includes(
-                                                    cert,
-                                                )}
-                                                onChange={() =>
-                                                    setForm((prev) => ({
-                                                        ...prev,
-                                                        certificates:
-                                                            prev.certificates.includes(
-                                                                cert,
-                                                            )
-                                                                ? prev.certificates.filter(
-                                                                      (c) =>
-                                                                          c !==
-                                                                          cert,
-                                                                  )
-                                                                : [
-                                                                      ...prev.certificates,
-                                                                      cert,
-                                                                  ],
-                                                    }))
-                                                }
-                                            />
-                                            {cert}
-                                        </label>
-                                    ))}
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                                    <label className="flex items-center gap-2 text-sm">
-                                        <input
-                                            type="checkbox"
-                                            checked={form.portfolio}
-                                            onChange={(e) =>
-                                                setForm({
-                                                    ...form,
-                                                    portfolio: e.target.checked,
-                                                })
-                                            }
-                                        />
-                                        Portfolio Support
-                                    </label>
-                                    <label className="flex items-center gap-2 text-sm">
-                                        <input
-                                            type="checkbox"
-                                            checked={form.recommendation}
-                                            onChange={(e) =>
-                                                setForm({
-                                                    ...form,
-                                                    recommendation:
-                                                        e.target.checked,
-                                                })
-                                            }
-                                        />
-                                        Recommendation Letter
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between gap-3">
+                                {/* Outcomes & Projects */}
+                                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
                                     <div>
-                                        <div className="text-sm font-semibold text-slate-700">
-                                            Training Team
+                                        <h3 className="font-bold text-slate-800 border-b border-slate-100 pb-2">
+                                            {i18n.language === "ar" ? "مخرجات التعلم" : "Learning Outcomes"}
+                                        </h3>
+                                        <p className="text-slate-700 mt-2 leading-relaxed whitespace-pre-wrap">
+                                            {currentProgram?.outcomes || (i18n.language === "ar" ? "لم يتم تحديد مخرجات التعلم بعد." : "No outcomes listed.")}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold text-slate-600 text-xs uppercase tracking-wider mt-4 mb-2">
+                                            {i18n.language === "ar" ? "المشاريع المشمولة" : "Projects Included"}
+                                        </h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {(currentProgram?.projects || []).length > 0 ? (
+                                                (currentProgram?.projects || []).map((proj) => (
+                                                    <span key={proj} className="px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-100 rounded-lg text-xs font-semibold">
+                                                        {proj}
+                                                    </span>
+                                                ))
+                                            ) : (
+                                                <span className="text-slate-400 italic text-xs">
+                                                    {i18n.language === "ar" ? "لا توجد مشاريع محددة." : "No projects listed."}
+                                                </span>
+                                            )}
                                         </div>
-                                        <div className="text-xs text-slate-400">
-                                            Add instructors, mentors, and
-                                            reviewers.
+                                    </div>
+                                </div>
+
+                                {/* Training Team */}
+                                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-3">
+                                    <h3 className="font-bold text-slate-800 border-b border-slate-100 pb-2">
+                                        {i18n.language === "ar" ? "فريق التدريب" : "Training Team"}
+                                    </h3>
+                                    {(currentProgram?.training_team || []).length > 0 ? (
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                            {(currentProgram.training_team).map((member, idx) => (
+                                                <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                                                    <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600 text-xs">
+                                                        {member.name ? member.name[0].toUpperCase() : "?"}
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-semibold text-slate-800 text-xs">{member.name || "-"}</div>
+                                                        <div className="text-[10px] text-slate-400 uppercase font-semibold">{member.role || (i18n.language === "ar" ? "عضو فريق" : "Team Member")}</div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-slate-400 italic text-xs">
+                                            {i18n.language === "ar" ? "لا يوجد أعضاء معينين لفريق التدريب بعد." : "No training team members assigned."}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Right Column (Metrics & Configurations) - 1/3 Width */}
+                            <div className="space-y-6">
+                                {/* Program Pricing */}
+                                <div className="bg-slate-900 text-white p-5 rounded-2xl shadow-sm space-y-4">
+                                    <h3 className="font-bold border-b border-slate-800 pb-2 text-slate-400">
+                                        {i18n.language === "ar" ? "تفاصيل الرسوم" : "Pricing Details"}
+                                    </h3>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs text-slate-400">{i18n.language === "ar" ? "الرسوم الأساسية" : "Original Price"}</span>
+                                        <span className="font-bold text-lg font-mono">
+                                            {currentProgram?.price === 0 
+                                                ? (i18n.language === "ar" ? "مجاني" : "Free") 
+                                                : currentProgram?.price 
+                                                ? `${currentProgram.price} ${i18n.language === "ar" ? "دولار" : "USD"}` 
+                                                : "-"}
+                                        </span>
+                                    </div>
+                                    {(currentProgram?.discount_price != null || currentProgram?.discount != null) && (
+                                        <div className="flex justify-between items-center text-rose-400">
+                                            <span className="text-xs">{i18n.language === "ar" ? "قيمة الخصم" : "Discount"}</span>
+                                            <span className="font-bold font-mono">-${currentProgram.discount_price || currentProgram.discount}</span>
+                                        </div>
+                                    )}
+                                    <div className="border-t border-slate-800 pt-3 flex justify-between items-center">
+                                        <span className="text-xs font-bold text-slate-300">{i18n.language === "ar" ? "الرسوم النهائية" : "Final Fee"}</span>
+                                        <span className="text-2xl font-black font-mono text-emerald-400">
+                                            {currentProgram?.price === 0 
+                                                ? (i18n.language === "ar" ? "مجاني" : "Free") 
+                                                : currentProgram?.price 
+                                                ? `${Math.max(0, Number(currentProgram.price) - Number(currentProgram.discount_price || currentProgram.discount || 0))} ${i18n.language === "ar" ? "دولار" : "USD"}` 
+                                                : "-"}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Logistics & Dates */}
+                                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                                    <h3 className="font-bold text-slate-800 border-b border-slate-100 pb-2">
+                                        {i18n.language === "ar" ? "الجدول والقدرة الاستيعابية" : "Schedule & Capacity"}
+                                    </h3>
+                                    <div className="space-y-3 text-xs">
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "المدة" : "Duration"}</span>
+                                            <span className="font-semibold text-slate-800">
+                                                {currentProgram?.duration_weeks 
+                                                    ? `${currentProgram.duration_weeks} ${i18n.language === "ar" ? "أسابيع" : "Weeks"}` 
+                                                    : "-"}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "الساعات الأسبوعية" : "Weekly Hours"}</span>
+                                            <span className="font-semibold text-slate-800">
+                                                {currentProgram?.weekly_hours 
+                                                    ? `${currentProgram.weekly_hours} ${i18n.language === "ar" ? "ساعة/أسبوع" : "Hours/Week"}` 
+                                                    : "-"}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "تاريخ البدء" : "Start Date"}</span>
+                                            <span className="font-semibold text-slate-800">{currentProgram?.start_date || "-"}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "تاريخ الانتهاء" : "End Date"}</span>
+                                            <span className="font-semibold text-slate-800">{currentProgram?.end_date || "-"}</span>
+                                        </div>
+                                        <hr className="border-slate-100" />
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "المقاعد الكلية" : "Total Capacity"}</span>
+                                            <span className="font-semibold text-slate-800">{currentProgram?.capacity || currentProgram?.max_capacity || "-"}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "الطلاب المسجلين" : "Enrolled Students"}</span>
+                                            <span className="font-semibold text-slate-800">{currentProgram?.enrolled || 0}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "المقاعد الشاغرة" : "Available Seats"}</span>
+                                            <span className="font-bold text-emerald-600">
+                                                {currentProgram?.capacity || currentProgram?.max_capacity
+                                                    ? Math.max(0, (Number(currentProgram.capacity || currentProgram.max_capacity) - Number(currentProgram.enrolled || 0)))
+                                                    : "-"}
+                                            </span>
                                         </div>
                                     </div>
-                                    <Button
-                                        variant="secondary"
-                                        type="button"
-                                        onClick={addTeamMember}
-                                    >
-                                        Add Role
-                                    </Button>
                                 </div>
-                                {form.training_team.map((member, index) => (
-                                    <div
-                                        key={index}
-                                        className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end"
-                                    >
-                                        <Input
-                                            label="Role"
-                                            value={member.role}
-                                            onChange={(e) =>
-                                                updateTeamMember(
-                                                    index,
-                                                    "role",
-                                                    e.target.value,
-                                                )
-                                            }
-                                        />
-                                        <Input
-                                            label="Name"
-                                            value={member.name}
-                                            onChange={(e) =>
-                                                updateTeamMember(
-                                                    index,
-                                                    "name",
-                                                    e.target.value,
-                                                )
-                                            }
-                                        />
-                                        <Button
-                                            type="button"
-                                            variant="ghost"
-                                            onClick={() =>
-                                                removeTeamMember(index)
-                                            }
-                                        >
-                                            Remove
-                                        </Button>
-                                    </div>
-                                ))}
-                                {form.training_team.length === 0 && (
-                                    <div className="text-slate-500 text-sm">
-                                        No training team members added yet.
-                                    </div>
-                                )}
-                            </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <Input
-                                    label="Price"
-                                    type="number"
-                                    value={form.price}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            price: e.target.value,
-                                        })
-                                    }
-                                />
-                                <Input
-                                    label="Discount"
-                                    type="number"
-                                    value={form.discount}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            discount: e.target.value,
-                                        })
-                                    }
-                                />
-                                <div className="rounded-xl border border-slate-200 p-3 bg-slate-50">
-                                    <div className="text-[11px] text-slate-500 uppercase tracking-wider mb-1">
-                                        Final Fee
-                                    </div>
-                                    <div className="text-xl font-semibold text-slate-900">
-                                        ${finalPrice}
+                                {/* Work Simulation config */}
+                                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                                    <h3 className="font-bold text-slate-800 border-b border-slate-100 pb-2">
+                                        {i18n.language === "ar" ? "بيئة العمل الافتراضية" : "Work Simulation"}
+                                    </h3>
+                                    <div className="space-y-3 text-xs">
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "نوع محاكاة العمل" : "Simulation Type"}</span>
+                                            <span className="font-semibold text-slate-800">{currentProgram?.work_simulation || "-"}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "حجم الفريق" : "Team Size"}</span>
+                                            <span className="font-semibold text-slate-800">
+                                                {currentProgram?.team_size 
+                                                    ? `${currentProgram.team_size} ${i18n.language === "ar" ? "مطورين" : "Developers"}` 
+                                                    : "-"}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-slate-500">{i18n.language === "ar" ? "منهجية العمل" : "Methodology"}</span>
+                                            <span className="font-semibold text-slate-800">{currentProgram?.methodology || "-"}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <Select
-                                    label="Work Simulation"
-                                    value={form.work_simulation}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            work_simulation: e.target.value,
-                                        })
-                                    }
-                                    options={WORK_SIMULATION.map((p) => ({
-                                        value: p,
-                                        label: p,
-                                    }))}
-                                />
-                                <Select
-                                    label="Team Size"
-                                    value={form.team_size}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            team_size: e.target.value,
-                                        })
-                                    }
-                                    options={[
-                                        { value: 3, label: "3 Developers" },
-                                        { value: 5, label: "5 Developers" },
-                                        { value: 8, label: "8 Developers" },
-                                    ]}
-                                />
-                                <div className="rounded-xl border border-slate-200 p-3 bg-slate-50">
-                                    <div className="text-[10px] uppercase tracking-wider text-slate-500">
-                                        Seats Remaining
-                                    </div>
-                                    <div className="text-xl font-semibold text-slate-900">
-                                        {availableSeats}
+                                {/* Checklist / Features */}
+                                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                                    <h3 className="font-bold text-slate-800 border-b border-slate-100 pb-2">
+                                        {i18n.language === "ar" ? "مزايا البرنامج" : "Program Features"}
+                                    </h3>
+                                    <div className="grid grid-cols-2 gap-3 text-xs">
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${currentProgram?.certificate_available ? "bg-emerald-500" : "bg-slate-300"}`}></span>
+                                            <span className={currentProgram?.certificate_available ? "text-slate-800 font-semibold" : "text-slate-400"}>
+                                                {i18n.language === "ar" ? "شهادة إتمام" : "Certificate"}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${currentProgram?.portfolio_available || currentProgram?.portfolio ? "bg-emerald-500" : "bg-slate-300"}`}></span>
+                                            <span className={currentProgram?.portfolio_available || currentProgram?.portfolio ? "text-slate-800 font-semibold" : "text-slate-400"}>
+                                                {i18n.language === "ar" ? "دعم المعرض" : "Portfolio Help"}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${currentProgram?.recommendation ? "bg-emerald-500" : "bg-slate-300"}`}></span>
+                                            <span className={currentProgram?.recommendation ? "text-slate-800 font-semibold" : "text-slate-400"}>
+                                                {i18n.language === "ar" ? "خطاب توصية" : "Recommendation"}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${currentProgram?.git_repo_access ? "bg-emerald-500" : "bg-slate-300"}`}></span>
+                                            <span className={currentProgram?.git_repo_access ? "text-slate-800 font-semibold" : "text-slate-400"}>
+                                                {i18n.language === "ar" ? "مستودع Git" : "Git Repo Access"}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${currentProgram?.code_review ? "bg-emerald-500" : "bg-slate-300"}`}></span>
+                                            <span className={currentProgram?.code_review ? "text-slate-800 font-semibold" : "text-slate-400"}>
+                                                {i18n.language === "ar" ? "مراجعة الكود" : "Code Reviews"}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${currentProgram?.final_deployment ? "bg-emerald-500" : "bg-slate-300"}`}></span>
+                                            <span className={currentProgram?.final_deployment ? "text-slate-800 font-semibold" : "text-slate-400"}>
+                                                {i18n.language === "ar" ? "نشر نهائي" : "Final Deployment"}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${currentProgram?.admission_test_required ? "bg-emerald-500" : "bg-slate-300"}`}></span>
+                                            <span className={currentProgram?.admission_test_required ? "text-slate-800 font-semibold" : "text-slate-400"}>
+                                                {i18n.language === "ar" ? "اختبار قبول" : "Admission Test"}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`w-2 h-2 rounded-full ${currentProgram?.interview_required ? "bg-emerald-500" : "bg-slate-300"}`}></span>
+                                            <span className={currentProgram?.interview_required ? "text-slate-800 font-semibold" : "text-slate-400"}>
+                                                {i18n.language === "ar" ? "مقابلة شخصية" : "Interview Req."}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <label className="flex items-center gap-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={form.git_repo_access}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                git_repo_access:
-                                                    e.target.checked,
-                                            })
-                                        }
-                                    />
-                                    Git Repo Access
-                                </label>
-                                <label className="flex items-center gap-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={form.code_review}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                code_review: e.target.checked,
-                                            })
-                                        }
-                                    />
-                                    Code Review Included
-                                </label>
-                                <label className="flex items-center gap-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={form.final_deployment}
-                                        onChange={(e) =>
-                                            setForm({
-                                                ...form,
-                                                final_deployment:
-                                                    e.target.checked,
-                                            })
-                                        }
-                                    />
-                                    Final Deployment Included
-                                </label>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="space-y-4">
-                            <Input
-                                label="Program Title"
-                                value={form.title}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="space-y-4">
+                        <Input
+                            label="Program Title"
+                            value={form.title}
+                            onChange={(e) =>
+                                setForm({ ...form, title: e.target.value })
+                            }
+                        />
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-700 mb-1">
+                                Description
+                            </label>
+                            <textarea
+                                className="w-full rounded-xl border border-slate-200 p-3 text-sm text-slate-700"
+                                rows={4}
+                                value={form.description}
                                 onChange={(e) =>
-                                    setForm({ ...form, title: e.target.value })
+                                    setForm({
+                                        ...form,
+                                        description: e.target.value,
+                                    })
                                 }
-                            />
-                            <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-1">
-                                    Description
-                                </label>
-                                <textarea
-                                    className="w-full rounded-xl border border-slate-200 p-3 text-sm text-slate-700"
-                                    rows={4}
-                                    value={form.description}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            description: e.target.value,
-                                        })
-                                    }
-                                />
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <Input
-                                    label="Price"
-                                    type="number"
-                                    value={form.price}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            price: e.target.value,
-                                        })
-                                    }
-                                />
-                                <Input
-                                    label="Capacity"
-                                    type="number"
-                                    value={form.max_capacity}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            max_capacity: e.target.value,
-                                        })
-                                    }
-                                />
-                            </div>
-                            <Select
-                                label="Status"
-                                value={form.status}
-                                onChange={(e) =>
-                                    setForm({ ...form, status: e.target.value })
-                                }
-                                options={[
-                                    { value: "draft", label: "Draft" },
-                                    { value: "published", label: "Published" },
-                                    {
-                                        value: "registration_open",
-                                        label: "Registration Open",
-                                    },
-                                    {
-                                        value: "registration_closed",
-                                        label: "Registration Closed",
-                                    },
-                                    { value: "running", label: "Running" },
-                                    { value: "completed", label: "Completed" },
-                                    { value: "cancelled", label: "Cancelled" },
-                                ]}
                             />
                         </div>
-                    )}
-                </form>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <Input
+                                label="Price"
+                                type="number"
+                                value={form.price}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        price: e.target.value,
+                                    })
+                                }
+                            />
+                            <Input
+                                label="Capacity"
+                                type="number"
+                                value={form.max_capacity}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        max_capacity: e.target.value,
+                                    })
+                                }
+                            />
+                        </div>
+                        <Select
+                            label="Status"
+                            value={form.status}
+                            onChange={(e) =>
+                                setForm({ ...form, status: e.target.value })
+                            }
+                            options={[
+                                { value: "draft", label: "Draft" },
+                                { value: "published", label: "Published" },
+                                {
+                                    value: "registration_open",
+                                    label: "Registration Open",
+                                },
+                                {
+                                    value: "registration_closed",
+                                    label: "Registration Closed",
+                                },
+                                { value: "running", label: "Running" },
+                                { value: "completed", label: "Completed" },
+                                { value: "cancelled", label: "Cancelled" },
+                            ]}
+                        />
+                    </div>
+                )}
             </Modal>
         </div>
     );
